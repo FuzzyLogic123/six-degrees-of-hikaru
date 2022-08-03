@@ -1,0 +1,138 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: PorterSansBlock;
+  src: url('../public/fonts/porter-sans-inline-block-webfont.woff') format('woff');
+}
+
+@font-face {
+  font-family: LexendZetta;
+  src: url('../public/fonts/LexendZetta-VariableFont_wght.ttf') format('woff');
+}
+
+@font-face {
+  font-family: Megrim;
+  src: url('../public/fonts/Megrim-Regular.ttf');
+}
+
+@font-face {
+  font-family: Mohave;
+  src: url('../public/fonts/Mohave-VariableFont_wght.ttf');
+}
+
+@font-face {
+  font-family: Outfit;
+  src: url('../public/fonts/Outfit-VariableFont_wght.ttf');
+}
+
+@font-face {
+  font-family: AguafinaScript;
+  src: url('../public/fonts/AguafinaScript-Regular.ttf');
+}
+
+@font-face {
+  font-family: LibreBarcode128;
+  src: url('../public/fonts/LibreBarcode128Text-Regular.ttf');
+}
+
+@font-face {
+  font-family: Ephesis;
+  src: url('../public/fonts/Ephesis-Regular.ttf');
+}
+
+@font-face {
+  font-family: Sen;
+  src: url('../public/fonts/Sen-Regular.ttf');
+}
+
+
+@font-face {
+  font-family: RobotoCondensed;
+  src: url('../public/fonts/RobotoCondensed-Bold.ttf');
+}
+
+
+html {
+  background-color: black;
+}
+
+html,
+body {
+  position: relative;
+  overflow-x: hidden;
+}
+
+html {
+  scroll-behavior: smooth
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  overflow-x: hidden;
+
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.circular-div {
+  padding-top: 5rem;
+  clip-path: polygon(0 2%, 100% 0, 100% 100%, 0 100%);
+}
+
+@media (min-width: 1280px) {
+  .circular-div {
+    clip-path: polygon(0 15%, 100% 0, 100% 100%, 0 100%);
+  }
+}
+
+@media (min-width: 768px) {
+  .circular-div {
+    clip-path: polygon(0 5%, 100% 0, 100% 100%, 0 100%);
+  }
+}
+
+.arrow-rotation {
+  transform: rotate(110deg);
+  /* background-color: brown; */
+}
+
+/* 
+@media (min-width: 768px) {
+  .arrow-rotation {
+    transform: rotate(120deg);
+    background-color: aqua;
+  }
+}
+
+@media (min-width: 1000px) {
+  .arrow-rotation {
+    transform: rotate(130deg);
+    background-color: aqua;
+  }
+}
+
+
+@media (min-width: 1536px) {
+  .arrow-rotation {
+    transform: rotate(120deg);
+    background-color: blueviolet;
+  }
+}
+
+@media (min-width: 2000px) {
+  .arrow-rotation {
+    transform: rotate(140deg);
+    background-color: pink;
+  }
+} */
