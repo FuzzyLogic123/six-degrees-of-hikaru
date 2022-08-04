@@ -19,7 +19,8 @@ export default {
             userChain: [],
             username: 'jrt829',
             timeControl: 'bullet',
-            alreadyTriedUsers: []
+            alreadyTriedUsers: [],
+            loading: false
         }
     },
     watch: {
@@ -81,6 +82,7 @@ export default {
             const mostRecentUser = this.userChain.at(-1);
             if (mostRecentUser.name === "Hikaru Nakamura") {
                 console.log(this.userChain);
+                this.loading = false;
                 return this.userChain;
             }
             if (!mostRecentUser?.username) {
@@ -131,9 +133,10 @@ export default {
             }
         },
         async startUserChainSearch() {
-            if (!this.username) { console.log("the thing was blocked"); return };
+            if (!this.username || this.loading) { console.log("the thing was blocked"); return };
             this.userChain = [];
             this.alreadyTriedUsers = [];
+            this.loading = true;
             const firstUserData = await this.fetchBestWin(this.username, this.timeControl, MAX_REQUEST_ATTEMPTS);
             if (!firstUserData) {
                 console.error("invalid username");
@@ -175,8 +178,9 @@ export default {
                 class="w-full basis-2/4 inline-block text-white p-3 rounded-md border-2 border-slate-800 bg-slate-900 xl:text-xl xs:text-lg"
                 type="text" placeholder="chess.com username" v-model="this.username" />
             <button
-                class='inline-block bg-slate-900 border-slate-800 border-2 p-3 rounded-md xl:text-xl text-lg text-white hover:stroke-slate-50 stroke-slate-400'
-                @click="this.startUserChainSearch">
+                class='inline-block bg-slate-900 border-slate-800 border-2 p-3 rounded-md xl:text-xl text-lg text-white hover:stroke-slate-50 stroke-slate-400 disabled:stroke-gray-500'
+                @click="this.startUserChainSearch"
+                :disabled="this.loading">
                 <KingSvg />
             </button>
         </div>
