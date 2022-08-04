@@ -1,35 +1,32 @@
 <script>
 import FindPathButton from "./components/FindPathButton.vue";
-// import HeroHeader from "./components/HeroHeader.vue";
+import HeroHeader from "./components/HeroHeader.vue";
 import HikaruPhoto from "./components/HikaruPhoto.vue";
 import Logo from "./components/Logo.vue";
 import MenuBar from "./components/MenuBar.vue";
-// import Testimonials from "./components/Testimonial/Testimonial.vue";
-// import jesus from "./assets/images/jesus.jpg";
-// import chrisRock from "./assets/images/chris-rock.jpg";
-// import thePope from "./assets/images/the-pope.png";
-// import { ReactComponent as LongArrow } from "./components/svg/longArrow.svg";
-// import { ReactComponent as ExclamationSvg } from './components/svg/exclamationSvg.svg';
+import Testimonials from "./components/Testimonial/Testimonials.vue";
+import LongArrow from "./components/svg/LongArrow.vue";
 import Footer from "./components/Footer.vue";
-// import DegreesWrapper from './components/DegreesPath/DegreesWrapper.vue';
+import DegreesWrapper from './components/DegreesPath/DegreesWrapper.vue';
 
 export default {
   components: {
-    // Testimonials,
-    // HeroHeader,
-    // DegreesWrapper,
+    Testimonials,
+    HeroHeader,
+    DegreesWrapper,
     Footer,
     FindPathButton,
     MenuBar,
     Logo,
-    HikaruPhoto
+    HikaruPhoto,
+    LongArrow,
 
   }
 }
 </script>
 
 <template>
-  <div class="App bg-[url(./images/backgroundImages/background.png)]">
+  <div class="App">
     <div class="p-5 lg:pt-0 lg:pb-3">
       <MenuBar />
     </div>
@@ -56,9 +53,7 @@ export default {
       </div>
     </div>
     <div>
-      <Testimonials quotes="[ [ ' This website means nothing to me' , 'Kevin Hart' , chrisRock ],
-        [ 'Only when a mosquito lands on your testicles, will you truly learn to solve a problem without violence'
-        , 'Dalai Lama' , thePope ], [ 'This made me a better chess player' , 'Jesus' , jesus ] ]" />
+      <Testimonials />
     </div>
     <div class="sm:py-20 xl:py-36">
       <h1 class="text-5xl xl:text-7xl uppercase leading-tight text-white text-center py-0 px-4">paths to
@@ -68,13 +63,12 @@ export default {
     </div>
 
 
-    <div class="relative bg-[url(./images/backgroundImages/heroDark.jpg)] circular-div w-screen bg-cover">
+    <div class="relative dark-hero circular-div w-screen bg-cover">
 
       <DegreesWrapper />
 
       <div id='about'>
-        <!-- <HeroHeader svg={<ExclamationSvg />} colour={"#53DAA1"} secondaryText={"About the website"} mainText={"How it -->
-        <!-- works"} /> -->
+        <HeroHeader svg="Exclamation" colour="#53DAA1" secondaryText="About the website" mainText="How it works" />
       </div>
 
       <p
@@ -101,4 +95,11 @@ export default {
 </template>
 
 <style scoped>
+.App {
+  background-image: url('@/assets/images/backgroundImages/background.png');
+}
+
+.dark-hero {
+  background-image: url('@/assets/images/backgroundImages/heroDark.jpg');
+}
 </style>

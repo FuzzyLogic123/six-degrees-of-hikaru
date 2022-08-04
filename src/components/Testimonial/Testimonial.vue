@@ -1,8 +1,15 @@
 <script>
-import { ReactComponent as Quote } from "../svg/quote.svg";
+import Quote from "../svg/Quote.vue";
 export default {
-    props: ['quote']
+    props: ['quote'],
+    components: {
+        Quote
+    },
+    mounted() {
+        console.log(this.quote[2]);
+    }
 }
+
 </script>
 
 <template>
@@ -13,7 +20,7 @@ export default {
                 class='sm:hidden lg:block z-20 stroke-white stroke-2 fill-transparent opacity-90 absolute lg:-left-8 lg:-top-4 -left-6 -top-4 h-14' />
             <Quote
                 class='sm:hidden lg:block z-20 stroke-white stroke-2 fill-transparent opacity-90 absolute lg:-right-16 lg:top-44 -right-6 top-44 h-14 -scale-100 rotate-2' />
-            <img src="this.quote[2]" alt="The Pope"
+            <img :src="this.quote[2]" alt="The Pope"
                 class="absolute z-10 w-40 h-40 left-0 right-0 m-auto -top-24 rounded-full object-cover" />
             <p class="font-Outfit 2xl:text-2xl sm:text-sm md:text-lg">
                 {{ this.quote[0] }}

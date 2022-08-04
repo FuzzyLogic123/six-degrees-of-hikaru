@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<template>
 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="45" height="45">
   <g style="fill:none; fill-opacity:1; fill-rule:evenodd; stroke-width:1.5; stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4; stroke-dasharray:none; stroke-opacity:1;">
     <path d="M 22.5,11.63 L 22.5,6" style="fill:none; stroke-linejoin:miter;"/>
@@ -11,3 +10,4 @@
     <path d="M 12.5,37 C 18,34 27,34 32.5,37" style="fill:none;"/>
   </g>
 </svg>
+</template>

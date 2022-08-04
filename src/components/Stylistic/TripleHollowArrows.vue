@@ -1,5 +1,11 @@
 <script>
-import { ReactComponent as HollowArrow } from "../svg/hollowArrow.svg";
+import HollowArrow from "../svg/HollowArrow.vue";
+
+export default {
+    components: {
+        HollowArrow
+    }
+}
 </script>
 
 <template>

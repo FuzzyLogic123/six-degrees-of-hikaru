@@ -1,11 +1,22 @@
 <script>
 
-// import TripleSharpArrows from "./Stylistic/TripleSharpArrows.vue";
-// import TripleHollowArrows from "./Stylistic/TripleHollowArrows.vue";
-// import TripleThinArrows from "./Stylistic/TripleThinArrows.vue";
-// import { ReactComponent as DotsArray } from "./svg/dotsArray.svg";
-// import { ReactComponent as LShape } from "./svg/lShaped.svg";
-// import { ReactComponent as LShape2 } from "./svg/lShaped2.svg";
+import TripleSharpArrows from "./Stylistic/TripleSharpArrows.vue";
+import TripleHollowArrows from "./Stylistic/TripleHollowArrows.vue";
+import TripleThinArrows from "./Stylistic/TripleThinArrows.vue";
+import DotsArray from "./svg/DotsArray.vue";
+import LShape from "./svg/LShaped.vue";
+import LShape2 from "./svg/LShaped2.vue";
+
+export default {
+    components: {
+        TripleHollowArrows,
+        TripleThinArrows,
+        TripleSharpArrows,
+        DotsArray,
+        LShape,
+        LShape2
+    }
+}
 </script>
 
 <template>

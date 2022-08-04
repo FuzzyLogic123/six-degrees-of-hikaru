@@ -1,13 +1,17 @@
-import { ReactComponent as SharpArrow } from "../../svg/sharpArrow.svg";
+<script>
+import SharpArrow from "../svg/SharpArrow.vue";
 
-function TripleSharpArrow() {
-    return (
+export default {
+    components: {
+        SharpArrow
+    }
+}
+</script>
+
+<template>
         <div class="flex flex-column">
             <SharpArrow class="-m-0.5 stroke-white fill-white stroke-1"/>
             <SharpArrow class="-m-0.5 stroke-white fill-white stroke-1"/>
             <SharpArrow class="-m-0.5 stroke-white fill-white stroke-1"/>
         </div>
-    );
-}
-
-export default TripleSharpArrow;
+</template>

@@ -1,11 +1,19 @@
 
 <script>
-// import { ReactComponent as ConnectionsSvg } from '../../svg/connectionsSvg.svg';
-// import { ReactComponent as KingSvg } from '../../svg/king.svg';
-// import HeroHeader from '../HeroHeader/HeroHeader';
-// import DegreesPath from "./DegreesPath.vue";
+
+import KingSvg from '../svg/King.vue';
+import HeroHeader from '.././HeroHeader.vue';
+import DegreesPath from "./DegreesPath.vue";
 // import { queryDatabase } from '../../firebaseConfig';
 // import { fetchBestWin } from './functions';
+
+export default {
+    components: {
+        HeroHeader,
+        KingSvg,
+        DegreesPath
+    }
+}
 
 
 // TODO - decide whether to branch off users or just start from the start
@@ -146,9 +154,9 @@
 
 <template>
         <div id='six-degrees'>
-            <!-- <HeroHeader svg={<ConnectionsSvg />} colour={"#818CF8"} secondaryText={"See how you compare"} mainText={"Find your path"} /> -->
+            <HeroHeader svg="Connection" colour="#818CF8" secondaryText="See how you compare" mainText="Find your path" />
             <div class="pt-12 pb-16 flex justify-center gap-6 w-full">
-                <input name="search" spellCheck="false" ref={usernameTextRef} class="basis-2/4 inline-block text-white p-3 rounded-md border-2 border-slate-800 bg-slate-900 xl:text-xl text-lg" type="text" placeholder="chess.com username" />
+                <input name=search spellCheck=false class="basis-2/4 inline-block text-white p-3 rounded-md border-2 border-slate-800 bg-slate-900 xl:text-xl text-lg" type="text" placeholder="chess.com username" />
                 <button class='inline-block bg-slate-900 border-slate-800 border-2 p-3 rounded-md xl:text-xl text-lg text-white hover:stroke-slate-50 stroke-slate-400'>
                     <KingSvg />
                 </button>

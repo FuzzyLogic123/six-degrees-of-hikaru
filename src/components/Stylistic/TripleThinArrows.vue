@@ -1,5 +1,10 @@
 <script>
-import { ReactComponent as ThinArrow } from "../svg/thinArrow.svg";
+import ThinArrow from "../svg/ThinArrow.vue";
+export default {
+    components: {
+        ThinArrow
+    }
+}
 </script>
 
 <template>
