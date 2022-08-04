@@ -17,9 +17,14 @@ export default {
     data() {
         return {
             userChain: [],
-            username: 'FuzzyLogic12',
+            username: 'jrt829',
             timeControl: 'bullet',
             alreadyTriedUsers: []
+        }
+    },
+    watch: {
+        userChain(newChain, oldChain) {
+            // console.log(newChain);
         }
     },
     methods: {
@@ -53,22 +58,22 @@ export default {
                     }
                 }
                 if (candidateGames.length > 0) {
-                    console.log(candidateGames);
+                    // console.log(candidateGames);
                     const highestRatedRecentOpponent = candidateGames.sort((a, b) => b.rating - a.rating)[0];
-                    console.log(highestRatedRecentOpponent.username, highestRatedRecentOpponent.rating);
-                    this.alreadyTriedUsers.push(highestRatedRecentOpponent.username);
+                    console.log("highest rated oponent", highestRatedRecentOpponent.username, highestRatedRecentOpponent.rating);
                     return highestRatedRecentOpponent.username;
                 } else {
-                    console.log("User has not won any games");
+                    console.log(`${username} has not won any games`);
                 }
             }
         },
         async getNextOptionHelper(timeControl) {
-            const result = await getMostRecentWin(this.userChain.at(-1).next_player, timeControl);
+            const result = await this.getMostRecentWin(this.userChain.at(-1).next_player, timeControl);
             if (!result) {
-                this.userChain = [userChain[0]];
+                this.alreadyTriedUsers.push(this.userChain.at(-1).username);
+                this.userChain = [this.userChain[0]];
                 console.log("chain reset");
-                return await getNextOptionHelper(timeControl);
+                return await this.getNextOptionHelper(timeControl);
             }
             return result
         },
@@ -82,7 +87,7 @@ export default {
                 console.error("user does not have a username!");
             }
             // check database for user
-            console.log(mostRecentUser.username)
+            // console.log(mostRecentUser.username)
             const databaseResult = await queryDatabase(mostRecentUser.username, this.timeControl)
             if (databaseResult) {
                 mostRecentUser.next_player = databaseResult.next_player;
@@ -92,12 +97,15 @@ export default {
 
             // request cloud function get game type from dropdown
             const bestWin = await this.fetchBestWin(mostRecentUser.next_player, this.timeControl, MAX_REQUEST_ATTEMPTS);
-            if (bestWin) {
+            if (bestWin && !this.alreadyTriedUsers.includes(bestWin.username)) {
+                this.alreadyTriedUsers.push(bestWin.username);
                 this.userChain.push(bestWin);
+                console.log(bestWin.username);
             } else {
-                const mostRecentWin = await getNextOptionHelper(TIME_CONTROL); //should basically always return someone unless every player in the chain has not won any games of that time control
-                console.log(mostRecentWin);
-                userChain.at(-1).next_player = mostRecentWin;
+                bestWin?.username && console.log("this was rejected", bestWin.username)
+                const mostRecentWin = await this.getNextOptionHelper(this.timeControl); //should basically always return someone unless every player in the chain has not won any games of that time control
+                // console.log(mostRecentWin);
+                this.userChain.at(-1).next_player = mostRecentWin;
             }
             await this.extendUserChain();
         },
@@ -112,7 +120,7 @@ export default {
                         })
                     });
                     const response = await res.json();
-                    console.log(response);
+                    // console.log(response);
                     return response;
                 } catch (e) {
                     console.log(e);
@@ -124,6 +132,8 @@ export default {
         },
         async startUserChainSearch() {
             if (!this.username) { console.log("the thing was blocked"); return };
+            this.userChain = [];
+            this.alreadyTriedUsers = [];
             const firstUserData = await this.fetchBestWin(this.username, this.timeControl, MAX_REQUEST_ATTEMPTS);
             if (!firstUserData) {
                 console.error("invalid username");
@@ -151,23 +161,8 @@ export default {
 // can be achieved by using ref to track list of players that have been tried so far, never use these to enter the list.
 // TODO - add dropdown to selectTIME_CONTROLor blitz (update this in the path finding code)
 // TODO - update rendering to show displayToUserChain (add animations) -->
+// TODO - update usernameChain to a list of all users that have been tried so far
 
-
-
-// function DegreesWrapper() {
-//     const usernameTextRef = useRef("");
-//     let alreadyTriedUsers = [];
-//     // let userChain = [];
-
-//     // TODO - update usernameChain to a list of all users that have been tried so far
-//     
-
-//    
-
-//     const TIME_CONTROL = "bullet";
-//     const [userChain, setUserChain] = useState([]);
-//     const [isLoading, setIsLoading] = useState(false);
-//
 
 
 </script>
