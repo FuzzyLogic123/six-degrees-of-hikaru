@@ -68,7 +68,7 @@ export default {
       <DegreesWrapper />
 
       <div id='about'>
-        <HeroHeader svg="Exclamation" colour="#53DAA1" secondaryText="About the website" mainText="How it works" />
+        <HeroHeader svg="QuestionMark" colour="#53DAA1" secondaryText="About the website" mainText="How it works" />
       </div>
 
       <p

@@ -1,13 +1,13 @@
 <script>
-import ExclamationSvg from './svg/ExclamationSvg.svg';
-import ConnectionsSvg from './svg/ConnectionsSvg.svg';
+import QuestionMarkSvg from './svg/QuestionMark.svg';
+import ConnectionsSvg from './svg/Connections.svg';
 
 export default {
     props: ["colour", "mainText", "secondaryText", "svg"],
     data() {
         return {
             icons: {
-                "Exclamation": ExclamationSvg,
+                "QuestionMark": QuestionMarkSvg,
                 "Connection": ConnectionsSvg,
             }
         };

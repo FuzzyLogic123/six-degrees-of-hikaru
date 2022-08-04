@@ -1,6 +1,14 @@
+<script>
+import Reddit from './svg/Reddit.vue';
+import Github from './svg/Github.vue';
 
-import { ReactComponent as Reddit } from '../../svg/reddit.svg';
-import { ReactComponent as Github } from '../../svg/github.svg';
+export default {
+    components: {
+        Reddit,
+        Github
+    }
+}
+</script>
 
 <template>
     <div class="p-10 flex items-center justify-items-center justify-center">

@@ -4,53 +4,53 @@
 
 @font-face {
   font-family: PorterSansBlock;
-  src: url('../public/fonts/porter-sans-inline-block-webfont.woff') format('woff');
+  src: url('/fonts/porter-sans-inline-block-webfont.woff') format('woff');
 }
 
 @font-face {
   font-family: LexendZetta;
-  src: url('../public/fonts/LexendZetta-VariableFont_wght.ttf') format('woff');
+  src: url('/fonts/LexendZetta-VariableFont_wght.ttf') format('woff');
 }
 
 @font-face {
   font-family: Megrim;
-  src: url('../public/fonts/Megrim-Regular.ttf');
+  src: url('/fonts/Megrim-Regular.ttf');
 }
 
 @font-face {
   font-family: Mohave;
-  src: url('../public/fonts/Mohave-VariableFont_wght.ttf');
+  src: url('/fonts/Mohave-VariableFont_wght.ttf');
 }
 
 @font-face {
   font-family: Outfit;
-  src: url('../public/fonts/Outfit-VariableFont_wght.ttf');
+  src: url('/fonts/Outfit-VariableFont_wght.ttf');
 }
 
 @font-face {
   font-family: AguafinaScript;
-  src: url('../public/fonts/AguafinaScript-Regular.ttf');
+  src: url('/fonts/AguafinaScript-Regular.ttf');
 }
 
 @font-face {
   font-family: LibreBarcode128;
-  src: url('../public/fonts/LibreBarcode128Text-Regular.ttf');
+  src: url('/fonts/LibreBarcode128Text-Regular.ttf');
 }
 
 @font-face {
   font-family: Ephesis;
-  src: url('../public/fonts/Ephesis-Regular.ttf');
+  src: url('/fonts/Ephesis-Regular.ttf');
 }
 
 @font-face {
   font-family: Sen;
-  src: url('../public/fonts/Sen-Regular.ttf');
+  src: url('/fonts/Sen-Regular.ttf');
 }
 
 
 @font-face {
   font-family: RobotoCondensed;
-  src: url('../public/fonts/RobotoCondensed-Bold.ttf');
+  src: url('/fonts/RobotoCondensed-Bold.ttf');
 }
 
 
@@ -75,8 +75,6 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
-  overflow-x: hidden;
 
 }
 
