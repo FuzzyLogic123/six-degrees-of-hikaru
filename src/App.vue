@@ -8,6 +8,7 @@ import Testimonials from "./components/Testimonial/Testimonials.vue";
 import LongArrow from "./components/svg/LongArrow.vue";
 import Footer from "./components/Footer.vue";
 import DegreesWrapper from './components/DegreesPath/DegreesWrapper.vue';
+import Modal from "./components/Modal/Modal.vue";
 
 export default {
   components: {
@@ -20,7 +21,19 @@ export default {
     Logo,
     HikaruPhoto,
     LongArrow,
+    Modal
 
+  },
+  data() {
+    return {
+      showModal: true
+    }
+  },
+  methods: {
+    hideModal() {
+      this.showModal = false;
+      console.log("hide modal ran");
+    }
   }
 }
 </script>
@@ -63,7 +76,7 @@ export default {
     </div>
 
 
-    <div class="relative dark-hero slanted-div w-screen bg-auto">
+    <div class="relative dark-hero slanted-div w-screen bg-auto overflow-hidden">
 
       <DegreesWrapper />
 
@@ -86,10 +99,10 @@ export default {
       </p>
 
       <div class="pb-10">
-        <Footer class="w-screen text-center" />
+        <Footer class="w-screen text-center"></Footer>
       </div>
-
     </div>
+      <Modal v-if="this.showModal" @close-modal="this.hideModal" text="this is purely a test and nothing else" />
   </div>
 
 </template>

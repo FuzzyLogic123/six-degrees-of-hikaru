@@ -5,6 +5,7 @@ import KingSvg from '../svg/King.vue';
 import HeroHeader from '.././HeroHeader.vue';
 import DegreesPath from "./DegreesPath.vue";
 import { queryDatabase } from '@/firebaseConfig';
+import Modal from '../Modal/Modal.vue';
 
 const MAX_REQUEST_ATTEMPTS = 1;
 
@@ -12,7 +13,8 @@ export default {
     components: {
         HeroHeader,
         KingSvg,
-        DegreesPath
+        DegreesPath,
+        Modal
     },
     data() {
         return {
@@ -20,12 +22,8 @@ export default {
             username: 'jrt829',
             timeControl: 'bullet',
             alreadyTriedUsers: [],
-            loading: false
-        }
-    },
-    watch: {
-        userChain(newChain, oldChain) {
-            // console.log(newChain);
+            loading: false,
+            showModal: true
         }
     },
     methods: {
@@ -155,6 +153,9 @@ export default {
             this.extendUserChain();
         }
     },
+    hideModal() {
+        this.showModal = false;
+    }
 }
 
 
