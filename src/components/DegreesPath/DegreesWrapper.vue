@@ -184,6 +184,6 @@ export default {
                 <KingSvg />
             </button>
         </div>
-        <DegreesPath />
+        <DegreesPath :pathArray="this.userChain"/>
     </div>
 </template>

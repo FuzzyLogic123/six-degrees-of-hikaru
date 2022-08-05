@@ -43,7 +43,7 @@ export default {
             </h3>
         </div>
     </div>
-    <div class='relative w-full text-center scale-75'>
+    <div v-if="this.name !== 'Hikaru Nakamura'" class='relative w-full text-center scale-75'>
         <div :class="[{ flipArrow: position === 'left' }, 'inline-block']">
             <LongArrow class='arrow-rotation' />
         </div>
