@@ -1,28 +1,34 @@
 <template>
-    <div>
-        <Backdrop @click="$emit('close-modal')">
-            <!-- on click close -->
-            <div class='modal' @click.stop>
-                <!-- <GrClose @click="handleClose" class='closeIcon' /> get close icon -->
-                <div class='modalContent'>
-                    <h1 class='modalTitle'>Oops...</h1>
-                    <img class='modalImage' src={HikaruDisgusted} alt='Hikaru absolutely disgusted' />
-                    <p class='modalBody'>{{ this.text }}</p>
-                    <button @click="$emit('close-modal')" class='modalDismiss'>I literally don't care</button>
+    <div v-if="this.modalOpen">
+        <div @click="this.toggleModal" class='backdrop'>
+                <!-- on click close -->
+                <div class='modal' @click.stop>
+                    <!-- <GrClose @click="handleClose" class='closeIcon' /> get close icon -->
+                    <div class='modalContent'>
+                        <h1 class='modalTitle'>Oops...</h1>
+                        <img class='modalImage' src={HikaruDisgusted} alt='Hikaru absolutely disgusted' />
+                        <p class='modalBody'>{{ this.text }}</p>
+                        <button @click="this.toggleModal" class='modalDismiss'>I literally don't care</button>
+                    </div>
                 </div>
-            </div>
-        </Backdrop>
+        </div>
     </div>
 </template>
 
 <script>
-import Backdrop from './Backdrop.vue'
 export default {
 
     props: ['text'],
     emits: ['close-modal'],
-    components : {
-        Backdrop
+    data() {
+        return {
+            modalOpen: true
+        }
+    },
+    methods: {
+        toggleModal() {
+            this.modalOpen = !this.modalOpen;
+        }
     }
 
 }
@@ -36,8 +42,7 @@ export default {
     min-height: 30rem;
     width: 25rem;
     padding: 2rem;
-    z-index: 59;
-    cursor: cell;
+    z-index: 30;
 }
 
 .modalContent {
@@ -82,6 +87,7 @@ export default {
     right: 25px;
     font-size: 2rem;
 }
+
 .closeIcon:hover {
     cursor: pointer;
 }
@@ -91,6 +97,19 @@ export default {
     font-size: 1.5rem;
     font-style: italic;
     margin: 1rem;
+}
+.backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    backdrop-filter: blur(5px);
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 30;
+    background-color: rgba(0, 0, 0, 0.418);
 }
 
 @media only screen and (max-width: 1024px) {
@@ -107,5 +126,4 @@ export default {
         font-size: 1.3rem;
     }
 }
-
 </style>

@@ -8,7 +8,7 @@ import Testimonials from "./components/Testimonial/Testimonials.vue";
 import LongArrow from "./components/svg/LongArrow.vue";
 import Footer from "./components/Footer.vue";
 import DegreesWrapper from './components/DegreesPath/DegreesWrapper.vue';
-import Modal from "./components/Modal/Modal.vue";
+import Modal from "./components/Modal.vue";
 
 export default {
   components: {
@@ -23,11 +23,6 @@ export default {
     LongArrow,
     Modal
 
-  },
-  data() {
-    return {
-      showModal: true
-    }
   },
   methods: {
     hideModal() {
@@ -102,7 +97,7 @@ export default {
         <Footer class="w-screen text-center"></Footer>
       </div>
     </div>
-      <Modal v-if="this.showModal" @close-modal="this.hideModal" text="this is purely a test and nothing else" />
+      <Modal text="this is purely a test and nothing else" />
   </div>
 
 </template>
