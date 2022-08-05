@@ -21,9 +21,10 @@ export default {
 </script>
 
 <template>
-    <div :style="{transform: `scale(${1 - Math.random()*0.1})`}" :class="['w-full relative origin-center', position]">
+    <div :style="{ transform: `scale(${1 - Math.random() * 0.1})` }"
+        :class="['w-full relative origin-center', position]">
         <div class='px-4 text-center inline-block relative'>
-            <img class="rounded-full m-auto border-white border-2" :src="this.profilePicture"
+            <img class="rounded-full m-auto border-white border-2 h-28 my-2" :src="this.profilePicture"
                 alt='user profile avatar' />
             <h1 class='font-Outfit text-white tracking-wider text-lg lg:text-xl xl:text-2xl inline-block my-1'>
                 {{ name }}
