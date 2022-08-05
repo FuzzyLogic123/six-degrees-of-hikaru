@@ -178,7 +178,7 @@ export default {
                 class="w-full basis-2/4 inline-block text-white p-3 rounded-md border-2 border-slate-800 bg-slate-900 xl:text-xl xs:text-lg"
                 type="text" placeholder="chess.com username" v-model="this.username" />
             <button
-                class='inline-block bg-slate-900 border-slate-800 border-2 p-3 rounded-md xl:text-xl text-lg text-white hover:stroke-slate-50 stroke-slate-400 disabled:stroke-gray-500'
+                class='inline-block bg-slate-900 border-slate-800 border-2 p-3 rounded-md xl:text-xl text-lg text-white hover:stroke-slate-50 stroke-slate-400 disabled:stroke-gray-500 disabled:opacity-60'
                 @click="this.startUserChainSearch"
                 :disabled="this.loading">
                 <KingSvg />
