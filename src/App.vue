@@ -63,7 +63,7 @@ export default {
     </div>
 
 
-    <div class="relative dark-hero circular-div w-screen bg-cover">
+    <div class="relative dark-hero slanted-div w-screen bg-auto">
 
       <DegreesWrapper />
 

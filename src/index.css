@@ -83,19 +83,19 @@ code {
     monospace;
 }
 
-.circular-div {
-  padding-top: 5rem;
+.slanted-div {
+  padding-top: 7rem;
   clip-path: polygon(0 2%, 100% 0, 100% 100%, 0 100%);
 }
 
 @media (min-width: 1280px) {
-  .circular-div {
+  .slanted-div {
     clip-path: polygon(0 15%, 100% 0, 100% 100%, 0 100%);
   }
 }
 
 @media (min-width: 768px) {
-  .circular-div {
+  .slanted-div {
     clip-path: polygon(0 5%, 100% 0, 100% 100%, 0 100%);
   }
 }
