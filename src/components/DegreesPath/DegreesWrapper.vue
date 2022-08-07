@@ -25,8 +25,8 @@ export default {
             loading: false,
             modalConfig: {
                 showModal: false,
-                isShareable: false,
-                showGif: true
+                isShowingResult: false,
+                showImage: true
             }
         }
     },
@@ -35,22 +35,23 @@ export default {
             let output = "";
             const firstRating = userChain[0].rating;
             const lastRating = userChain.at(-1).rating;
-            output += `You went from <b>${firstRating}</b> to <b>${lastRating}</b> in ${userChain.length} degrees`;
+            output += `You went from <b>${firstRating}</b> to <b>${lastRating}</b> in ${userChain.length - 1} degrees`;
             return output;
         },
         showError(errorMessage) {
             this.modalConfig.title = "Oops..."
             this.modalConfig.body = errorMessage;
-            this.modalConfig.isShareable = false;
-            this.modalConfig.showGif = true;
+            this.modalConfig.showImage = true;
+            this.modalConfig.category = "failure";
             this.modalConfig.showModal = true;
             this.loading = false;
         },
         showResult() {
             this.modalConfig.body = this.generateFinalPathString(this.userChain); //`${this.userChain.length} Degrees`;
-            this.modalConfig.title = 'Congrats';
-            this.modalConfig.isShareable = true;
-            this.modalConfig.showGif = false;
+            this.modalConfig.title = '';
+            this.modalConfig.isShowingResult = true;
+            this.modalConfig.showImage = true;
+            this.modalConfig.category = "success";
             this.modalConfig.showModal = true;
         },
         async getMostRecentWin(username, timeControl) {
@@ -204,14 +205,7 @@ export default {
 
 <template>
     <div id='six-degrees'>
-        <HeroHeader svg="Connection" colour="#818CF8">
-            <template #main-text>
-                Find your path
-            </template>
-            <template #secondary-text>
-                See how you compare
-            </template>
-        </HeroHeader>
+
         <div class="pt-12 pb-16 flex justify-center gap-6 w-full">
             <input name=search spellCheck=false autocomplete=off
                 class="w-full basis-2/4 inline-block text-white p-3 rounded-md border-2 border-slate-800 bg-slate-900 xl:text-xl xs:text-lg"
@@ -219,12 +213,18 @@ export default {
                     event.target.blur();
                     this.startUserChainSearch();
                 }" />
+            <select v-model="this.timeControl" name="time-control"
+                class="text-slate-400 p-3 rounded-md border-2 border-slate-800 bg-slate-900">
+                <option value=bullet>Bullet</option>
+                <option value="blitz">Blitz</option>
+            </select>
             <button
-                class='inline-block bg-slate-900 border-slate-800 border-2 p-3 rounded-md xl:text-xl text-lg text-white hover:stroke-slate-50 stroke-slate-400 disabled:stroke-gray-500 disabled:opacity-60'
+                class='hidden sm:inline-block bg-slate-900 border-slate-800 border-2 rounded-md xl:text-xl text-lg text-white hover:stroke-slate-50 stroke-slate-400 disabled:stroke-gray-500 disabled:opacity-60'
                 @click="this.startUserChainSearch" :disabled="this.loading || !this.username">
-                <KingSvg />
+                <KingSvg class="scale-75" />
             </button>
         </div>
+
         <p class=" text-center text-2xl font-thin text-white" v-if="this.loading && this.userChain.length === 0">
             loading...
         </p>

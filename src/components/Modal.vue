@@ -11,19 +11,23 @@ import queensGambit from '@/assets/images/gary-kasparov.gif';
 import nakamuraDisgusted from '@/assets/images/queens-gambit.webp';
 import magnus from '@/assets/images/magnus-carlsen.gif';
 import hikaruSurprise from '@/assets/images/hikaru-surprise.gif';
+import outstandingMove from '@/assets/images/outstanding-move.png';
 
-const GIFS = [nakamuraDisgusted, magnusCarlsenWhat, garyKasparov, queensGambit, magnus, hikaruSurprise];
+// const GIFS = 
 export default {
 
     props: {
-        isShareable: Boolean,
         showModal: Boolean,
-        showGif: Boolean,
+        showImage: Boolean,
+        category: String
     },
     emits: ['close-modal'],
     data() {
         return {
-            gifName: magnusCarlsenWhat
+            images: {
+                failure: [nakamuraDisgusted, magnusCarlsenWhat, garyKasparov, queensGambit, magnus, hikaruSurprise],
+                success: [outstandingMove]
+            },
         }
     },
     components: {
@@ -35,10 +39,13 @@ export default {
     },
     methods: {
         closeModal() {
-            this.gifName = GIFS[Math.floor(Math.random() * GIFS.length)];
             this.$emit('close-modal');
-
+        },
+        getRandomImage(category) {
+            const images = this.images[category];
+            return images[Math.floor(Math.random() * images.length)];
         }
+
     }
 
 }
@@ -57,14 +64,14 @@ export default {
                         <h1 class='modalTitle font-bold'>
                             <slot name="title">Oops...</slot>
                         </h1>
-                        <img v-if="this.showGif" class='modalImage' :src="this.gifName"
+                        <img v-if="this.showImage" class='modalImage' :src="getRandomImage(this.category)"
                             alt='Hikaru absolutely disgusted' />
                         <p class='modalBody font-Sen p-5'>
                             <slot name="body">Something went wrong :(</slot>
                         </p>
                         <button @click="this.closeModal" class='modalDismiss'>I literally don't care</button>
 
-                        <div v-if="this.isShareable" class="flex justify-evenly items-center m-10">
+                        <div v-if="this.category === 'success'" class="flex justify-evenly items-center m-10">
                             <button class="p-2 bg-[#1DA1F2] rounded-md font-bold m-4 aspect-square">
                                 <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" data-show-count="false">
                                     <Twitter class="fill-white h-8" />

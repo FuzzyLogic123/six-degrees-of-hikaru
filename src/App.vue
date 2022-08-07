@@ -65,6 +65,15 @@ export default {
 
     <div class="relative dark-hero slanted-div w-screen bg-auto overflow-hidden">
 
+      <HeroHeader svg="Connection" colour="#818CF8">
+        <template #main-text>
+          Find your path
+        </template>
+        <template #secondary-text>
+          See how you compare
+        </template>
+      </HeroHeader>
+      
       <DegreesWrapper />
 
       <div id='about'>
