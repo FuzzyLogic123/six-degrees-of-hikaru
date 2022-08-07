@@ -5,6 +5,7 @@ import KingSvg from '../svg/King.vue';
 import HeroHeader from '.././HeroHeader.vue';
 import DegreesPath from "./DegreesPath.vue";
 import { queryDatabase } from '@/firebaseConfig';
+import Modal from '../Modal.vue';
 
 const MAX_REQUEST_ATTEMPTS = 1;
 
@@ -12,7 +13,8 @@ export default {
     components: {
         HeroHeader,
         KingSvg,
-        DegreesPath        
+        DegreesPath,
+        Modal
     },
     data() {
         return {
@@ -20,7 +22,11 @@ export default {
             username: 'jrt829',
             timeControl: 'bullet',
             alreadyTriedUsers: [],
-            loading: false
+            loading: false,
+            modalConfig: {
+                showModal: false,
+                isShareable: true
+            }
         }
     },
     methods: {
@@ -175,10 +181,16 @@ export default {
                 @keyup.enter="this.startUserChainSearch" />
             <button
                 class='inline-block bg-slate-900 border-slate-800 border-2 p-3 rounded-md xl:text-xl text-lg text-white hover:stroke-slate-50 stroke-slate-400 disabled:stroke-gray-500 disabled:opacity-60'
-                @click="this.startUserChainSearch" :disabled="this.loading">
+                @click="this.modalConfig.showModal = true" :disabled="this.loading">
                 <KingSvg />
             </button>
         </div>
         <DegreesPath :pathArray="this.userChain" />
     </div>
+
+    <Modal v-bind="this.modalConfig" @close-modal="this.modalConfig.showModal = false">
+        <template #title>Oops...</template>
+        <template #body>This is a test</template>
+    </Modal>
+
 </template>

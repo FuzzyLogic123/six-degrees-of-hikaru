@@ -25,10 +25,6 @@ export default {
 
   },
   methods: {
-    hideModal() {
-      this.showModal = false;
-      console.log("hide modal ran");
-    }
   }
 }
 </script>
@@ -97,7 +93,6 @@ export default {
         <Footer class="w-screen text-center"></Footer>
       </div>
     </div>
-      <Modal text="this is purely a test and nothing else" />
   </div>
 
 </template>

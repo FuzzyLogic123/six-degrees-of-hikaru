@@ -1,34 +1,81 @@
 <template>
-    <div v-if="this.modalOpen">
-        <div @click="this.toggleModal" class='backdrop'>
-                <!-- on click close -->
+    <Teleport to="body">
+        <div v-if="this.showModal">
+            <div @click="$emit('close-modal')" class='backdrop'>
                 <div class='modal' @click.stop>
-                    <!-- <GrClose @click="handleClose" class='closeIcon' /> get close icon -->
+                    <Cross @click="$emit('close-modal')" class='closeIcon' />
                     <div class='modalContent'>
-                        <h1 class='modalTitle'>Oops...</h1>
-                        <img class='modalImage' src={HikaruDisgusted} alt='Hikaru absolutely disgusted' />
-                        <p class='modalBody'>{{ this.text }}</p>
-                        <button @click="this.toggleModal" class='modalDismiss'>I literally don't care</button>
+                        <h1 class='modalTitle p-3'>
+                            <slot name="title"></slot>
+                        </h1>
+                        <img class='modalImage' src="@/assets/images/nakamura-disgusted.gif"
+                            alt='Hikaru absolutely disgusted' />
+                        <p class='modalBody font-Sen p-10'>
+                            <slot name="body"></slot>
+                        </p>
+                        <button @click="$emit('close-modal')" class='modalDismiss'>I literally don't care</button>
+
+                        <div v-if="this.isShareable" class="flex justify-evenly items-center m-10">
+                            <button class="p-2 bg-[#1DA1F2] rounded-md font-bold m-4 aspect-square">
+                                <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" data-show-count="false">
+                                    <Twitter class="fill-white h-8" />
+                                </a>
+                            </button>
+
+                            <button class="p-2 bg-[#ff4500] text-white rounded-md font-bold m-4 aspect-square">
+                                <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" data-show-count="false">
+                                    <RedditShareButton class="fill-white h-8" />
+                                </a>
+                            </button>
+
+                            <button class="p-2 bg-[#4267B2] text-white rounded-md font-bold m-4 aspect-square">
+                                <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" data-show-count="false">
+                                    <Facebook class="fill-white h-8" />
+                                </a>
+                            </button>
+
+                            <button class="p-2 text-white rounded-md font-bold m-4 aspect-square">
+                                <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" data-show-count="false">
+                                    <Copy class="fill-zinc-800 h-8" />
+                                </a>
+                            </button>
+                        </div>
                     </div>
                 </div>
+            </div>
         </div>
-    </div>
+    </Teleport>
 </template>
 
 <script>
+// import "https://platform.twitter.com/widgets.js";
+import Twitter from './svg/Twitter.vue';
+import RedditShareButton from './svg/RedditShareButton.vue';
+import Facebook from './svg/Facebook.vue';
+import Copy from './svg/Copy.vue';
+import Cross from './svg/Cross.vue';
 export default {
 
-    props: ['text'],
+    props: {
+        isShareable: Boolean,
+        showModal: Boolean,
+    },
     emits: ['close-modal'],
     data() {
         return {
-            modalOpen: true
         }
     },
     methods: {
         toggleModal() {
-            this.modalOpen = !this.modalOpen;
+            this.showModal = !this.showModal;
         }
+    },
+    components: {
+        Twitter,
+        RedditShareButton,
+        Facebook,
+        Copy,
+        Cross
     }
 
 }
@@ -38,15 +85,14 @@ export default {
 .modal {
     border-radius: 10px;
     backdrop-filter: blur(50px);
-    background-color: rgb(255, 255, 255);
+    background-color: white;
     min-height: 30rem;
-    width: 25rem;
-    padding: 2rem;
     z-index: 30;
+    margin: 1rem;
 }
 
 .modalContent {
-    /* padding: 0.5rem; */
+    padding: 1rem;
     text-align: center;
 }
 
@@ -77,7 +123,7 @@ export default {
 }
 
 .modalImage {
-    margin: 1rem;
+    margin: auto;
     border-radius: 5px;
 }
 
@@ -85,19 +131,21 @@ export default {
     position: absolute;
     top: 25px;
     right: 25px;
-    font-size: 2rem;
+    height: 1.2rem;
+    margin: 0.2rem;
 }
 
 .closeIcon:hover {
     cursor: pointer;
+
 }
 
 .modalBody {
-    font-family: Arial, Helvetica, sans-serif;
+    /* font-family: Arial, Helvetica, sans-serif; */
     font-size: 1.5rem;
-    font-style: italic;
     margin: 1rem;
 }
+
 .backdrop {
     position: fixed;
     top: 0;
