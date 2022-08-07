@@ -67,5 +67,6 @@ export {
     app,
     queryDatabase,
     incrementPathsCount,
-    getTotalPathsCount
+    getTotalPathsCount,
+    docRef
 }

@@ -1,19 +1,17 @@
 <script>
-import { getTotalPathsCount } from '@/firebaseConfig.js';
+import { onSnapshot } from "firebase/firestore";
+import { docRef } from '@/firebaseConfig.js';
     export default {
         data() {
             return {
                 totalPathsCalculated: 0
             }
         },
-        methods: {
-            async setPathsCount() {
-                this.totalPathsCalculated = await getTotalPathsCount();
-                console.log(this.totalPathsCalculated);
-            }
-        },
         created() {
-            this.setPathsCount();
+            onSnapshot(docRef, (doc) => {
+                console.log("Current data: ", doc.data());
+                this.totalPathsCalculated = doc.data().numberOfPathsCalculated;
+            });
         }
     }
 </script>
