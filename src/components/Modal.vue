@@ -55,7 +55,7 @@ export default {
                     </div>
                     <div class='modalContent'>
                         <h1 class='modalTitle font-bold'>
-                            <slot name="title">Oops</slot>
+                            <slot name="title">Oops...</slot>
                         </h1>
                         <img v-if="this.showGif" class='modalImage' :src="this.gifName"
                             alt='Hikaru absolutely disgusted' />

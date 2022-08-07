@@ -39,7 +39,7 @@ export default {
             return output;
         },
         showError(errorMessage) {
-            this.modalConfig.title = "Oops"
+            this.modalConfig.title = "Oops..."
             this.modalConfig.body = errorMessage;
             this.modalConfig.isShareable = false;
             this.modalConfig.showGif = true;
@@ -160,6 +160,10 @@ export default {
         },
         async startUserChainSearch() {
             if (!this.username || this.loading) { console.log("one chain at a time please"); return };
+            if (this.username.toLowerCase() === "hikaru") {
+                this.showError("Can we get you a nobel prize for outside the box thinking?");
+                return;
+            }
             this.userChain = [];
             this.alreadyTriedUsers = [];
             this.loading = true;

@@ -60,7 +60,7 @@ export default {
     <div>
       <Testimonials />
     </div>
-    <TotalPathsCalculated></TotalPathsCalculated>
+    <TotalPathsCalculated />
 
 
     <div class="relative dark-hero slanted-div w-screen bg-auto overflow-hidden">

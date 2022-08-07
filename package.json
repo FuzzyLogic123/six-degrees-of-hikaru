@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "firebase": "^9.9.1",
+    "gsap": "^3.10.4",
     "vue": "^3.2.37"
   },
   "devDependencies": {
