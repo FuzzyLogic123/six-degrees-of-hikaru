@@ -6,9 +6,13 @@ import Facebook from './svg/Facebook.vue';
 import Copy from './svg/Copy.vue';
 import Cross from './svg/Cross.vue';
 import magnusCarlsenWhat from '@/assets/images/magnus-carlsen-what.gif';
-import NakamuraDisgusted from '@/assets/images/nakamura-disgusted.gif';
+import garyKasparov from '@/assets/images/nakamura-disgusted.gif';
+import queensGambit from '@/assets/images/gary-kasparov.gif';
+import nakamuraDisgusted from '@/assets/images/queens-gambit.webp';
+import magnus from '@/assets/images/magnus-carlsen.gif';
+import hikaruSurprise from '@/assets/images/hikaru-surprise.gif';
 
-const GIFS = [NakamuraDisgusted, magnusCarlsenWhat];
+const GIFS = [nakamuraDisgusted, magnusCarlsenWhat, garyKasparov, queensGambit, magnus, hikaruSurprise];
 export default {
 
     props: {
@@ -19,13 +23,7 @@ export default {
     emits: ['close-modal'],
     data() {
         return {
-            gifName: GIFS[Math.floor(Math.random() * GIFS.length)]
-        }
-    },
-    methods: {
-        toggleModal() {
-            this.showModal = !this.showModal;
-            this.gifName = GIFS[Math.floor(Math.random() * GIFS.length)];
+            gifName: magnusCarlsenWhat
         }
     },
     components: {
@@ -34,6 +32,13 @@ export default {
         Facebook,
         Copy,
         Cross
+    },
+    methods: {
+        closeModal() {
+            this.gifName = GIFS[Math.floor(Math.random() * GIFS.length)];
+            this.$emit('close-modal');
+
+        }
     }
 
 }
@@ -43,10 +48,10 @@ export default {
 <template>
     <Teleport to="body">
         <Transition name="modal">
-            <div v-if="this.showModal" @click="$emit('close-modal')" class='backdrop'>
+            <div v-if="this.showModal" @click="this.closeModal" class='backdrop'>
                 <div class='modal' @click.stop>
                     <div class="w-full text-right h-0">
-                        <Cross @click="$emit('close-modal')" class='closeIcon' />
+                        <Cross @click="this.closeModal" class='closeIcon' />
                     </div>
                     <div class='modalContent'>
                         <h1 class='modalTitle font-bold'>
@@ -57,7 +62,7 @@ export default {
                         <p class='modalBody font-Sen p-5'>
                             <slot name="body"></slot>
                         </p>
-                        <button @click="$emit('close-modal')" class='modalDismiss'>I literally don't care</button>
+                        <button @click="this.closeModal" class='modalDismiss'>I literally don't care</button>
 
                         <div v-if="this.isShareable" class="flex justify-evenly items-center m-10">
                             <button class="p-2 bg-[#1DA1F2] rounded-md font-bold m-4 aspect-square">
@@ -136,8 +141,7 @@ export default {
 .modalImage {
     margin: auto;
     border-radius: 5px;
-    width: 15rem;
-    height: 15rem;
+    max-height: 18rem;
     object-fit: cover;
 }
 

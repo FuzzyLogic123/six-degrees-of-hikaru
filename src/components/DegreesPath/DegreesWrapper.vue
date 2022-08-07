@@ -19,12 +19,12 @@ export default {
     data() {
         return {
             userChain: [],
-            username: 'FuzzyLogic12',
+            username: '',
             timeControl: 'bullet',
             alreadyTriedUsers: [],
             loading: false,
             modalConfig: {
-                showModal: true,
+                showModal: false,
                 isShareable: false,
                 title: "Oops...",
                 body: "Something went wrong :(",
@@ -39,7 +39,7 @@ export default {
             for (let i = 0; i < userChain.length; i++) {
                 const user = userChain[i];
                 output += `${user.username}<span style="color:#537133;font-weight:100;">(${user.rating})</span><br>`;
-                user.name !== "Hikaru Nakamura" && (output += "|<br>");
+                user.name !== "Hikaru Nakamura" && (output += "<br>");
             }
             return output;
         },
@@ -208,7 +208,10 @@ export default {
             <input name=search spellCheck=false autocomplete=off
                 class="w-full basis-2/4 inline-block text-white p-3 rounded-md border-2 border-slate-800 bg-slate-900 xl:text-xl xs:text-lg"
                 type="text" placeholder="chess.com username" v-model="this.username"
-                @keyup.enter="this.startUserChainSearch" />
+                @keyup.enter="(event) => {
+                    event.target.blur();
+                    this.startUserChainSearch();
+                    }" />
             <button
                 class='inline-block bg-slate-900 border-slate-800 border-2 p-3 rounded-md xl:text-xl text-lg text-white hover:stroke-slate-50 stroke-slate-400 disabled:stroke-gray-500 disabled:opacity-60'
                 @click="this.startUserChainSearch" :disabled="this.loading || !this.username">
