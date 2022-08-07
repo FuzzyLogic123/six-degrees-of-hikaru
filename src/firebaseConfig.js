@@ -6,6 +6,8 @@ import { getDatabase, ref, child, get } from "firebase/database";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
+import { doc, getDoc, getFirestore, updateDoc } from 'firebase/firestore';
+
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
@@ -20,11 +22,14 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+const realtimeRef = ref(getDatabase(app));
+const firestoreRef = getFirestore(app);
+
+const docRef = doc(firestoreRef, "website-analytics", "SA1AXeSFSRW40GbAxFlg");
 
 const queryDatabase = async (username, timeControl) => {
     /* database should be queried. If the database returns a value, then it should update userChain and return from the function */
-    const dbRef = ref(getDatabase(app));
-    const snapshot = await get(child(dbRef, `${timeControl}/${username}`))
+    const snapshot = await get(child(realtimeRef, `${timeControl}/${username}`))
     if (snapshot.exists()) {
         return snapshot.val();
     } else {
@@ -32,7 +37,35 @@ const queryDatabase = async (username, timeControl) => {
     }
 }
 
+const incrementPathsCount = async () => {
+    const currentCount = await getTotalPathsCount();
+    if (currentCount !== false) {
+        await updateDoc(docRef, {
+            numberOfPathsCalculated: currentCount + 1
+        });
+    } else {
+        console.error("document was not found");
+    }
+}
+
+const getTotalPathsCount = async () => {
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+        console.log("Document data:", docSnap.data());
+        return docSnap.data().numberOfPathsCalculated;
+
+    } else {
+        // doc.data() will be undefined in this case
+        console.log("No such document!");
+        return false;
+    }
+}
+
+
 export {
     app,
-    queryDatabase
+    queryDatabase,
+    incrementPathsCount,
+    getTotalPathsCount
 }

@@ -4,7 +4,7 @@
 import KingSvg from '../svg/King.vue';
 import HeroHeader from '.././HeroHeader.vue';
 import DegreesPath from "./DegreesPath.vue";
-import { queryDatabase } from '@/firebaseConfig';
+import { queryDatabase, incrementPathsCount } from '@/firebaseConfig';
 import Modal from '../Modal.vue';
 
 const MAX_REQUEST_ATTEMPTS = 1;
@@ -27,7 +27,6 @@ export default {
                 showModal: false,
                 isShareable: false,
                 showGif: true
-
             }
         }
     },
@@ -36,19 +35,20 @@ export default {
             let output = "";
             const firstRating = userChain[0].rating;
             const lastRating = userChain.at(-1).rating;
-            output += `From ${firstRating} to ${lastRating} in ${userChain.length} degrees`;
+            output += `You went from <b>${firstRating}</b> to <b>${lastRating}</b> in ${userChain.length} degrees`;
             return output;
         },
         showError(errorMessage) {
+            this.modalConfig.title = "Oops"
             this.modalConfig.body = errorMessage;
             this.modalConfig.isShareable = false;
-            this.showGif = true;
+            this.modalConfig.showGif = true;
             this.modalConfig.showModal = true;
             this.loading = false;
         },
         showResult() {
             this.modalConfig.body = this.generateFinalPathString(this.userChain); //`${this.userChain.length} Degrees`;
-            this.modalConfig.title = '';
+            this.modalConfig.title = 'Congrats';
             this.modalConfig.isShareable = true;
             this.modalConfig.showGif = false;
             this.modalConfig.showModal = true;
@@ -106,6 +106,7 @@ export default {
             const mostRecentUser = this.userChain.at(-1);
             if (mostRecentUser.name === "Hikaru Nakamura") {
                 console.log(this.userChain);
+                incrementPathsCount();
                 this.loading = false;
                 setTimeout(this.showResult, 2000)
                 return this.userChain;
@@ -220,7 +221,10 @@ export default {
                 <KingSvg />
             </button>
         </div>
-        <DegreesPath :pathArray="this.userChain" />
+        <p class=" text-center text-2xl font-thin text-white" v-if="this.loading && this.userChain.length === 0">
+            loading...
+        </p>
+        <DegreesPath :pathArray="this.userChain" v-else />
     </div>
 
     <Modal v-bind="this.modalConfig" @close-modal="this.modalConfig.showModal = false">
@@ -228,7 +232,7 @@ export default {
             {{ this.modalConfig.title }}
         </template>
         <template #body>
-            {{ this.modalConfig.body }}
+            <div v-html="this.modalConfig.body"></div>
         </template>
     </Modal>
 
