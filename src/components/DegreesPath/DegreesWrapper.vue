@@ -19,13 +19,16 @@ export default {
     data() {
         return {
             userChain: [],
-            username: 'jrt829',
+            username: '',
             timeControl: 'bullet',
             alreadyTriedUsers: [],
             loading: false,
             modalConfig: {
                 showModal: false,
-                isShareable: true
+                isShareable: false,
+                title: "Oops...",
+                body: "Something went wrong :("
+
             }
         }
     },
@@ -84,6 +87,12 @@ export default {
             if (mostRecentUser.name === "Hikaru Nakamura") {
                 console.log(this.userChain);
                 this.loading = false;
+                setTimeout(()=> {
+                    this.modalConfig.showModal = true;
+                }, 2000)
+                this.modalConfig.title = `${this.userChain.length} Degrees`
+                this.modalConfig.body = "Looks like you haven't won any <br/>games in this time control";
+                this.modalConfig.isShareable = true;
                 return this.userChain;
             }
             if (!mostRecentUser?.username) {
@@ -134,13 +143,17 @@ export default {
             }
         },
         async startUserChainSearch() {
-            if (!this.username || this.loading) { console.log("the thing was blocked"); return };
+            if (!this.username || this.loading) { console.log("one chain at a time please"); return };
             this.userChain = [];
             this.alreadyTriedUsers = [];
             this.loading = true;
             const firstUserData = await this.fetchBestWin(this.username, this.timeControl, MAX_REQUEST_ATTEMPTS);
             if (!firstUserData) {
                 console.error("invalid username");
+                this.modalConfig.body = "Please enter a valid chess.com username";
+                this.modalConfig.showModal = true;
+                this.modalConfig.isShareable = false;
+                this.loading = false;
                 return;
             }
             if (!firstUserData?.next_player) {
@@ -149,6 +162,10 @@ export default {
                     firstUserData.next_player = mostRecentWin;
                 } else {
                     console.error("the player seems to have won no games within this time control");
+                    this.modalConfig.body = "Looks like you haven't won any games in this time control";
+                    this.modalConfig.showModal = true;
+                    this.modalConfig.isShareable = false;
+                    this.loading = false;
                     return;
                 }
             }
@@ -181,7 +198,7 @@ export default {
                 @keyup.enter="this.startUserChainSearch" />
             <button
                 class='inline-block bg-slate-900 border-slate-800 border-2 p-3 rounded-md xl:text-xl text-lg text-white hover:stroke-slate-50 stroke-slate-400 disabled:stroke-gray-500 disabled:opacity-60'
-                @click="this.modalConfig.showModal = true" :disabled="this.loading">
+                @click="this.startUserChainSearch" :disabled="this.loading || !this.username">
                 <KingSvg />
             </button>
         </div>
@@ -189,8 +206,10 @@ export default {
     </div>
 
     <Modal v-bind="this.modalConfig" @close-modal="this.modalConfig.showModal = false">
-        <template #title>Oops...</template>
-        <template #body>This is a test</template>
+        <template #title>{{this.modalConfig.title}}</template>
+        <template #body>
+            <div v-html="this.modalConfig.body"></div>
+        </template>
     </Modal>
 
 </template>

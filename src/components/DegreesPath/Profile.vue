@@ -11,10 +11,6 @@ export default {
         return {
 
         }
-    },
-    mounted() {
-        console.log(this.profilePicture);
-        if (this.title !== '') { console.log(this.title) };
     }
 
 }

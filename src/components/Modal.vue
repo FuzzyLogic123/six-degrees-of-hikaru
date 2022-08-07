@@ -87,7 +87,6 @@ export default {
     backdrop-filter: blur(50px);
     background-color: white;
     min-height: 30rem;
-    z-index: 30;
     margin: 1rem;
 }
 
@@ -133,6 +132,7 @@ export default {
     right: 25px;
     height: 1.2rem;
     margin: 0.2rem;
+    fill: rgb(34, 34, 34);
 }
 
 .closeIcon:hover {

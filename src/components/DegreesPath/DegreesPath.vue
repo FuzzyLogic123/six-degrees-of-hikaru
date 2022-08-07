@@ -9,6 +9,18 @@ export default {
         PathBackground
     },
     props: ['pathArray'],
+    watch: {
+        pathArray: {
+            handler(newPath, oldPath) {
+                if (newPath.at(-1)?.name === "Hikaru Nakamura") {
+                    this.$refs.path.scrollIntoView(false);
+                }
+
+            },
+            deep: true,
+            flush: 'post'
+        },
+    },
     data() {
         return {
         }
@@ -20,13 +32,15 @@ export default {
     <div class='w-screen text-center md:mt-10 2xl:mt-20'>
         <div class="min-h-[10rem] w-96 xl:w-[45rem] relative inline-block">
             <PathBackground class="absolute top-0" />
-            <TransitionGroup name="fade">
-                <div v-for="(profile, i) in this.pathArray" :key="i">
-                    <Profile :name="profile.name" :username="profile.username" :title="profile.title"
-                        :rating="profile.rating" :profilePicture="profile.avatar" :position="i % 2 ? 'left' : 'right'"
-                        :key="i" />
-                </div>
-            </TransitionGroup>
+            <div ref="path">
+                <TransitionGroup name="fade">
+                    <div v-for="(profile, i) in this.pathArray" :key="i">
+                        <Profile :name="profile.name" :username="profile.username" :title="profile.title"
+                            :rating="profile.rating" :profilePicture="profile.avatar"
+                            :position="i % 2 ? 'left' : 'right'" :key="i" />
+                    </div>
+                </TransitionGroup>
+            </div>
         </div>
     </div>
 </template>
@@ -45,6 +59,4 @@ export default {
     opacity: 0;
     transform: scale(0.9);
 }
-
-
 </style>
