@@ -35,9 +35,20 @@ export default {
             <div ref="path">
                 <TransitionGroup name="fade">
                     <div v-for="(profile, i) in this.pathArray" :key="i">
-                        <Profile :name="profile.name" :username="profile.username" :title="profile.title"
-                            :rating="profile.rating" :profilePicture="profile.avatar"
-                            :position="i % 2 ? 'left' : 'right'" :key="i" />
+                        <Profile :profilePicture="profile.avatar" :position="i % 2 ? 'left' : 'right'" :isHikaru="profile.name === 'Hikaru Nakamura'" :key="i">
+                            <template #name>
+                                {{ profile.name }}
+                            </template>
+                            <template v-if="profile.title" #title>
+                                {{ profile.title }}
+                            </template>
+                            <template #username>
+                                {{ profile.username }}
+                            </template>
+                            <template #rating>
+                                {{ profile.rating }}
+                            </template>
+                        </Profile>
                     </div>
                 </TransitionGroup>
             </div>

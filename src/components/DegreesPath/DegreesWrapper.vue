@@ -54,6 +54,20 @@ export default {
             this.modalConfig.category = "success";
             this.modalConfig.showModal = true;
         },
+        async isValidChessUsername() {
+            try {
+                const res = await fetch(`https://api.chess.com/pub/player/${this.username}`);
+                const data = await res.json();
+                if (data.code === 0) {
+                    return false;
+                }
+            } catch {
+                console.error("chess.com username verification failed");
+            } finally {
+                //even if error check failed, still continue
+                return true;
+            }
+        },
         async getMostRecentWin(username, timeControl) {
             const res = await fetch(`https://api.chess.com/pub/player/${username}/games/archives`);
             const data = await res.json();
@@ -92,6 +106,7 @@ export default {
                     console.log(`${username} has not won any games`);
                 }
             }
+            return false;
         },
         async getNextOptionHelper(username, timeControl) {
             const result = await this.getMostRecentWin(username, timeControl);
@@ -133,8 +148,13 @@ export default {
             } else {
                 bestWin?.username && console.log("this was rejected", bestWin.username);
                 const mostRecentWin = await this.getNextOptionHelper(this.userChain.at(-1).next_player, this.timeControl); //should basically always return someone unless every player in the chain has not won any games of that time control
-                // console.log(mostRecentWin);
-                this.userChain.at(-1).next_player = mostRecentWin;
+                if (!mostRecentWin) {
+                    this.showError(`${username} has not played enough games to calculate route :(`);
+                    this.userChain = [];
+                    return;
+                } else {
+                    this.userChain.at(-1).next_player = mostRecentWin;
+                }
             }
             await this.extendUserChain();
         },
@@ -168,11 +188,21 @@ export default {
             this.userChain = [];
             this.alreadyTriedUsers = [];
             this.loading = true;
-            const firstUserData = await this.fetchBestWin(this.username, this.timeControl, MAX_REQUEST_ATTEMPTS);
-            if (!firstUserData) {
-                console.error("invalid username");
-                this.showError("Please enter a valid chess.com username");
+
+            //check if the username is valid
+            if (!this.isValidChessUsername()) {
+                this.showError(`${this.username} is not a valid username`);
                 return;
+            }
+            const bestWin = await this.fetchBestWin(this.username, this.timeControl, MAX_REQUEST_ATTEMPTS);
+            let firstUserData;
+            if (bestWin) {
+                firstUserData = bestWin
+            } else {
+                firstUserData = {
+                    username: this.username,
+                    next_player: ""
+                }
             }
             if (!firstUserData?.next_player) {
                 const mostRecentWin = await this.getMostRecentWin(this.username, this.timeControl);
@@ -187,7 +217,7 @@ export default {
             this.userChain.push(firstUserData)
             this.extendUserChain();
         }
-    },
+    }
 }
 
 
@@ -225,10 +255,12 @@ export default {
             </button>
         </div>
 
-        <p class=" text-center text-2xl font-thin text-white" v-if="this.loading && this.userChain.length === 0">
-            loading...
-        </p>
-        <DegreesPath :pathArray="this.userChain" v-else />
+        <Transition name="fade">
+            <p class=" text-center text-2xl font-thin text-white" v-if="this.loading && this.userChain.length === 0">
+                loading...
+            </p>
+            <DegreesPath :pathArray="this.userChain" v-else />
+        </Transition>
     </div>
 
     <Modal v-bind="this.modalConfig" @close-modal="this.modalConfig.showModal = false">
