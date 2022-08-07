@@ -12,6 +12,7 @@ import nakamuraDisgusted from '@/assets/images/queens-gambit.webp';
 import magnus from '@/assets/images/magnus-carlsen.gif';
 import hikaruSurprise from '@/assets/images/hikaru-surprise.gif';
 import outstandingMove from '@/assets/images/outstanding-move.png';
+import lostHope from '@/assets/images/lost-hope.webp';
 
 // const GIFS = 
 export default {
@@ -26,7 +27,7 @@ export default {
         return {
             images: {
                 failure: [nakamuraDisgusted, magnusCarlsenWhat, garyKasparov, queensGambit, magnus, hikaruSurprise],
-                success: [outstandingMove]
+                success: [outstandingMove, lostHope]
             },
         }
     },
