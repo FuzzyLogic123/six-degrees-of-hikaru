@@ -19,20 +19,44 @@ export default {
     data() {
         return {
             userChain: [],
-            username: '',
+            username: 'FuzzyLogic12',
             timeControl: 'bullet',
             alreadyTriedUsers: [],
             loading: false,
             modalConfig: {
-                showModal: false,
+                showModal: true,
                 isShareable: false,
                 title: "Oops...",
-                body: "Something went wrong :("
+                body: "Something went wrong :(",
+                showGif: true
 
             }
         }
     },
     methods: {
+        generateFinalPathString(userChain) {
+            let output = "";
+            for (let i = 0; i < userChain.length; i++) {
+                const user = userChain[i];
+                output += `${user.username}<span style="color:#537133;font-weight:100;">(${user.rating})</span><br>`;
+                user.name !== "Hikaru Nakamura" && (output += "|<br>");
+            }
+            return output;
+        },
+        showError(errorMessage) {
+            this.modalConfig.body = errorMessage;
+            this.modalConfig.isShareable = false;
+            this.showGif = true;
+            this.modalConfig.showModal = true;
+            this.loading = false;
+        },
+        showResult() {
+            this.modalConfig.title = `${this.userChain.length} Degrees`;
+            this.modalConfig.body = this.generateFinalPathString(this.userChain);
+            this.modalConfig.isShareable = true;
+            this.modalConfig.showGif = false;
+            this.modalConfig.showModal = true;
+        },
         async getMostRecentWin(username, timeControl) {
             const res = await fetch(`https://api.chess.com/pub/player/${username}/games/archives`);
             const data = await res.json();
@@ -87,12 +111,7 @@ export default {
             if (mostRecentUser.name === "Hikaru Nakamura") {
                 console.log(this.userChain);
                 this.loading = false;
-                setTimeout(()=> {
-                    this.modalConfig.showModal = true;
-                }, 2000)
-                this.modalConfig.title = `${this.userChain.length} Degrees`
-                this.modalConfig.body = "Looks like you haven't won any <br/>games in this time control";
-                this.modalConfig.isShareable = true;
+                setTimeout(this.showResult, 2000)
                 return this.userChain;
             }
             if (!mostRecentUser?.username) {
@@ -150,10 +169,7 @@ export default {
             const firstUserData = await this.fetchBestWin(this.username, this.timeControl, MAX_REQUEST_ATTEMPTS);
             if (!firstUserData) {
                 console.error("invalid username");
-                this.modalConfig.body = "Please enter a valid chess.com username";
-                this.modalConfig.showModal = true;
-                this.modalConfig.isShareable = false;
-                this.loading = false;
+                this.showError("Please enter a valid chess.com username");
                 return;
             }
             if (!firstUserData?.next_player) {
@@ -162,10 +178,7 @@ export default {
                     firstUserData.next_player = mostRecentWin;
                 } else {
                     console.error("the player seems to have won no games within this time control");
-                    this.modalConfig.body = "Looks like you haven't won any games in this time control";
-                    this.modalConfig.showModal = true;
-                    this.modalConfig.isShareable = false;
-                    this.loading = false;
+                    this.showError("Looks like you haven't won any games in this time control");
                     return;
                 }
             }
@@ -206,9 +219,11 @@ export default {
     </div>
 
     <Modal v-bind="this.modalConfig" @close-modal="this.modalConfig.showModal = false">
-        <template #title>{{this.modalConfig.title}}</template>
+        <template #title>
+            <h1>{{ this.modalConfig.title }}</h1>
+        </template>
         <template #body>
-            <div v-html="this.modalConfig.body"></div>
+            <div class="" v-html="this.modalConfig.body"></div>
         </template>
     </Modal>
 

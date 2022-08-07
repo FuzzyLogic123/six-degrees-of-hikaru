@@ -1,16 +1,60 @@
+<script>
+// import "https://platform.twitter.com/widgets.js";
+import Twitter from './svg/Twitter.vue';
+import RedditShareButton from './svg/RedditShareButton.vue';
+import Facebook from './svg/Facebook.vue';
+import Copy from './svg/Copy.vue';
+import Cross from './svg/Cross.vue';
+import magnusCarlsenWhat from '@/assets/images/magnus-carlsen-what.gif';
+import NakamuraDisgusted from '@/assets/images/nakamura-disgusted.gif';
+
+const GIFS = [NakamuraDisgusted, magnusCarlsenWhat];
+export default {
+
+    props: {
+        isShareable: Boolean,
+        showModal: Boolean,
+        showGif: Boolean,
+    },
+    emits: ['close-modal'],
+    data() {
+        return {
+            gifName: GIFS[Math.floor(Math.random() * GIFS.length)]
+        }
+    },
+    methods: {
+        toggleModal() {
+            this.showModal = !this.showModal;
+            this.gifName = GIFS[Math.floor(Math.random() * GIFS.length)];
+        }
+    },
+    components: {
+        Twitter,
+        RedditShareButton,
+        Facebook,
+        Copy,
+        Cross
+    }
+
+}
+</script>
+
+
 <template>
     <Teleport to="body">
-        <div v-if="this.showModal">
-            <div @click="$emit('close-modal')" class='backdrop'>
+        <Transition name="modal">
+            <div v-if="this.showModal" @click="$emit('close-modal')" class='backdrop'>
                 <div class='modal' @click.stop>
-                    <Cross @click="$emit('close-modal')" class='closeIcon' />
+                    <div class="w-full text-right h-0">
+                        <Cross @click="$emit('close-modal')" class='closeIcon' />
+                    </div>
                     <div class='modalContent'>
-                        <h1 class='modalTitle p-3'>
+                        <h1 class='modalTitle font-bold'>
                             <slot name="title"></slot>
                         </h1>
-                        <img class='modalImage' src="@/assets/images/nakamura-disgusted.gif"
+                        <img v-if="this.showGif" class='modalImage' :src="this.gifName"
                             alt='Hikaru absolutely disgusted' />
-                        <p class='modalBody font-Sen p-10'>
+                        <p class='modalBody font-Sen p-5'>
                             <slot name="body"></slot>
                         </p>
                         <button @click="$emit('close-modal')" class='modalDismiss'>I literally don't care</button>
@@ -43,43 +87,9 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </Transition>
     </Teleport>
 </template>
-
-<script>
-// import "https://platform.twitter.com/widgets.js";
-import Twitter from './svg/Twitter.vue';
-import RedditShareButton from './svg/RedditShareButton.vue';
-import Facebook from './svg/Facebook.vue';
-import Copy from './svg/Copy.vue';
-import Cross from './svg/Cross.vue';
-export default {
-
-    props: {
-        isShareable: Boolean,
-        showModal: Boolean,
-    },
-    emits: ['close-modal'],
-    data() {
-        return {
-        }
-    },
-    methods: {
-        toggleModal() {
-            this.showModal = !this.showModal;
-        }
-    },
-    components: {
-        Twitter,
-        RedditShareButton,
-        Facebook,
-        Copy,
-        Cross
-    }
-
-}
-</script>
 
 <style scoped>
 .modal {
@@ -87,7 +97,9 @@ export default {
     backdrop-filter: blur(50px);
     background-color: white;
     min-height: 30rem;
+    max-height: 95vh;
     margin: 1rem;
+    overflow-x: hidden;
 }
 
 .modalContent {
@@ -106,7 +118,7 @@ export default {
     border-radius: 1rem;
     border: none;
     border-bottom: .5rem solid #537133;
-    height: 5.5rem;
+    /* height: 5.5rem; */
     padding: 1rem;
 }
 
@@ -118,20 +130,21 @@ export default {
 
 .modalTitle {
     font-size: 3rem;
-    margin: 1rem;
+    margin-bottom: 1rem;
 }
 
 .modalImage {
     margin: auto;
     border-radius: 5px;
+    width: 15rem;
+    height: 15rem;
+    object-fit: cover;
 }
 
 .closeIcon {
-    position: absolute;
-    top: 25px;
-    right: 25px;
     height: 1.2rem;
-    margin: 0.2rem;
+    margin: 1rem;
+    display: inline-block;
     fill: rgb(34, 34, 34);
 }
 
@@ -158,11 +171,11 @@ export default {
     justify-content: center;
     z-index: 30;
     background-color: rgba(0, 0, 0, 0.418);
+    overflow: hidden;
 }
 
 @media only screen and (max-width: 1024px) {
     .modal {
-        max-width: 70vw;
         max-height: 80vh;
     }
 
@@ -173,5 +186,31 @@ export default {
     .modalBody {
         font-size: 1.3rem;
     }
+
+    .modalImage {
+        height: 9rem;
+    }
+}
+
+.modal-move,
+.modal-enter-active,
+.modal-leave-active {
+    transition: all 1s cubic-bezier(0.55, 0, 0.1, 1);
+}
+
+.modal-move .modal,
+.modal-enter-active .modal,
+.modal-leave-active .modal {
+    transition: all 0.5s cubic-bezier(0.55, 0, 0.1, 1);
+}
+
+.modal-enter-from,
+.modal-leave-to {
+    opacity: 0;
+}
+
+.modal-enter-from .modal,
+.modal-leave-to .modal {
+    transform: scale(0.9);
 }
 </style>
