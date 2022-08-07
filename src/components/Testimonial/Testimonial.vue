@@ -5,9 +5,6 @@ export default {
     components: {
         Quote
     },
-    mounted() {
-        console.log(this.quote[2]);
-    }
 }
 
 </script>

@@ -55,12 +55,12 @@ export default {
                     </div>
                     <div class='modalContent'>
                         <h1 class='modalTitle font-bold'>
-                            <slot name="title"></slot>
+                            <slot name="title">Oops</slot>
                         </h1>
                         <img v-if="this.showGif" class='modalImage' :src="this.gifName"
                             alt='Hikaru absolutely disgusted' />
                         <p class='modalBody font-Sen p-5'>
-                            <slot name="body"></slot>
+                            <slot name="body">Something went wrong :(</slot>
                         </p>
                         <button @click="this.closeModal" class='modalDismiss'>I literally don't care</button>
 
@@ -101,8 +101,9 @@ export default {
     border-radius: 10px;
     backdrop-filter: blur(50px);
     background-color: white;
-    min-height: 30rem;
+    /* min-height: 30rem; */
     max-height: 95vh;
+    max-width: 30rem;
     margin: 1rem;
     overflow-x: hidden;
 }
@@ -136,6 +137,7 @@ export default {
 .modalTitle {
     font-size: 3rem;
     margin-bottom: 1rem;
+    padding: 1rem;
 }
 
 .modalImage {

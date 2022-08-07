@@ -26,8 +26,6 @@ export default {
             modalConfig: {
                 showModal: false,
                 isShareable: false,
-                title: "Oops...",
-                body: "Something went wrong :(",
                 showGif: true
 
             }
@@ -36,11 +34,9 @@ export default {
     methods: {
         generateFinalPathString(userChain) {
             let output = "";
-            for (let i = 0; i < userChain.length; i++) {
-                const user = userChain[i];
-                output += `${user.username}<span style="color:#537133;font-weight:100;">(${user.rating})</span><br>`;
-                user.name !== "Hikaru Nakamura" && (output += "<br>");
-            }
+            const firstRating = userChain[0].rating;
+            const lastRating = userChain.at(-1).rating;
+            output += `From ${firstRating} to ${lastRating} in ${userChain.length} degrees`;
             return output;
         },
         showError(errorMessage) {
@@ -51,8 +47,8 @@ export default {
             this.loading = false;
         },
         showResult() {
-            this.modalConfig.title = `${this.userChain.length} Degrees`;
-            this.modalConfig.body = this.generateFinalPathString(this.userChain);
+            this.modalConfig.body = this.generateFinalPathString(this.userChain); //`${this.userChain.length} Degrees`;
+            this.modalConfig.title = '';
             this.modalConfig.isShareable = true;
             this.modalConfig.showGif = false;
             this.modalConfig.showModal = true;
@@ -96,13 +92,13 @@ export default {
                 }
             }
         },
-        async getNextOptionHelper(timeControl) {
-            const result = await this.getMostRecentWin(this.userChain.at(-1).next_player, timeControl);
+        async getNextOptionHelper(username, timeControl) {
+            const result = await this.getMostRecentWin(username, timeControl);
             if (!result) {
                 this.alreadyTriedUsers.push(this.userChain.at(-1).username);
                 this.userChain = [this.userChain[0]];
                 console.log("chain reset");
-                return await this.getNextOptionHelper(timeControl);
+                return await this.getNextOptionHelper(this.userChain[0].username, timeControl);
             }
             return result
         },
@@ -133,8 +129,8 @@ export default {
                 this.userChain.push(bestWin);
                 console.log(bestWin.username);
             } else {
-                bestWin?.username && console.log("this was rejected", bestWin.username)
-                const mostRecentWin = await this.getNextOptionHelper(this.timeControl); //should basically always return someone unless every player in the chain has not won any games of that time control
+                bestWin?.username && console.log("this was rejected", bestWin.username);
+                const mostRecentWin = await this.getNextOptionHelper(this.userChain.at(-1).next_player, this.timeControl); //should basically always return someone unless every player in the chain has not won any games of that time control
                 // console.log(mostRecentWin);
                 this.userChain.at(-1).next_player = mostRecentWin;
             }
@@ -203,15 +199,21 @@ export default {
 
 <template>
     <div id='six-degrees'>
-        <HeroHeader svg="Connection" colour="#818CF8" secondaryText="See how you compare" mainText="Find your path" />
+        <HeroHeader svg="Connection" colour="#818CF8">
+            <template #main-text>
+                Find your path
+            </template>
+            <template #secondary-text>
+                See how you compare
+            </template>
+        </HeroHeader>
         <div class="pt-12 pb-16 flex justify-center gap-6 w-full">
             <input name=search spellCheck=false autocomplete=off
                 class="w-full basis-2/4 inline-block text-white p-3 rounded-md border-2 border-slate-800 bg-slate-900 xl:text-xl xs:text-lg"
-                type="text" placeholder="chess.com username" v-model="this.username"
-                @keyup.enter="(event) => {
+                type="text" placeholder="chess.com username" v-model="this.username" @keyup.enter="(event) => {
                     event.target.blur();
                     this.startUserChainSearch();
-                    }" />
+                }" />
             <button
                 class='inline-block bg-slate-900 border-slate-800 border-2 p-3 rounded-md xl:text-xl text-lg text-white hover:stroke-slate-50 stroke-slate-400 disabled:stroke-gray-500 disabled:opacity-60'
                 @click="this.startUserChainSearch" :disabled="this.loading || !this.username">
@@ -223,10 +225,10 @@ export default {
 
     <Modal v-bind="this.modalConfig" @close-modal="this.modalConfig.showModal = false">
         <template #title>
-            <h1>{{ this.modalConfig.title }}</h1>
+            {{ this.modalConfig.title }}
         </template>
         <template #body>
-            <div class="" v-html="this.modalConfig.body"></div>
+            {{ this.modalConfig.body }}
         </template>
     </Modal>
 

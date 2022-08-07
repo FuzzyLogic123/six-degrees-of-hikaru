@@ -11,7 +11,7 @@ export default {
     props: ['pathArray'],
     watch: {
         pathArray: {
-            handler(newPath, oldPath) {
+            handler(newPath) {
                 if (newPath.at(-1)?.name === "Hikaru Nakamura") {
                     this.$refs.path.scrollIntoView(false);
                 }

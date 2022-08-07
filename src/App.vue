@@ -72,7 +72,15 @@ export default {
       <DegreesWrapper />
 
       <div id='about'>
-        <HeroHeader svg="QuestionMark" colour="#53DAA1" secondaryText="About the website" mainText="How it works" />
+        <HeroHeader svg="QuestionMark" colour="#53DAA1">
+          <template #main-text>
+            About the website
+          </template>
+          <template #secondary-text>
+            How it works
+          </template>
+
+        </HeroHeader>
       </div>
 
       <p
