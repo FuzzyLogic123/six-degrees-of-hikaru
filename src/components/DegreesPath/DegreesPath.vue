@@ -31,11 +31,11 @@ export default {
 <template>
     <div class='w-screen text-center md:mt-10 2xl:mt-20'>
         <div class="min-h-[10rem] w-96 xl:w-[45rem] relative inline-block">
-            <PathBackground class="absolute top-0" />
             <div ref="path">
                 <TransitionGroup name="fade">
                     <div v-for="(profile, i) in this.pathArray" :key="i">
-                        <Profile :profilePicture="profile.avatar" :position="i % 2 ? 'left' : 'right'" :isHikaru="profile.name === 'Hikaru Nakamura'" :key="i">
+                        <Profile :profilePicture="profile.avatar" :position="i % 2 ? 'left' : 'right'"
+                            :isHikaru="profile.name === 'Hikaru Nakamura'" :key="i">
                             <template #name>
                                 {{ profile.name }}
                             </template>

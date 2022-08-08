@@ -10,6 +10,7 @@ import Footer from "./components/Footer.vue";
 import DegreesWrapper from './components/DegreesPath/DegreesWrapper.vue';
 import Modal from "./components/Modal.vue";
 import TotalPathsCalculated from "./components/TotalPathsCalculated.vue";
+import PathBackground from "./components/Stylistic/PathBackground.vue";
 
 export default {
   components: {
@@ -23,9 +24,20 @@ export default {
     HikaruPhoto,
     LongArrow,
     Modal,
-    TotalPathsCalculated
+    TotalPathsCalculated,
+    PathBackground
+  },
+  data() {
+    return {
+
+    }
   },
   methods: {
+    scrollToRef(refName) {
+      console.log(refName);
+      console.log(this.$refs[refName]);
+      this.$refs[refName].scrollIntoView(true);
+    }
   }
 }
 </script>
@@ -33,9 +45,9 @@ export default {
 <template>
   <div class="App">
     <div class="p-5 lg:pt-0 lg:pb-3">
-      <MenuBar />
+      <MenuBar @scroll-to-element="this.scrollToRef" />
     </div>
-    <div class="relative flex flex-col xl:flex-row xl:ml-28">
+    <div class="relative flex flex-col xl:flex-row xl:ml-28" ref="home">
       <div class="relative flex flex-col sm:gap-7 flex-1 items-center justify-start">
         <div id='home' class="scale-50 sm:scale-100 2xl:scale-[1.3] m-0 xl:m-0 2xl:p-28">
           <Logo />
@@ -63,8 +75,7 @@ export default {
     <TotalPathsCalculated />
 
 
-    <div class="relative dark-hero slanted-div w-screen bg-auto overflow-hidden">
-
+    <div class="relative dark-hero slanted-div w-screen bg-auto overflow-hidden" ref="sixDegrees">
       <HeroHeader svg="Connection" colour="#818CF8">
         <template #main-text>
           Find your path
@@ -73,10 +84,11 @@ export default {
           See how you compare
         </template>
       </HeroHeader>
-      
+
+      <PathBackground class="absolute top-0 overflow-hidden" />
       <DegreesWrapper />
 
-      <div id='about'>
+      <div id='about' ref="about">
         <HeroHeader svg="QuestionMark" colour="#53DAA1">
           <template #main-text>
             About the website
