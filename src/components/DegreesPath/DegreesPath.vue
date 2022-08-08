@@ -29,8 +29,8 @@ export default {
 </script>
 
 <template>
-    <div class='w-screen text-center md:mt-10 2xl:mt-20'>
-        <div class="min-h-[20rem] w-96 xl:w-[45rem] relative inline-block">
+    <div class='w-screen text-center'>
+        <div class="w-96 xl:w-[45rem] relative inline-block">
             <div ref="path">
                 <TransitionGroup name="fade">
                     <div v-for="(profile, i) in this.pathArray" :key="i">
@@ -59,9 +59,12 @@ export default {
 <style>
 /* 1. declare transition */
 .fade-move,
-.fade-enter-active,
-.fade-leave-active {
+.fade-enter-active {
     transition: all 2s cubic-bezier(0.55, 0, 0.1, 1);
+}
+
+.fade-leave-active {
+    transition: all 1s cubic-bezier(0.55, 0, 0.1, 1);
 }
 
 /* 2. declare enter from and leave to state */

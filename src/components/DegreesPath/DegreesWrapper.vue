@@ -1,6 +1,5 @@
 
 <script>
-
 import KingSvg from '../svg/King.vue';
 import HeroHeader from '.././HeroHeader.vue';
 import DegreesPath from "./DegreesPath.vue";
@@ -27,7 +26,8 @@ export default {
                 showModal: false,
                 isShowingResult: false,
                 showImage: true
-            }
+            },
+            shareableText: "Find the chain from you to Hikaru!"
         }
     },
     methods: {
@@ -42,6 +42,16 @@ export default {
             }
             return output;
         },
+        generateShareableText(userChain) {
+            let output = `I'm ${userChain.length - 1} degree${userChain.length > 2 ? 's' : ''} from Hikaru!\n`;
+            for (let i = 0; i < userChain.length - 1; i++) {
+                const user = userChain[i];
+                output += `${user.username} ${user.rating} --> `;
+            }
+            output += `${userChain.at(-1).username} ${userChain.at(-1).rating}`;
+            console.log(output);
+            return output;
+        },
         showError(errorMessage) {
             this.modalConfig.title = "Oops..."
             this.modalConfig.body = errorMessage;
@@ -51,12 +61,13 @@ export default {
             this.loading = false;
         },
         showResult() {
-            this.modalConfig.body = this.generateFinalPathString(this.userChain); //`${this.userChain.length} Degrees`;
+            this.modalConfig.body = this.generateFinalPathString(this.userChain);
             this.modalConfig.title = '';
             this.modalConfig.isShowingResult = true;
             this.modalConfig.showImage = true;
             this.modalConfig.category = "success";
             this.modalConfig.showModal = true;
+            this.shareableText = this.generateShareableText(this.userChain);
             this.loading = false;
         },
         async isValidChessUsername() {
@@ -244,9 +255,9 @@ export default {
 
         <div class="pt-12 pb-16 flex justify-center gap-6 w-full">
             <!-- <form action="#"> -->
-                <input name=search spellCheck=false autocomplete=off
-                    class="w-full basis-2/4 inline-block text-white p-3 rounded-md border-2 border-slate-800 bg-slate-900 xl:text-xl xs:text-lg"
-                    type="text" placeholder="chess.com username" v-model="this.username" @keyup.enter="(event) => {
+            <input name=search spellCheck=false autocomplete=off
+                class="w-full basis-2/4 inline-block text-white p-3 rounded-md border-2 border-slate-800 bg-slate-900 xl:text-xl xs:text-lg"
+                type="text" placeholder="chess.com username" v-model="this.username" @keyup.enter="(event) => {
                     event.target.blur();
                     this.startUserChainSearch();
                 }" />
@@ -262,16 +273,19 @@ export default {
                 <KingSvg class="scale-75" />
             </button>
         </div>
-
-        <Transition name="fade" mode="out-in">
-            <p class=" text-center text-2xl font-thin text-white" v-if="this.loading && this.userChain.length === 0">
-                loading...
-            </p>
-            <DegreesPath :pathArray="this.userChain" v-else />
-        </Transition>
+        <div class="md:mt-10 2xl:mt-20 min-h-[20rem]">
+            <Transition name="fade" mode="out-in">
+                <p class="text-center text-3xl font-thin text-white"
+                    v-if="this.loading && this.userChain.length === 0">
+                    loading<span class="one">.</span><span class="two">.</span><span class="three">.</span>
+                </p>
+                <DegreesPath :pathArray="this.userChain" v-else />
+            </Transition>
+        </div>
     </div>
 
-    <Modal v-bind="this.modalConfig" @close-modal="this.modalConfig.showModal = false">
+    <Modal v-bind="this.modalConfig" @close-modal="this.modalConfig.showModal = false"
+        :shareableText="this.shareableText">
         <template #title>
             {{ this.modalConfig.title }}
         </template>
@@ -281,3 +295,38 @@ export default {
     </Modal>
 
 </template>
+
+<style>
+.one {
+    opacity: 0;
+    animation: dot 1.3s infinite;
+    animation-delay: 0.0s;
+}
+
+.two {
+    opacity: 0;
+    animation: dot 1.3s infinite;
+    animation-delay: 0.2s;
+}
+
+.three {
+    opacity: 0;
+    animation: dot 1.3s infinite;
+    animation-delay: 0.3s;
+}
+
+
+@keyframes dot {
+    0% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+</style>

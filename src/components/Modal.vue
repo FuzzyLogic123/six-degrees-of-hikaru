@@ -1,9 +1,7 @@
 <script>
 // import "https://platform.twitter.com/widgets.js";
-import Twitter from './svg/Twitter.vue';
-import RedditShareButton from './svg/RedditShareButton.vue';
-import Facebook from './svg/Facebook.vue';
-import Copy from './svg/Copy.vue';
+
+
 import Cross from './svg/Cross.vue';
 import magnusCarlsenWhat from '@/assets/images/magnus-carlsen-what.gif';
 import garyKasparov from '@/assets/images/nakamura-disgusted.gif';
@@ -13,6 +11,7 @@ import magnus from '@/assets/images/magnus-carlsen.gif';
 import hikaruSurprise from '@/assets/images/hikaru-surprise.gif';
 import outstandingMove from '@/assets/images/outstanding-move.png';
 import lostHope from '@/assets/images/lost-hope.webp';
+import ShareButtons from './ShareButtons.vue';
 
 // const GIFS = 
 export default {
@@ -20,7 +19,8 @@ export default {
     props: {
         showModal: Boolean,
         showImage: Boolean,
-        category: String
+        category: String,
+        shareableText: String
     },
     emits: ['close-modal'],
     data() {
@@ -32,11 +32,8 @@ export default {
         }
     },
     components: {
-        Twitter,
-        RedditShareButton,
-        Facebook,
-        Copy,
-        Cross
+        Cross,
+        ShareButtons
     },
     methods: {
         closeModal() {
@@ -72,31 +69,8 @@ export default {
                         </p>
                         <button @click="this.closeModal" class='modalDismiss'>I literally don't care</button>
 
-                        <div v-if="this.category === 'success'" class="flex justify-evenly items-center m-10">
-                            <button class="p-2 bg-[#1DA1F2] rounded-md font-bold m-4 aspect-square">
-                                <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" data-show-count="false">
-                                    <Twitter class="fill-white h-8" />
-                                </a>
-                            </button>
+                        <ShareButtons v-if="this.category === 'success'" :shareableText="this.shareableText"/>
 
-                            <button class="p-2 bg-[#ff4500] text-white rounded-md font-bold m-4 aspect-square">
-                                <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" data-show-count="false">
-                                    <RedditShareButton class="fill-white h-8" />
-                                </a>
-                            </button>
-
-                            <button class="p-2 bg-[#4267B2] text-white rounded-md font-bold m-4 aspect-square">
-                                <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" data-show-count="false">
-                                    <Facebook class="fill-white h-8" />
-                                </a>
-                            </button>
-
-                            <button class="p-2 text-white rounded-md font-bold m-4 aspect-square">
-                                <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" data-show-count="false">
-                                    <Copy class="fill-zinc-800 h-8" />
-                                </a>
-                            </button>
-                        </div>
                     </div>
                 </div>
             </div>
