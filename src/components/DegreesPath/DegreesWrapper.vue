@@ -7,7 +7,7 @@ import DegreesPath from "./DegreesPath.vue";
 import { queryDatabase, incrementPathsCount } from '@/firebaseConfig';
 import Modal from '../Modal.vue';
 
-const MAX_REQUEST_ATTEMPTS = 1;
+const MAX_REQUEST_ATTEMPTS = 3;
 
 export default {
     components: {
@@ -53,17 +53,20 @@ export default {
             this.modalConfig.showImage = true;
             this.modalConfig.category = "success";
             this.modalConfig.showModal = true;
+            this.loading = false;
         },
         async isValidChessUsername() {
             try {
                 const res = await fetch(`https://api.chess.com/pub/player/${this.username}`);
                 const data = await res.json();
                 if (data.code === 0) {
+                    console.log("false was returned")
                     return false;
+                } else {
+                    return true;
                 }
             } catch {
                 console.error("chess.com username verification failed");
-            } finally {
                 //even if error check failed, still continue
                 return true;
             }
@@ -123,7 +126,6 @@ export default {
             if (mostRecentUser.name === "Hikaru Nakamura") {
                 console.log(this.userChain);
                 incrementPathsCount();
-                this.loading = false;
                 setTimeout(this.showResult, 2000)
                 return this.userChain;
             }
@@ -190,7 +192,7 @@ export default {
             this.loading = true;
 
             //check if the username is valid
-            if (!this.isValidChessUsername()) {
+            if (!await this.isValidChessUsername() || !/^[A-Za-z0-9-_]*$/.test(this.username)) {
                 this.showError(`${this.username} is not a valid username`);
                 return;
             }
@@ -257,7 +259,7 @@ export default {
             </button>
         </div>
 
-        <Transition name="fade">
+        <Transition name="fade" mode="out-in">
             <p class=" text-center text-2xl font-thin text-white" v-if="this.loading && this.userChain.length === 0">
                 loading...
             </p>
