@@ -33,9 +33,13 @@ export default {
     methods: {
         generateFinalPathString(userChain) {
             let output = "";
-            const firstRating = userChain[0].rating;
+            const firstRating = userChain[0]?.rating;
             const lastRating = userChain.at(-1).rating;
-            output += `You went from <b>${firstRating}</b> to <b>${lastRating}</b> in ${userChain.length - 1} degrees`;
+            if (firstRating) {
+                output += `You went from <b>${firstRating}</b> to <b>${lastRating}</b> in ${userChain.length - 1} degrees`;
+            } else {
+                output += `You reached ${lastRating} in ${userChain.length - 1} degrees`;
+            }
             return output;
         },
         showError(errorMessage) {
