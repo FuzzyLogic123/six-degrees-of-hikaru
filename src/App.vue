@@ -53,7 +53,7 @@ export default {
           <Logo />
         </div>
         <div class="m-5 sm:m-10 2xl:scale-150">
-          <FindPathButton />
+          <FindPathButton @scroll-to-element="this.scrollToRef"/>
         </div>
       </div>
       <p
