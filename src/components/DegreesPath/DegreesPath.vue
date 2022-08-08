@@ -30,7 +30,7 @@ export default {
 
 <template>
     <div class='w-screen text-center md:mt-10 2xl:mt-20'>
-        <div class="min-h-[10rem] w-96 xl:w-[45rem] relative inline-block">
+        <div class="min-h-[20rem] w-96 xl:w-[45rem] relative inline-block">
             <div ref="path">
                 <TransitionGroup name="fade">
                     <div v-for="(profile, i) in this.pathArray" :key="i">

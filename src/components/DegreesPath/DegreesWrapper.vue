@@ -237,12 +237,14 @@ export default {
     <div id='six-degrees'>
 
         <div class="pt-12 pb-16 flex justify-center gap-6 w-full">
-            <input name=search spellCheck=false autocomplete=off
-                class="w-full basis-2/4 inline-block text-white p-3 rounded-md border-2 border-slate-800 bg-slate-900 xl:text-xl xs:text-lg"
-                type="text" placeholder="chess.com username" v-model="this.username" @keyup.enter="(event) => {
+            <!-- <form action="#"> -->
+                <input name=search spellCheck=false autocomplete=off
+                    class="w-full basis-2/4 inline-block text-white p-3 rounded-md border-2 border-slate-800 bg-slate-900 xl:text-xl xs:text-lg"
+                    type="text" placeholder="chess.com username" v-model="this.username" @keyup.enter="(event) => {
                     event.target.blur();
                     this.startUserChainSearch();
                 }" />
+            <!-- </form> -->
             <select v-model="this.timeControl" name="time-control"
                 class="text-slate-400 p-3 rounded-md border-2 border-slate-800 bg-slate-900">
                 <option value=bullet>Bullet</option>

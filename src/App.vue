@@ -85,8 +85,8 @@ export default {
         </template>
       </HeroHeader>
 
-      <PathBackground class="absolute top-0 overflow-hidden" />
-      <DegreesWrapper />
+      <DegreesWrapper class="relative z-10"/>
+      <PathBackground class="absolute top-96 overflow-hidden -z-10" />
 
       <div id='about' ref="about">
         <HeroHeader svg="QuestionMark" colour="#53DAA1">
