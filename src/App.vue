@@ -73,7 +73,7 @@ export default {
     <TotalPathsCalculated />
 
 
-    <div class="relative dark-hero slanted-div w-screen bg-auto overflow-clip" ref="sixDegrees">
+    <div class="relative dark-hero slanted-div w-screen bg-cover overflow-clip" ref="sixDegrees">
       <HeroHeader svg="Connection" colour="#818CF8">
         <template #main-text>
           Find your path
@@ -103,7 +103,7 @@ export default {
         The aim of this website is to find the quickest path from you to Grandmaster Hikaru by games won.
         <br /><br />
         Inspired by the six degrees of seperation, this website uses a database of 100 000 users, calculating the chain
-        to 3 degrees with breadth first search.
+        to 2 degrees with a greedy breadth first search.
         <br /><br />
         If a user is not in the database, the algorithim will then find which user is the most optimal choice moving
         forward, until it finds a user in the database.
