@@ -287,7 +287,7 @@ export default {
                 }" />
             <!-- </form> -->
             <select v-model="this.timeControl" name="time-control" :disabled="this.loading"
-                class="text-slate-400 p-3 rounded-md border-2 border-slate-800 bg-slate-900">
+                class="text-slate-400 p-3 rounded-md border-2 border-slate-800 bg-slate-900 non-shiny">
                 <option value=bullet>Bullet</option>
                 <option value="blitz">Blitz</option>
             </select>
@@ -354,5 +354,9 @@ export default {
 
 .expandHeight {
     min-height: 100vh !important;
+}
+
+.non-shiny {
+    -webkit-appearance: none;
 }
 </style>
