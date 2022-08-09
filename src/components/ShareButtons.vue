@@ -10,13 +10,14 @@ export default {
         RedditShareButton,
         Copy
     },
-    props: {
-        shareableText: String
-    },
     methods: {
         copyToClipboard(text) {
             navigator.clipboard.writeText(text);
         }
+    },
+    inject: ['shareableText'],
+    created() {
+        console.log(this.shareableText);
     }
 }
 </script>

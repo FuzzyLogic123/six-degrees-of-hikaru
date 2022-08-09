@@ -20,7 +20,6 @@ export default {
         showModal: Boolean,
         showImage: Boolean,
         category: String,
-        shareableText: String
     },
     emits: ['close-modal'],
     data() {
@@ -69,7 +68,7 @@ export default {
                         </p>
                         <button @click="this.closeModal" class='modalDismiss'>I literally don't care</button>
 
-                        <ShareButtons v-if="this.category === 'success'" :shareableText="this.shareableText"/>
+                        <ShareButtons v-if="this.category === 'success'"/>
 
                     </div>
                 </div>

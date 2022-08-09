@@ -5,6 +5,7 @@ import HeroHeader from '.././HeroHeader.vue';
 import DegreesPath from "./DegreesPath.vue";
 import { queryDatabase, incrementPathsCount } from '@/firebaseConfig';
 import Modal from '../Modal.vue';
+import { computed } from '@vue/reactivity';
 
 const MAX_REQUEST_ATTEMPTS = 3;
 
@@ -32,6 +33,12 @@ export default {
             },
             shareableText: "Find the chain from you to Hikaru!",
             expandDiv: false
+        }
+    },
+    provide() {
+        return {
+            shareableText: computed(()=> this.shareableText),
+            timeControl: computed( ()=> this.timeControl)
         }
     },
     methods: {
@@ -244,20 +251,24 @@ export default {
             this.extendUserChain();
         },
         getHash() {
-            if(window.location.hash) {
+            if (window.location.hash) {
                 if (window.location.hash.split("/").length - 1 === 1) {
                     const hash = window.location.hash.split("#")[1].split("/")
-                    console.log(hash[0])
-                    console.log(hash[1])
-                        this.username = hash[0]
-                        this.timeControl = hash[1]
-                        this.startUserChainSearch();
+                    return [hash[0], hash[1]]
                 }
             }
         }
     },
-    mounted()  {
-        this.getHash();
+    mounted() {
+        const hash = this.getHash();
+        console.log(hash)
+        if (hash) {
+            const [username, timeControl] = hash;
+            this.username = username
+            this.timeControl = timeControl
+            this.startUserChainSearch();
+        }
+
     }
 }
 
@@ -297,7 +308,7 @@ export default {
                 <KingSvg class="scale-75" />
             </button>
         </div>
-        <div class="md:mt-10 2xl:mt-20 min-h-[20rem]" :class="{ 'expandHeight': this.expandDiv}">
+        <div class="md:mt-10 2xl:mt-20 min-h-[20rem]" :class="{ 'expandHeight': this.expandDiv }">
             <Transition name="fade" mode="out-in">
                 <p class="text-center text-3xl font-thin text-white" v-if="this.loading && this.userChain.length === 0">
                     loading<span class="one">.</span><span class="two">.</span><span class="three">.</span>
@@ -307,8 +318,7 @@ export default {
         </div>
     </div>
 
-    <Modal v-bind="this.modalConfig" @close-modal="this.modalConfig.showModal = false"
-        :shareableText="this.shareableText">
+    <Modal v-bind="this.modalConfig" @close-modal="this.modalConfig.showModal = false">
         <template #title>
             {{ this.modalConfig.title }}
         </template>

@@ -11,6 +11,7 @@ export default {
     components: {
         LongArrow
     },
+    inject: ["timeControl"],
     data() {
         return {
             randomisedScale: 1 - Math.random() * 0.1
@@ -20,8 +21,7 @@ export default {
 </script>
 
 <template>
-    <div :style="{ transform: `scale(${this.randomisedScale})` }"
-        :class="['w-full relative origin-center', position]">
+    <div :style="{ transform: `scale(${this.randomisedScale})` }" :class="['w-full relative origin-center', position]">
         <div class='px-4 text-center inline-block relative'>
             <img class="rounded-full m-auto border-white border-2 h-28 my-2"
                 :src="this.profilePicture || 'https://www.chess.com/bundles/web/images/user-image.007dad08.svg'"
@@ -36,7 +36,9 @@ export default {
                 </p>
             </div>
             <h2 class='text-white font-Mono text-md lg:text-lg font-thin xl:text-2xl xl:m-2'>
-                <slot name="username"></slot>
+                <a :href="`https://www.chess.com/stats/live/${this.timeControl}/${this.username}`" target="_blank" class="hover:underline">
+                    <slot name="username"></slot>
+                </a>
             </h2>
 
             <h3 class='text-white font-Mono font-thin text-sm lg:text-md xl:text-lg'>
