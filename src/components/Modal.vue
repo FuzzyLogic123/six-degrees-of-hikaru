@@ -98,7 +98,7 @@ export default {
 .modalDismiss {
     color: white;
     background-color: #81A554;
-    font-size:2vw;
+    font-size:2rem;
     font-weight: 800;
     line-height: 1.2;
     text-shadow: 0 .1rem 0 rgba(0, 0, 0, .4);
@@ -107,8 +107,10 @@ export default {
     border: none;
     border-bottom: .5rem solid #537133;
     /* height: 5.5rem; */
-    width: 90%;
+    /* width: 90%; */
     padding: 1rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
 }
 
 

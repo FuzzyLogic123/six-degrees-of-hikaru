@@ -22,7 +22,7 @@ export default {
 </script>
 
 <template>
-    <div class="flex justify-evenly items-center">
+    <div class="flex justify-evenly items-center mt-3">
         <button class="p-2 bg-[#1DA1F2] rounded-md font-bold m-4 aspect-square">
             <a :href="`https://twitter.com/intent/tweet?text=${encodeURIComponent(this.shareableText)}&url=https://sixdegreesofhikaru.com&hashtags=chess,kevinbacon`"
                 target="_blank">
