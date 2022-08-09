@@ -13,9 +13,12 @@ export default {
         pathArray: {
             handler(newPath) {
                 if (newPath.at(-1)?.name === "Hikaru Nakamura") {
-                    this.$refs.path.scrollIntoView(false);
+                    const target = this.$refs.path;
+                    // Target is outside the viewport from scroll otherwise don't
+                    if (target.getBoundingClientRect().bottom > window.innerHeight || target.getBoundingClientRect().top < 0) {
+                        target.scrollIntoView(false);
+                    }
                 }
-
             },
             deep: true,
             flush: 'post'

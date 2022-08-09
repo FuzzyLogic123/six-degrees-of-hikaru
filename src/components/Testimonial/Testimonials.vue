@@ -3,6 +3,9 @@ import Testimonial from './Testimonial.vue'
 import ChrisRock from '@/assets/images/chris-rock.jpg';
 import ThePope from '@/assets/images/the-pope.png';
 import Jesus from '@/assets/images/jesus.jpg';
+import Magnus from '@/assets/images/magnuscarlsonquoteimage.jpg'
+import Hikaru from '@/assets/images/hikaruquoteimage.png';
+import Anish from '@/assets/images/anishgiriselfie.jpg';
 export default {
     components: {
         Testimonial
@@ -10,9 +13,9 @@ export default {
     data() {
         return {
             quotes:
-                [[' This website means nothing to me', 'Kevin Hart', ChrisRock],
-                ['Only when a mosquito lands on your testicles, will you truly learn to solve a problem without violence', 'Dalai Lama', ThePope],
-                ['This made me a better chess player', 'Jesus', Jesus]]
+                [["I literalliy don't care", 'Jackie Chan', Hikaru],
+                [`Whenever I'm about to do a thing I ask myself "Would an idiot do that?" And if they would, I do not do that thing`, 'Anish Giri', Anish],
+                ['How does the knight move?', 'Magnus Carlson', Magnus]]
         }
     }
 }

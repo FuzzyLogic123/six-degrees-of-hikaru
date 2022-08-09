@@ -20,10 +20,15 @@ const firebaseConfig = {
     measurementId: "G-SPG3W4WQ2Q"
 };
 
+import { getAuth } from "firebase/auth";
+
+
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const realtimeRef = ref(getDatabase(app));
 const firestoreRef = getFirestore(app);
+
+getAuth();
 
 const docRef = doc(firestoreRef, "website-analytics", "SA1AXeSFSRW40GbAxFlg");
 
