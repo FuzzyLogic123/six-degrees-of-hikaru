@@ -75,7 +75,7 @@ export default {
     <TotalPathsCalculated />
 
 
-    <div class="relative dark-hero slanted-div w-screen bg-auto overflow-hidden" ref="sixDegrees">
+    <div class="relative dark-hero slanted-div w-screen bg-auto overflow-clip" ref="sixDegrees">
       <HeroHeader svg="Connection" colour="#818CF8">
         <template #main-text>
           Find your path
