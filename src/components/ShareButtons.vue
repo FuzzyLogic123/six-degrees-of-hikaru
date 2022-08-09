@@ -25,7 +25,7 @@ export default {
 <template>
     <div class="flex justify-evenly items-center mt-3">
         <button class="p-2 bg-[#1DA1F2] rounded-md font-bold m-4 aspect-square">
-            <a :href="`https://twitter.com/intent/tweet?text=${encodeURIComponent(this.shareableText.text)}&url=${this.shareableText.link}&hashtags=chess,kevinbacon`"
+            <a :href="`https://twitter.com/intent/tweet?text=${encodeURIComponent(this.shareableText.text)}&url=${encodeURIComponent(this.shareableText.link)}&hashtags=${encodeURIComponent('chess,kevinbacon')}`"
                 target="_blank">
                 <Twitter class="fill-white h-8" />
             </a>
@@ -39,7 +39,7 @@ export default {
         </button>
 
         <button class="p-2 bg-[#4267B2] text-white rounded-md font-bold m-4 aspect-square">
-            <a :href="`http://www.facebook.com/share.php?u=${this.shareableText.link}`" target="_blank">
+            <a :href="`http://www.facebook.com/share.php?u=${encodeURIComponent(this.shareableText.link)}`" target="_blank">
                 <Facebook class="fill-white h-8" />
             </a>
         </button>
