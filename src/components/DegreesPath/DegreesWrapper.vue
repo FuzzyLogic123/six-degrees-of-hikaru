@@ -23,7 +23,7 @@ export default {
             alreadyTriedUsers: [],
             loading: false,
             modalConfig: {
-                showModal: true,
+                showModal: false,
                 isShowingResult: false,
                 showImage: true,
                 category: "success",
