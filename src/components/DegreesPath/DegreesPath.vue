@@ -64,7 +64,7 @@ export default {
 }
 
 .fade-leave-active {
-    transition: all 1s cubic-bezier(0.55, 0, 0.1, 1);
+    transition: all 0.5s cubic-bezier(0.55, 0, 0.1, 1);
 }
 
 /* 2. declare enter from and leave to state */

@@ -27,7 +27,8 @@ export default {
                 isShowingResult: false,
                 showImage: true
             },
-            shareableText: "Find the chain from you to Hikaru!"
+            shareableText: "Find the chain from you to Hikaru!",
+            expandDiv: false
         }
     },
     methods: {
@@ -233,6 +234,7 @@ export default {
                 }
             }
             this.userChain.push(firstUserData);
+            this.expandDiv = true;
             this.$refs.degreesPath.scrollIntoView();
             this.extendUserChain();
         }
@@ -275,7 +277,7 @@ export default {
                 <KingSvg class="scale-75" />
             </button>
         </div>
-        <div class="md:mt-10 2xl:mt-20 min-h-[20rem]">
+        <div class="md:mt-10 2xl:mt-20 min-h-[20rem]" :class="{ 'expandHeight': this.expandDiv}">
             <Transition name="fade" mode="out-in">
                 <p class="text-center text-3xl font-thin text-white" v-if="this.loading && this.userChain.length === 0">
                     loading<span class="one">.</span><span class="two">.</span><span class="three">.</span>
@@ -329,5 +331,9 @@ export default {
     100% {
         opacity: 0;
     }
+}
+
+.expandHeight {
+    min-height: 100vh !important;
 }
 </style>
