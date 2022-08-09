@@ -34,8 +34,6 @@ export default {
   },
   methods: {
     scrollToRef(refName) {
-      console.log(refName);
-      console.log(this.$refs[refName]);
       this.$refs[refName].scrollIntoView(true);
     }
   }

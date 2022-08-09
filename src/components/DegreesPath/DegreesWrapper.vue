@@ -211,6 +211,7 @@ export default {
                 this.showError(`${this.username} is not a valid username`);
                 return;
             }
+            console.log(this.$refs.degreesPath);
             const bestWin = await this.fetchBestWin(this.username, this.timeControl, MAX_REQUEST_ATTEMPTS);
             let firstUserData;
             if (bestWin) {
@@ -231,7 +232,8 @@ export default {
                     return;
                 }
             }
-            this.userChain.push(firstUserData)
+            this.userChain.push(firstUserData);
+            this.$refs.degreesPath.scrollIntoView();
             this.extendUserChain();
         }
     }
@@ -255,14 +257,14 @@ export default {
 
         <div class="pt-12 pb-16 flex justify-center gap-6 w-full">
             <!-- <form action="#"> -->
-            <input name=search spellCheck=false autocomplete=off
+            <input name=search spellCheck=false autocomplete=off :disabled="this.loading" ref="degreesPath"
                 class="w-full basis-2/4 inline-block text-white p-3 rounded-md border-2 border-slate-800 bg-slate-900 xl:text-xl xs:text-lg"
                 type="text" placeholder="chess.com username" v-model="this.username" @keyup.enter="(event) => {
                     event.target.blur();
                     this.startUserChainSearch();
                 }" />
             <!-- </form> -->
-            <select v-model="this.timeControl" name="time-control"
+            <select v-model="this.timeControl" name="time-control" :disabled="this.loading"
                 class="text-slate-400 p-3 rounded-md border-2 border-slate-800 bg-slate-900">
                 <option value=bullet>Bullet</option>
                 <option value="blitz">Blitz</option>
@@ -275,8 +277,7 @@ export default {
         </div>
         <div class="md:mt-10 2xl:mt-20 min-h-[20rem]">
             <Transition name="fade" mode="out-in">
-                <p class="text-center text-3xl font-thin text-white"
-                    v-if="this.loading && this.userChain.length === 0">
+                <p class="text-center text-3xl font-thin text-white" v-if="this.loading && this.userChain.length === 0">
                     loading<span class="one">.</span><span class="two">.</span><span class="three">.</span>
                 </p>
                 <DegreesPath :pathArray="this.userChain" v-else />
