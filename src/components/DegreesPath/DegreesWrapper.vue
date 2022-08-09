@@ -61,9 +61,12 @@ export default {
             }
             output += `${userChain.at(-1).username} ${userChain.at(-1).rating}`;
             output += "\n";
-            output += `Come see ${this.username}'s chain at http://localhost:5173/#${this.username}/${this.timeControl}`;
+            output += `Come see ${this.username}'s chain at `;
             console.log(output);
-            return output;
+            return {
+                text: output,
+                link: `http://localhost:5173/#${this.username}/${this.timeControl}`
+            }
         },
         showError(errorMessage) {
             this.modalConfig.title = "Oops..."
