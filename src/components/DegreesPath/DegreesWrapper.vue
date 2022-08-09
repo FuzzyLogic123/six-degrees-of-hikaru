@@ -40,7 +40,7 @@ export default {
             const firstRating = userChain[0]?.rating;
             const lastRating = userChain.at(-1).rating;
             if (firstRating) {
-                output += `You went from <b>${firstRating}</b> to <b>${lastRating}</b> in <b>${userChain.length - 1}</b> degrees`;
+                output += `You went from <b>${firstRating}</b> to <b>${lastRating}</b> in <b>${userChain.length - 1}</b> degree${userChain.length > 2 ? 's' : ''}`;
             } else {
                 output += `You reached ${lastRating} in ${userChain.length - 1} degrees`;
             }
