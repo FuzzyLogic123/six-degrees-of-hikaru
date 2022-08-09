@@ -65,7 +65,7 @@ export default {
             console.log(output);
             return {
                 text: output,
-                link: `http://localhost:5173/#${this.username}/${this.timeControl}`
+                link: `http://sixdegreesofhikaru.com/#${this.username}/${this.timeControl}`
             }
         },
         showError(errorMessage) {
