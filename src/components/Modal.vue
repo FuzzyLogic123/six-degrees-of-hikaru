@@ -98,7 +98,7 @@ export default {
 .modalDismiss {
     color: white;
     background-color: #81A554;
-    font-size: 2rem;
+    font-size:2vw;
     font-weight: 800;
     line-height: 1.2;
     text-shadow: 0 .1rem 0 rgba(0, 0, 0, .4);
@@ -107,6 +107,7 @@ export default {
     border: none;
     border-bottom: .5rem solid #537133;
     /* height: 5.5rem; */
+    width: 90%;
     padding: 1rem;
 }
 
@@ -125,7 +126,7 @@ export default {
 .modalImage {
     margin: auto;
     border-radius: 5px;
-    max-height: 18rem;
+    max-height: 12rem;
     object-fit: cover;
 }
 
@@ -144,7 +145,7 @@ export default {
 .modalBody {
     /* font-family: Arial, Helvetica, sans-serif; */
     font-size: 1.5rem;
-    margin: 1rem;
+    margin: 0.5rem;
 }
 
 .backdrop {

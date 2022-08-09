@@ -25,7 +25,10 @@ export default {
             modalConfig: {
                 showModal: false,
                 isShowingResult: false,
-                showImage: true
+                showImage: true,
+                category: "success",
+                title: "",
+                body: "Something went wrong"
             },
             shareableText: "Find the chain from you to Hikaru!",
             expandDiv: false
@@ -272,7 +275,7 @@ export default {
 </script>
 
 <template>
-    <div id='six-degrees'>
+    <div>
 
         <div class="pt-12 pb-16 flex justify-center gap-6 w-full">
             <!-- <form action="#"> -->
@@ -313,7 +316,6 @@ export default {
             <div v-html="this.modalConfig.body"></div>
         </template>
     </Modal>
-
 </template>
 
 <style>
