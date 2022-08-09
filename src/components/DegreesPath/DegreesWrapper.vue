@@ -57,9 +57,9 @@ export default {
             let output = `I'm ${userChain.length - 1} degree${userChain.length > 2 ? 's' : ''} from Hikaru!\n`;
             for (let i = 0; i < userChain.length - 1; i++) {
                 const user = userChain[i];
-                output += `${user.username} ${user.rating} --> `;
+                output += `${user.username} ${user.rating} --> \n`;
             }
-            output += `${userChain.at(-1).username} ${userChain.at(-1).rating}`;
+            output += `${userChain.at(-1).username} ${userChain.at(-1).rating}\n`;
             output += "\n";
             output += `Come see ${this.username}'s chain at `;
             console.log(output);

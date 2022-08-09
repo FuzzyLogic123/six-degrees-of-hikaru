@@ -45,7 +45,7 @@ export default {
         </button>
 
         <button class="p-2 text-white rounded-md font-bold m-4 aspect-square">
-            <div @click="this.copyToClipboard(this.shareableText)">
+            <div @click="this.copyToClipboard(`${this.shareableText.text} ${this.shareableText.link}`)">
                 <Copy class="fill-zinc-700 h-8 hover:fill-zinc-900" />
             </div>
         </button>
