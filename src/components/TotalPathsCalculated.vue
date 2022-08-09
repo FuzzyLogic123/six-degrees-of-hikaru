@@ -2,6 +2,7 @@
 import { onSnapshot } from "firebase/firestore";
 import { docRef } from '@/firebaseConfig.js';
 import gsap from 'gsap';
+import { authenticateUser, auth } from "../firebaseConfig";
 
 export default {
     data() {
@@ -10,10 +11,12 @@ export default {
             tweened: 0
         }
     },
-    created() {
-        onSnapshot(docRef, (doc) => {
-            this.totalPathsCalculated = doc.data().numberOfPathsCalculated;
-        });
+    async created() {
+        if (await authenticateUser(auth)) {
+            onSnapshot(docRef, (doc) => {
+                this.totalPathsCalculated = doc.data().numberOfPathsCalculated;
+            });
+        }
     },
     watch: {
         totalPathsCalculated(n) {

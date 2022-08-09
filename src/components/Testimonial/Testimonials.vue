@@ -14,7 +14,7 @@ export default {
         return {
             quotes:
                 [["I literalliy don't care", 'Jackie Chan', Hikaru],
-                [`Whenever I'm about to do a thing I ask myself "Would an idiot do that?" And if they would, I do not do that thing`, 'Anish Giri', Anish],
+                [`Dubov is a cocaine addict. Magnus is an alcoholic who goes to stip clubs every other day. Should I expose more?`, 'Anish Giri', Anish],
                 ['How does the knight move?', 'Magnus Carlson', Magnus]]
         }
     }

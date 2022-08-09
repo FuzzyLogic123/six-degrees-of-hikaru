@@ -20,19 +20,41 @@ const firebaseConfig = {
     measurementId: "G-SPG3W4WQ2Q"
 };
 
-import { getAuth } from "firebase/auth";
+import { getAuth, signInAnonymously } from "firebase/auth";
 
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const realtimeRef = ref(getDatabase(app));
 const firestoreRef = getFirestore(app);
+const auth = getAuth();
 
-getAuth();
+
+const authenticateUser = async () => {
+    try {
+        await signInAnonymously(auth);
+        return true;
+    } catch (error) {
+        console.log(error.code,error.message);
+        return false;
+    }
+}
 
 const docRef = doc(firestoreRef, "website-analytics", "SA1AXeSFSRW40GbAxFlg");
+const checkUserSignedIn = () => {
+    const user = auth.currentUser;
+    if (user) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 
 const queryDatabase = async (username, timeControl) => {
+    if (!checkUserSignedIn()) {
+        return false;
+    }
     /* database should be queried. If the database returns a value, then it should update userChain and return from the function */
     const snapshot = await get(child(realtimeRef, `${timeControl}/${username}`))
     if (snapshot.exists()) {
@@ -43,6 +65,9 @@ const queryDatabase = async (username, timeControl) => {
 }
 
 const incrementPathsCount = async () => {
+    if (!checkUserSignedIn()) {
+        return false;
+    }
     const currentCount = await getTotalPathsCount();
     if (currentCount !== false) {
         await updateDoc(docRef, {
@@ -72,5 +97,8 @@ export {
     queryDatabase,
     incrementPathsCount,
     getTotalPathsCount,
-    docRef
+    docRef,
+    authenticateUser,
+    auth,
+    checkUserSignedIn
 }
