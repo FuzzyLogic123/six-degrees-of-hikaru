@@ -51,7 +51,7 @@ export default {
           <Logo />
         </div>
         <div class="m-5 sm:m-10 2xl:scale-150">
-          <FindPathButton @scroll-to-element="this.scrollToRef"/>
+          <FindPathButton @scroll-to-element="this.scrollToRef" />
         </div>
       </div>
       <p
@@ -83,8 +83,10 @@ export default {
         </template>
       </HeroHeader>
 
-      <DegreesWrapper class="relative z-10"/>
-      <PathBackground class="absolute top-96 overflow-hidden -z-10" />
+      <div>
+        <DegreesWrapper class="relative z-10" />
+        <PathBackground class="absolute top-96 overflow-hidden -z-10" />
+      </div>
 
       <div id='about' ref="about">
         <HeroHeader svg="QuestionMark" colour="#53DAA1">
