@@ -33,6 +33,7 @@ const auth = getAuth();
 const authenticateUser = async () => {
     try {
         await signInAnonymously(auth);
+        console.log("User succesfully authenticated");
         return true;
     } catch (error) {
         console.log(error.code,error.message);

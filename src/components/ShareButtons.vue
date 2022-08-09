@@ -18,11 +18,6 @@ export default {
             navigator.clipboard.writeText(text);
         }
     }
-    // data() {
-    //     return {
-    //         shareText
-    //     }
-    // }
 }
 </script>
 

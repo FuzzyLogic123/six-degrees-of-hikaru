@@ -37,7 +37,7 @@ export default {
             const firstRating = userChain[0]?.rating;
             const lastRating = userChain.at(-1).rating;
             if (firstRating) {
-                output += `You went from <b>${firstRating}</b> to <b>${lastRating}</b> in ${userChain.length - 1} degrees`;
+                output += `You went from <b>${firstRating}</b> to <b>${lastRating}</b> in <b>${userChain.length - 1}</b> degrees`;
             } else {
                 output += `You reached ${lastRating} in ${userChain.length - 1} degrees`;
             }
@@ -50,6 +50,8 @@ export default {
                 output += `${user.username} ${user.rating} --> `;
             }
             output += `${userChain.at(-1).username} ${userChain.at(-1).rating}`;
+            output += "\n";
+            output += `Come see ${this.username}'s chain at http://localhost:5173/#${this.username}/${this.timeControl}`;
             console.log(output);
             return output;
         },
@@ -237,7 +239,22 @@ export default {
             this.expandDiv = true;
             this.$refs.degreesPath.scrollIntoView();
             this.extendUserChain();
+        },
+        getHash() {
+            if(window.location.hash) {
+                if (window.location.hash.split("/").length - 1 === 1) {
+                    const hash = window.location.hash.split("#")[1].split("/")
+                    console.log(hash[0])
+                    console.log(hash[1])
+                        this.username = hash[0]
+                        this.timeControl = hash[1]
+                        this.startUserChainSearch();
+                }
+            }
         }
+    },
+    mounted()  {
+        this.getHash();
     }
 }
 
