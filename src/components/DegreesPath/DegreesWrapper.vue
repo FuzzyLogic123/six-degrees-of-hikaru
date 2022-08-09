@@ -37,8 +37,8 @@ export default {
     },
     provide() {
         return {
-            shareableText: computed(()=> this.shareableText),
-            timeControl: computed( ()=> this.timeControl)
+            shareableText: computed(() => this.shareableText),
+            timeControl: computed(() => this.timeControl)
         }
     },
     methods: {
@@ -292,14 +292,16 @@ export default {
     <div>
 
         <div class="pt-12 pb-16 flex justify-center gap-6 w-full">
-            <!-- <form action="#"> -->
-            <input name=search spellCheck=false autocomplete=off :disabled="this.loading" ref="degreesPath"
-                class="w-full basis-2/4 inline-block text-white p-3 rounded-md border-2 border-slate-800 bg-slate-900 xl:text-xl xs:text-lg"
-                type="text" placeholder="chess.com username" v-model="this.username" @keyup.enter="(event) => {
-                    event.target.blur();
-                    this.startUserChainSearch();
-                }" />
-            <!-- </form> -->
+            <form class="basis-2/4 " action="#" @submit.prevent>
+                <input
+                    class="w-full inline-block text-white p-3 rounded-md border-2 border-slate-800 bg-slate-900 xl:text-xl xs:text-lg"
+                    name=search spellCheck=false autocomplete=off :disabled="
+                    this.loading" ref="degreesPath" type="text" placeholder="chess.com username"
+                    v-model="this.username" @keyup.enter="(event) => {
+                        event.target.blur();
+                        this.startUserChainSearch();
+                    }" />
+            </form>
             <select v-model="this.timeControl" name="time-control" :disabled="this.loading"
                 class="text-slate-400 p-3 rounded-md border-2 border-slate-800 bg-slate-900 non-shiny">
                 <option value=bullet>Bullet</option>
