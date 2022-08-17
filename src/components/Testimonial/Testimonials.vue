@@ -15,7 +15,7 @@ export default {
             quotes:
                 [["I literalliy don't care", 'Jackie Chan', Hikaru],
                 [`Dubov is a cocaine addict. Magnus is an alcoholic who goes to stip clubs every other day. Should I expose more?`, 'Anish Giri', Anish],
-                ['How does the knight move?', 'Magnus Carlson', Magnus]]
+                ['How do knights move?', 'Magnus Carlson', Magnus]]
         }
     }
 }
