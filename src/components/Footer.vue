@@ -16,6 +16,8 @@ export default {
             Patrick Edwards 2022 ©
         </h4>
         <Reddit class=' mx-3' />
-        <Github class=' mx-3' />
+        <a href="https://github.com/FuzzyLogic123/six-degrees-of-hikaru-vue" target="_blank" class="cursor-pointer">
+            <Github class='mx-3' />
+        </a>
     </div>
 </template>
