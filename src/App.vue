@@ -41,11 +41,11 @@ export default {
 </script>
 
 <template>
-  <div class="App">
+  <div class="App" ref="home">
     <div class="p-5 lg:pt-0 lg:pb-3">
       <MenuBar @scroll-to-element="this.scrollToRef" />
     </div>
-    <div class="relative flex flex-col xl:flex-row xl:ml-28" ref="home">
+    <div class="relative flex flex-col xl:flex-row xl:ml-28">
       <div class="relative flex flex-col sm:gap-7 flex-1 items-center justify-start">
         <div id='home' class="scale-50 sm:scale-100 2xl:scale-[1.3] m-0 xl:m-0 2xl:p-28">
           <Logo />
@@ -73,17 +73,19 @@ export default {
     <TotalPathsCalculated />
 
 
-    <div class="relative dark-hero slanted-div w-screen bg-cover overflow-clip" ref="sixDegrees">
-      <HeroHeader svg="Connection" colour="#818CF8">
-        <template #main-text>
-          Find your path
-        </template>
-        <template #secondary-text>
-          See how you compare
-        </template>
-      </HeroHeader>
+    <div class="relative dark-hero slanted-div w-screen bg-cover overflow-clip">
+      <div ref="sixDegrees">
+        <HeroHeader svg="Connection" colour="#818CF8">
+          <template #main-text>
+            Find your path
+          </template>
+          <template #secondary-text>
+            See how you compare
+          </template>
+        </HeroHeader>
+      </div>
 
-      <DegreesWrapper class="relative z-10"/>
+      <DegreesWrapper class="relative z-10" />
       <!-- <PathBackground class="absolute top-96 overflow-clip -z-10" /> -->
 
       <div id='about' ref="about">
