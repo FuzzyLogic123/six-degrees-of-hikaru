@@ -125,6 +125,7 @@ export default {
 <style scoped>
 .App {
   background-image: url('@/assets/images/backgroundImages/background.png');
+  background-size: contain;
 }
 
 .dark-hero {
