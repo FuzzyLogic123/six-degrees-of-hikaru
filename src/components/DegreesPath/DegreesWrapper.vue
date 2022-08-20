@@ -38,7 +38,8 @@ export default {
     provide() {
         return {
             shareableText: computed(() => this.shareableText),
-            timeControl: computed(() => this.timeControl)
+            timeControl: computed(() => this.timeControl),
+            username: computed(()=> this.username)
         }
     },
     methods: {

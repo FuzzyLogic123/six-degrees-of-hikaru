@@ -11,7 +11,7 @@ export default {
     components: {
         LongArrow
     },
-    inject: ["timeControl"],
+    inject: ["timeControl", "username"],
     data() {
         return {
             randomisedScale: 1 - Math.random() * 0.1
