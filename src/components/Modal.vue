@@ -50,10 +50,9 @@ export default {
                 }
             }
         }
-
     },
     created() {
-        setTimeout(this.preloadImages, 1000);
+        setTimeout(this.preloadImages, 3000);
     }
 }
 </script>
