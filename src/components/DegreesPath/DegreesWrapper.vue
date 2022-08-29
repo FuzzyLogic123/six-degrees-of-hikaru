@@ -38,7 +38,8 @@ export default {
     provide() {
         return {
             shareableText: computed(() => this.shareableText),
-            timeControl: computed(() => this.timeControl)
+            timeControl: computed(() => this.timeControl),
+            username: computed(()=> this.username)
         }
     },
     methods: {
@@ -313,7 +314,7 @@ export default {
                 <KingSvg class="scale-75" />
             </button>
         </div>
-        <div class="md:mt-10 2xl:mt-20 min-h-[20rem]" :class="{ 'expandHeight': this.expandDiv }">
+        <div class="md:mt-10 2xl:mt-20 min-h-[20vh]" :class="{ 'expandHeight': this.expandDiv }">
             <Transition name="fade" mode="out-in">
                 <p class="text-center text-3xl font-thin text-white" v-if="this.loading && this.userChain.length === 0">
                     loading<span class="one">.</span><span class="two">.</span><span class="three">.</span>

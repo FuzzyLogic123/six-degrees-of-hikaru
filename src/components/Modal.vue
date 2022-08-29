@@ -10,10 +10,11 @@ import nakamuraDisgusted from '@/assets/images/queens-gambit.webp';
 import magnus from '@/assets/images/magnus-carlsen.gif';
 import hikaruSurprise from '@/assets/images/hikaru-surprise.gif';
 import outstandingMove from '@/assets/images/outstanding-move.png';
-import lostHope from '@/assets/images/lost-hope.webp';
+import yoda from '@/assets/images/yoda.png';
+import hans from '@/assets/images/hans.png';
+import ytComment from '@/assets/images/yt-comment.webp';
 import ShareButtons from './ShareButtons.vue';
 
-// const GIFS = 
 export default {
 
     props: {
@@ -26,7 +27,7 @@ export default {
         return {
             images: {
                 failure: [nakamuraDisgusted, magnusCarlsenWhat, garyKasparov, queensGambit, magnus, hikaruSurprise],
-                success: [outstandingMove, lostHope]
+                success: [outstandingMove, yoda, hans, ytComment]
             },
         }
     },
@@ -61,7 +62,7 @@ export default {
                         <h1 class='modalTitle font-bold'>
                             <slot name="title">Oops...</slot>
                         </h1>
-                        <img v-if="this.showImage" class='modalImage' :src="getRandomImage(this.category)"
+                        <img v-if="this.showImage" class='modalImage' :src="getRandomImage(this.category)" rel="preload"
                             alt='Hikaru absolutely disgusted' />
                         <p class='modalBody font-Sen p-5'>
                             <slot name="body">Something went wrong :(</slot>
@@ -121,7 +122,7 @@ export default {
 .modalTitle {
     font-size: 3rem;
     margin-bottom: 1rem;
-    padding: 1rem;
+    /* padding: 1rem; */
 }
 
 .modalImage {
@@ -178,7 +179,7 @@ export default {
     }
 
     .modalImage {
-        height: 9rem;
+        max-height: 9rem;
     }
 }
 

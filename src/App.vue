@@ -35,7 +35,6 @@ export default {
 
 <template>
   <div class="App" ref="home">
-
     <div class="p-5 lg:pt-0 lg:pb-3">
       <MenuBar @scroll-to-element="this.scrollToRef" />
     </div>
@@ -66,6 +65,7 @@ export default {
 <style scoped>
 .App {
   background-image: url('@/assets/images/backgroundImages/background.png');
+  background-size: contain;
 }
 
 .dark-hero {
