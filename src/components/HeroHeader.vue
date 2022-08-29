@@ -16,7 +16,7 @@ export default {
 </script>
 
 <template>
-    <div class="m-8 2xl:m-44 md:m-20">
+    <div class="m-8 2xl:m-20 md:m-20">
         <img :src="this.icons[this.svg]" class="scale-75" />
         <h3 :style="{ color: this.colour }" class='m-1 text-xl md:text-2xl xl:text-3xl font-bold md:font-medium'>
             <slot name="secondary-text"></slot>
