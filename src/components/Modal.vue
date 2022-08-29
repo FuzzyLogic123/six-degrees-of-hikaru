@@ -41,10 +41,10 @@ export default {
             return images[Math.floor(Math.random() * images.length)];
         },
         preloadImages() {
+            console.log("preloading images");
             for (const key in this.images) {
                 for (let i = 0; i < this.images[key].length; i++) {
                     const imageSrc = this.images[key][i];
-                    console.log(imageSrc)
                     const image = new Image();
                     image.src = imageSrc;
                 }
@@ -53,9 +53,8 @@ export default {
 
     },
     created() {
-        setTimeout(1000, this.preloadImages);
+        setTimeout(this.preloadImages, 1000);
     }
-
 }
 </script>
 

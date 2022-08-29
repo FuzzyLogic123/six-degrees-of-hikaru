@@ -1,6 +1,6 @@
 <script>
 import gsap from 'gsap';
-import { authenticateUser, auth, getTotalPathsCount } from "../firebaseConfig";
+import { authenticateUser, auth } from "../firebaseConfig";
 
 export default {
     data() {
@@ -11,7 +11,9 @@ export default {
     },
     async created() {
         if (await authenticateUser(auth)) {
-            this.totalPathsCalculated = await getTotalPathsCount();
+            onSnapshot(docRef, (doc) => {
+                this.totalPathsCalculated = doc.data().numberOfPathsCalculated;
+            });
         }
     },
     watch: {
@@ -27,6 +29,6 @@ export default {
         <h1 class="text-5xl xl:text-7xl uppercase leading-tight text-white text-center py-0 px-4">paths to
             <b>Hikaru</b> calculated so far
         </h1>
-        <h1 class="text-8xl xl:text-9xl font-bold text-center py-14 text-[#EA0990]">{{  this.tweened.toFixed(0)  }}</h1>
+        <h1 class="text-8xl xl:text-9xl font-bold text-center py-14 text-[#EA0990]">{{ this.tweened.toFixed(0) }}</h1>
     </div>
 </template>
