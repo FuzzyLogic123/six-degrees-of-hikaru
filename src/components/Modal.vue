@@ -145,6 +145,8 @@ export default {
     margin: 1rem;
     display: inline-block;
     fill: rgb(34, 34, 34);
+    z-index: 1;
+    position: relative;
 }
 
 .closeIcon:hover {
