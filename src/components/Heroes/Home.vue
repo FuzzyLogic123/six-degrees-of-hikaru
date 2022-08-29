@@ -10,7 +10,8 @@
             LongArrow,
             HikaruPhoto,
             Logo
-        }
+        },
+        emits: ['scroll-to-element']
     }
 </script>
 
@@ -21,7 +22,7 @@
                 <Logo />
             </div>
             <div class="m-5 sm:m-10 2xl:scale-150">
-                <FindPathButton @scroll-to-element="this.scrollToRef" />
+                <FindPathButton @scroll-to-element="event => $emit('scroll-to-element', event)" />
             </div>
         </div>
         <p

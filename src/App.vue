@@ -39,7 +39,7 @@ export default {
       <MenuBar @scroll-to-element="this.scrollToRef" />
     </div>
 
-    <Home />
+    <Home @scroll-to-element="this.scrollToRef"/>
 
     <div>
       <Testimonials />
@@ -47,8 +47,10 @@ export default {
 
     <TotalPathsCalculated />
 
-    <div class="relative dark-hero slanted-div w-screen bg-cover overflow-clip" ref="sixDegrees">
+    <div class="relative dark-hero slanted-div w-screen bg-cover overflow-clip">
+      <div ref="sixDegrees">
         <SixDegrees />
+      </div>
 
       <div ref="about">
         <About />
@@ -65,7 +67,7 @@ export default {
 <style scoped>
 .App {
   background-image: url('@/assets/images/backgroundImages/background.png');
-  background-size: contain;
+  background-size: cover;
 }
 
 .dark-hero {
