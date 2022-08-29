@@ -93,7 +93,7 @@ const incrementShareButtonCount = async (shareMethod) => {
     });
 }
 
-const recordPath = async (player, count, timeControl) => {
+const writePathToDatabase = async (player, count, timeControl) => {
     const docRef = doc(firestoreRef, "paths", timeControl);
     if (!checkUserSignedIn()) {
         return false;
@@ -126,6 +126,6 @@ export {
     authenticateUser,
     auth,
     checkUserSignedIn,
-    recordPath,
+    writePathToDatabase,
     incrementShareButtonCount
 }

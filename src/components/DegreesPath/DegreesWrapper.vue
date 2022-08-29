@@ -6,7 +6,7 @@ import DegreesPath from "./DegreesPath.vue";
 import { queryDatabase, incrementPathsCount } from '@/firebaseConfig';
 import Modal from '../Modal.vue';
 import { computed } from '@vue/reactivity';
-import { recordPath } from '../../firebaseConfig';
+import { writePathToDatabase } from '../../firebaseConfig';
 
 const MAX_REQUEST_ATTEMPTS = 3;
 
@@ -90,7 +90,11 @@ export default {
         },
         async isValidChessUsername() {
             try {
-                const res = await fetch(`https://api.chess.com/pub/player/${this.username}`);
+                // timeout the request after 5 seconds
+                const controller = new AbortController();
+                setTimeout(()=> controller.abort(), 5000);
+
+                const res = await fetch(`https://api.chess.com/pub/player/${this.username}`, {signal: controller.signal});
                 const data = await res.json();
                 if (data.code === 0) {
                     console.log("false was returned")
@@ -159,16 +163,14 @@ export default {
             if (mostRecentUser.name === "Hikaru Nakamura") {
                 console.log(this.userChain);
                 incrementPathsCount(3);
-                recordPath(this.username, this.userChain.length - 1, this.timeControl);
+                writePathToDatabase(this.username, this.userChain.length - 1, this.timeControl);
                 setTimeout(this.showResult, 2000)
-                // updateAnalyitics();
                 return this.userChain;
             }
             if (!mostRecentUser?.username) {
                 console.error("user does not have a username!");
             }
             // check database for user
-            // console.log(mostRecentUser.username)
             const databaseResult = await queryDatabase(mostRecentUser.username, this.timeControl)
             if (databaseResult) {
                 mostRecentUser.next_player = databaseResult.next_player;
@@ -227,7 +229,7 @@ export default {
             this.loading = true;
 
             //check if the username is valid
-            if (!await this.isValidChessUsername() || !/^[A-Za-z0-9-_]*$/.test(this.username)) {
+            if (!/^[A-Za-z0-9-_]*$/.test(this.username) || !await this.isValidChessUsername()) {
                 this.showError(`${this.username} is not a valid username`);
                 return;
             }
