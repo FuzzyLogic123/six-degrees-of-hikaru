@@ -1,7 +1,4 @@
 <script>
-// import "https://platform.twitter.com/widgets.js";
-
-
 import Cross from './svg/Cross.vue';
 import magnusCarlsenWhat from '@/assets/images/magnus-carlsen-what.gif';
 import garyKasparov from '@/assets/images/nakamura-disgusted.gif';
@@ -42,8 +39,21 @@ export default {
         getRandomImage(category) {
             const images = this.images[category];
             return images[Math.floor(Math.random() * images.length)];
+        },
+        preloadImages() {
+            for (const key in this.images) {
+                for (let i = 0; i < this.images[key].length; i++) {
+                    const imageSrc = this.images[key][i];
+                    console.log(imageSrc)
+                    const image = new Image();
+                    image.src = imageSrc;
+                }
+            }
         }
 
+    },
+    created() {
+        setTimeout(1000, this.preloadImages);
     }
 
 }
@@ -69,7 +79,7 @@ export default {
                         </p>
                         <button @click="this.closeModal" class='modalDismiss'>I literally don't care</button>
 
-                        <ShareButtons v-if="this.category === 'success'"/>
+                        <ShareButtons v-if="this.category === 'success'" />
 
                     </div>
                 </div>
@@ -98,7 +108,7 @@ export default {
 .modalDismiss {
     color: white;
     background-color: #81A554;
-    font-size:2rem;
+    font-size: 2rem;
     font-weight: 800;
     line-height: 1.2;
     text-shadow: 0 .1rem 0 rgba(0, 0, 0, .4);

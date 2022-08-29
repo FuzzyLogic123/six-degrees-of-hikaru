@@ -1,6 +1,4 @@
 <script>
-import { onSnapshot } from "firebase/firestore";
-import { docRef } from '@/firebaseConfig.js';
 import gsap from 'gsap';
 import { authenticateUser, auth, getTotalPathsCount } from "../firebaseConfig";
 

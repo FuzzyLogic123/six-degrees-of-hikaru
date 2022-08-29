@@ -159,6 +159,7 @@ export default {
                 console.log(this.userChain);
                 incrementPathsCount();
                 setTimeout(this.showResult, 2000)
+                // updateAnalyitics();
                 return this.userChain;
             }
             if (!mostRecentUser?.username) {
@@ -261,11 +262,13 @@ export default {
                     return [hash[0], hash[1]]
                 }
             }
+        },
+        updateAnalyitics() {
+
         }
     },
     mounted() {
         const hash = this.getHash();
-        console.log(hash)
         if (hash) {
             const [username, timeControl] = hash;
             this.username = username
@@ -275,17 +278,6 @@ export default {
 
     }
 }
-
-
-
-// TODO - decide whether to branch off users or just start from the start
-// TODO - Prevent infinite loops/ cycles where players best wins go on forever (including when the backup suggests someone that will again cause an infinite loop)
-// can be achieved by using ref to track list of players that have been tried so far, never use these to enter the list.
-// TODO - add dropdown to selectTIME_CONTROLor blitz (update this in the path finding code)
-// TODO - update rendering to show displayToUserChain (add animations) -->
-// TODO - update usernameChain to a list of all users that have been tried so far
-
-
 
 </script>
 
