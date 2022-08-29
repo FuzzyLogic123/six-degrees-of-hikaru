@@ -3,6 +3,8 @@ import Twitter from './svg/Twitter.vue';
 import RedditShareButton from './svg/RedditShareButton.vue';
 import Facebook from './svg/Facebook.vue';
 import Copy from './svg/Copy.vue';
+import { incrementShareButtonCount } from '@/firebaseConfig';
+
 export default {
     components: {
         Facebook,
@@ -13,38 +15,47 @@ export default {
     methods: {
         copyToClipboard(text) {
             navigator.clipboard.writeText(text);
+        },
+        incrementShareButtonCountHelper(method) {
+            !this.shared && incrementShareButtonCount(method);
+            this.shared = true;
         }
     },
     inject: ['shareableText'],
-    created() {
-        console.log(this.shareableText);
+    data() {
+        shared: false;
     }
 }
 </script>
 
 <template>
     <div class="flex justify-evenly items-center mt-3">
-        <button class="p-2 bg-[#1DA1F2] rounded-md font-bold m-4 aspect-square">
+        <button @click.stop="incrementShareButtonCountHelper('twitter')"
+            class="p-2 bg-[#1DA1F2] rounded-md font-bold m-4 aspect-square">
             <a :href="`https://twitter.com/intent/tweet?text=${encodeURIComponent(this.shareableText.text)}&url=${encodeURIComponent(this.shareableText.link)}&hashtags=${encodeURIComponent('chess,kevinbacon')}`"
                 target="_blank">
                 <Twitter class="fill-white h-8" />
             </a>
         </button>
 
-        <button class="p-2 bg-[#ff4500] text-white rounded-md font-bold m-4 aspect-square">
+        <button @click="incrementShareButtonCountHelper('reddit')"
+            class="p-2 bg-[#ff4500] text-white rounded-md font-bold m-4 aspect-square">
             <a :href="`http://www.reddit.com/submit?url=https://sixdegreesofhikaru.com&title=${encodeURIComponent('Find the chain of users from you to Hikaru')}`"
                 target="_blank">
                 <RedditShareButton class="fill-white h-8" />
             </a>
         </button>
 
-        <button class="p-2 bg-[#4267B2] text-white rounded-md font-bold m-4 aspect-square">
-            <a :href="`http://www.facebook.com/share.php?u=${encodeURIComponent(this.shareableText.link)}`" target="_blank">
+        <button @click="incrementShareButtonCountHelper('facebook')"
+            class="p-2 bg-[#4267B2] text-white rounded-md font-bold m-4 aspect-square">
+            <a :href="`http://www.facebook.com/share.php?u=${encodeURIComponent(this.shareableText.link)}`"
+                target="_blank">
                 <Facebook class="fill-white h-8" />
             </a>
         </button>
 
-        <button class="p-2 text-white rounded-md font-bold m-4 aspect-square">
+        <button @click="incrementShareButtonCountHelper('copy')"
+            class="p-2 text-white rounded-md font-bold m-4 aspect-square">
             <div @click="this.copyToClipboard(`${this.shareableText.text} ${this.shareableText.link}`)">
                 <Copy class="fill-zinc-700 h-8 hover:fill-zinc-900" />
             </div>

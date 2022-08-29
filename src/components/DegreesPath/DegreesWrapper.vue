@@ -6,6 +6,7 @@ import DegreesPath from "./DegreesPath.vue";
 import { queryDatabase, incrementPathsCount } from '@/firebaseConfig';
 import Modal from '../Modal.vue';
 import { computed } from '@vue/reactivity';
+import { recordPath } from '../../firebaseConfig';
 
 const MAX_REQUEST_ATTEMPTS = 3;
 
@@ -157,7 +158,8 @@ export default {
             const mostRecentUser = this.userChain.at(-1);
             if (mostRecentUser.name === "Hikaru Nakamura") {
                 console.log(this.userChain);
-                incrementPathsCount();
+                incrementPathsCount(3);
+                recordPath(this.username, this.userChain.length - 1, this.timeControl);
                 setTimeout(this.showResult, 2000)
                 // updateAnalyitics();
                 return this.userChain;

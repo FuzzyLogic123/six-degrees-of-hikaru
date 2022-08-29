@@ -6,7 +6,7 @@ import { getDatabase, ref, child, get } from "firebase/database";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
-import { doc, getDoc, getFirestore, updateDoc } from 'firebase/firestore';
+import { doc, getDoc, getFirestore, updateDoc, arrayUnion, increment } from 'firebase/firestore';
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -36,12 +36,12 @@ const authenticateUser = async () => {
         console.log("User succesfully authenticated");
         return true;
     } catch (error) {
-        console.log(error.code,error.message);
+        console.log(error.code, error.message);
         return false;
     }
 }
 
-const docRef = doc(firestoreRef, "website-analytics", "SA1AXeSFSRW40GbAxFlg");
+const docRef = doc(firestoreRef, "website-analytics", "pathsCalculated");
 const checkUserSignedIn = () => {
     const user = auth.currentUser;
     if (user) {
@@ -65,41 +65,67 @@ const queryDatabase = async (username, timeControl) => {
     }
 }
 
-const incrementPathsCount = async () => {
+const incrementPathsCount = async (attempts) => {
+    if (attempts === 0) {
+        console.error("count could not be incremented: most likely due to high traffic");
+        return false;
+    }
     if (!checkUserSignedIn()) {
         return false;
     }
-    const currentCount = await getTotalPathsCount();
-    if (currentCount !== false) {
+    try {
         await updateDoc(docRef, {
-            numberOfPathsCalculated: currentCount + 1
+            numberOfPathsCalculated: increment(1)
         });
-    } else {
-        console.error("document was not found");
+    } catch {
+        setTimeout(incrementPathsCount, 5000 / attempts, attempts - 1);
     }
 }
 
-const getTotalPathsCount = async () => {
-    const docSnap = await getDoc(docRef);
-
-    if (docSnap.exists()) {
-        return docSnap.data().numberOfPathsCalculated;
-
-    } else {
-        // doc.data() will be undefined in this case
-        console.log("No such document!");
+const incrementShareButtonCount = async (shareMethod) => {
+    if (!checkUserSignedIn()) {
         return false;
     }
+    const docRef = doc(firestoreRef, "website-analytics", "shares");
+
+    await updateDoc(docRef, {
+        [shareMethod]: increment(1)
+    });
 }
+
+const recordPath = async (player, count, timeControl) => {
+    const docRef = doc(firestoreRef, "paths", timeControl);
+    if (!checkUserSignedIn()) {
+        return false;
+    }
+    await updateDoc(docRef, {
+            [player]: count
+    });
+}
+
+// const getTotalPathsCount = async () => {
+//     const docSnap = await getDoc(docRef);
+
+//     if (docSnap.exists()) {
+//         return docSnap.data().numberOfPathsCalculated;
+
+//     } else {
+//         // doc.data() will be undefined in this case
+//         console.log("No such document!");
+//         return false;
+//     }
+// }
 
 
 export {
     app,
     queryDatabase,
     incrementPathsCount,
-    getTotalPathsCount,
+    // getTotalPathsCount,
     docRef,
     authenticateUser,
     auth,
-    checkUserSignedIn
+    checkUserSignedIn,
+    recordPath,
+    incrementShareButtonCount
 }
