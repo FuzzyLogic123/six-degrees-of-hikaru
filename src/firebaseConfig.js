@@ -6,7 +6,7 @@ import { getDatabase, ref, child, get } from "firebase/database";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
-import { doc, getDoc, getFirestore, updateDoc } from 'firebase/firestore';
+import { doc, getDoc, getFirestore, updateDoc, increment, writeBatch, collection, getDocs } from 'firebase/firestore';
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -25,8 +25,8 @@ import { getAuth, signInAnonymously } from "firebase/auth";
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const realtimeRef = ref(getDatabase(app));
-const firestoreRef = getFirestore(app);
+const realtime = ref(getDatabase(app));
+const firestore = getFirestore(app);
 const auth = getAuth();
 
 
@@ -36,12 +36,12 @@ const authenticateUser = async () => {
         console.log("User succesfully authenticated");
         return true;
     } catch (error) {
-        console.log(error.code,error.message);
+        console.log(error.code, error.message);
         return false;
     }
 }
 
-const docRef = doc(firestoreRef, "website-analytics", "SA1AXeSFSRW40GbAxFlg");
+const docRef = doc(firestore, "website-analytics", "SA1AXeSFSRW40GbAxFlg");
 const checkUserSignedIn = () => {
     const user = auth.currentUser;
     if (user) {
@@ -57,7 +57,7 @@ const queryDatabase = async (username, timeControl) => {
         return false;
     }
     /* database should be queried. If the database returns a value, then it should update userChain and return from the function */
-    const snapshot = await get(child(realtimeRef, `${timeControl}/${username}`))
+    const snapshot = await get(child(realtime, `${timeControl}/${username}`))
     if (snapshot.exists()) {
         return snapshot.val();
     } else {
@@ -66,31 +66,27 @@ const queryDatabase = async (username, timeControl) => {
 }
 
 const incrementPathsCount = async () => {
+    const num_shards = 3
     if (!checkUserSignedIn()) {
         return false;
     }
-    const currentCount = await getTotalPathsCount();
-    if (currentCount !== false) {
-        await updateDoc(docRef, {
-            numberOfPathsCalculated: currentCount + 1
-        });
-    } else {
-        console.error("document was not found");
-    }
+    const shardID = Math.floor(Math.random() * num_shards).toString();
+    const docRef = doc(firestore, "website-analytics", "counter", "shards", shardID);
+    await updateDoc(docRef, {
+        count: increment(1)
+    });
 }
 
 const getTotalPathsCount = async () => {
-    const docSnap = await getDoc(docRef);
-
-    if (docSnap.exists()) {
-        return docSnap.data().numberOfPathsCalculated;
-
-    } else {
-        // doc.data() will be undefined in this case
-        console.log("No such document!");
-        return false;
-    }
+    let totalCount = 0;
+    const docRef = doc(firestore, "website-analytics", "counter");
+    const querySnapshot = await getDocs(collection(docRef, "shards"));
+    querySnapshot.forEach((doc) => {
+        totalCount += doc.data().count;
+    })
+    return totalCount;
 }
+
 
 
 export {
