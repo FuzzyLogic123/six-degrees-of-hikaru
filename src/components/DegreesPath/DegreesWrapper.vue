@@ -290,8 +290,8 @@ export default {
             </form>
             <select v-model="this.timeControl" name="time-control" :disabled="this.loading"
                 class="text-slate-400 p-3 rounded-md border-2 border-slate-800 bg-slate-900 non-shiny">
+                <option value=blitz>Blitz</option>
                 <option value=bullet>Bullet</option>
-                <option value="blitz">Blitz</option>
             </select>
             <button
                 class='hidden sm:inline-block bg-slate-900 border-slate-800 border-2 rounded-md xl:text-xl text-lg text-white hover:stroke-slate-50 stroke-slate-400 disabled:stroke-gray-500 disabled:opacity-60'

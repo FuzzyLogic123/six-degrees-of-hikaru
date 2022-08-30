@@ -24,28 +24,24 @@ export default {
 <template>
     <div :style="{ transform: `scale(${this.randomisedScale})` }" :class="['w-full relative origin-center', position]">
         <div class='px-4 text-center inline-block relative'>
-            <img class="rounded-full m-auto border-white border-2 h-28 my-2"
+            <img class="rounded-full m-auto border-white border-2 h-28 aspect-square my-2"
                 :src="this.profilePicture || 'https://www.chess.com/bundles/web/images/user-image.007dad08.svg'"
                 alt='user profile avatar' />
-            <h1 class='font-Outfit text-white tracking-wider text-lg lg:text-xl xl:text-2xl inline-block my-1'>
-                <a :href="`https://www.chess.com/stats/live/${this.timeControl}/${this.username}`" target="_blank"
-                    class="hover:underline">
+            <a :href="`https://www.chess.com/stats/live/${this.timeControl}/${this.username}`" target="_blank" class="hover:underline">
+                <h1
+                    class='font-Outfit text-white tracking-wider text-lg lg:text-xl xl:text-2xl inline-block my-1 underline-inherit'>
                     <slot name="name"></slot>
-                </a>
-            </h1>
-            <div v-if="$slots.title"
-                class='bg-[#b33430] rounded-[0.3rem] text-white text-xs lg:text-md xl:text-lg font-semibold mx-3 inline-block p-1'>
-                <p class='m-0 p-0 flex justify-center align-center leading-none'>
-                    <slot name="title"></slot>
-                </p>
-            </div>
-            <h2 class='text-white font-Mono text-md lg:text-lg font-thin xl:text-2xl xl:m-2'>
-                <a :href="`https://www.chess.com/stats/live/${this.timeControl}/${this.username}`" target="_blank"
-                    class="hover:underline">
+                </h1>
+                <div v-if="$slots.title"
+                    class='bg-[#b33430] rounded-[0.3rem] text-white text-xs lg:text-md xl:text-lg font-semibold mx-3 inline-block p-1'>
+                    <p class='m-0 p-0 flex justify-center align-center leading-none'>
+                        <slot name="title"></slot>
+                    </p>
+                </div>
+                <h2 class='text-white font-Mono text-md lg:text-lg font-thin xl:text-2xl xl:m-2'>
                     <slot name="username"></slot>
-                </a>
-            </h2>
-
+                </h2>
+            </a>
             <h3 class='text-white font-Mono font-thin text-sm lg:text-md xl:text-lg'>
                 <slot name="rating"></slot>
             </h3>
@@ -69,5 +65,9 @@ export default {
 
 .flipArrow {
     transform: scaleX(-1);
+}
+
+.underline-inherit {
+    text-decoration: inherit;
 }
 </style>
