@@ -23,7 +23,9 @@ export default {
     },
     inject: ['shareableText'],
     data() {
-        shared: false;
+        return {
+            shared: false
+        }
     }
 }
 </script>

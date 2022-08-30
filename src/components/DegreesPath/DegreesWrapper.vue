@@ -21,14 +21,15 @@ export default {
         return {
             userChain: [],
             username: '',
-            timeControl: 'bullet',
+            timeControl: 'blitz',
             alreadyTriedUsers: [],
             loading: false,
             modalConfig: {
                 showModal: false,
-                isShowingResult: false,
                 showImage: true,
                 category: "success",
+            },
+            modalText: {
                 title: "",
                 body: "Something went wrong"
             },
@@ -39,8 +40,7 @@ export default {
     provide() {
         return {
             shareableText: computed(() => this.shareableText),
-            timeControl: computed(() => this.timeControl),
-            username: computed(()=> this.username)
+            timeControl: computed(() => this.timeControl)
         }
     },
     methods: {
@@ -71,17 +71,16 @@ export default {
             }
         },
         showError(errorMessage) {
-            this.modalConfig.title = "Oops..."
-            this.modalConfig.body = errorMessage;
+            this.modalText.title = "Oops..."
+            this.modalText.body = errorMessage;
             this.modalConfig.showImage = true;
             this.modalConfig.category = "failure";
             this.modalConfig.showModal = true;
             this.loading = false;
         },
         showResult() {
-            this.modalConfig.body = this.generateFinalPathString(this.userChain);
-            this.modalConfig.title = '';
-            this.modalConfig.isShowingResult = true;
+            this.modalText.body = this.generateFinalPathString(this.userChain);
+            this.modalText.title = '';
             this.modalConfig.showImage = true;
             this.modalConfig.category = "success";
             this.modalConfig.showModal = true;
@@ -197,8 +196,8 @@ export default {
             }
             await this.extendUserChain();
         },
-        async fetchBestWin(username, timeControl, requestAttemps) {
-            if (requestAttemps !== 0 && username) {
+        async fetchBestWin(username, timeControl, requestAttempts) {
+            if (requestAttempts !== 0 && username) {
                 try {
                     const res = await fetch("https://us-central1-six-degrees-of-hikaru-cf099.cloudfunctions.net/scraper", {
                     // const res = await fetch("http://localhost:5001/six-degrees-of-hikaru-cf099/us-central1/scraper", {
@@ -212,7 +211,7 @@ export default {
                     return response;
                 } catch (e) {
                     console.log(e);
-                    await this.fetchBestWin(username, timeControl, requestAttemps - 1);
+                    await this.fetchBestWin(username, timeControl, requestAttempts - 1);
                 }
             } else {
                 return false;
@@ -322,10 +321,10 @@ export default {
 
     <Modal v-bind="this.modalConfig" @close-modal="this.modalConfig.showModal = false">
         <template #title>
-            {{ this.modalConfig.title }}
+            {{ this.modalText.title }}
         </template>
         <template #body>
-            <div v-html="this.modalConfig.body"></div>
+            <div v-html="this.modalText.body"></div>
         </template>
     </Modal>
 </template>

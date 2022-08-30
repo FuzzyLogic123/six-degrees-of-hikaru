@@ -20,7 +20,7 @@ export default {
         </template>
     </HeroHeader>
 
-    <DegreesWrapper class="relative z-10" />
+    <DegreesWrapper />
     <!-- <PathBackground class="absolute top-96 overflow-clip -z-10" /> -->
 
 </template>

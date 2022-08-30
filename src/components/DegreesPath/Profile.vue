@@ -6,12 +6,13 @@ export default {
     props: {
         profilePicture: String,
         position: String,
-        isHikaru: Boolean
+        isHikaru: Boolean,
+        username: String
     },
     components: {
         LongArrow
     },
-    inject: ["timeControl", "username"],
+    inject: ["timeControl"],
     data() {
         return {
             randomisedScale: 1 - Math.random() * 0.1
@@ -27,7 +28,10 @@ export default {
                 :src="this.profilePicture || 'https://www.chess.com/bundles/web/images/user-image.007dad08.svg'"
                 alt='user profile avatar' />
             <h1 class='font-Outfit text-white tracking-wider text-lg lg:text-xl xl:text-2xl inline-block my-1'>
-                <slot name="name"></slot>
+                <a :href="`https://www.chess.com/stats/live/${this.timeControl}/${this.username}`" target="_blank"
+                    class="hover:underline">
+                    <slot name="name"></slot>
+                </a>
             </h1>
             <div v-if="$slots.title"
                 class='bg-[#b33430] rounded-[0.3rem] text-white text-xs lg:text-md xl:text-lg font-semibold mx-3 inline-block p-1'>
@@ -36,7 +40,8 @@ export default {
                 </p>
             </div>
             <h2 class='text-white font-Mono text-md lg:text-lg font-thin xl:text-2xl xl:m-2'>
-                <a :href="`https://www.chess.com/stats/live/${this.timeControl}/${this.username}`" target="_blank" class="hover:underline">
+                <a :href="`https://www.chess.com/stats/live/${this.timeControl}/${this.username}`" target="_blank"
+                    class="hover:underline">
                     <slot name="username"></slot>
                 </a>
             </h2>
