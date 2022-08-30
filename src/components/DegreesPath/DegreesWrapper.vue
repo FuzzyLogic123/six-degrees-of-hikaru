@@ -276,11 +276,10 @@ export default {
 
 <template>
     <div>
-
-        <div class="pt-12 pb-16 flex justify-center gap-6 w-full">
+        <div class="pt-12 pb-16 flex justify-center gap-5 w-full">
             <form class="basis-2/4 " action="#" @submit.prevent>
                 <input
-                    class="w-full inline-block text-white p-3 rounded-md border-2 border-slate-800 bg-slate-900 xl:text-xl xs:text-lg"
+                    class="w-full inline-block ml-1 text-white p-3 rounded-md border-2 border-slate-800 bg-slate-900 xl:text-xl xs:text-lg"
                     name=search spellCheck=false autocomplete=off :disabled="
                     this.loading" ref="degreesPath" type="text" placeholder="chess.com username"
                     v-model="this.username" @keyup.enter="(event) => {
@@ -294,7 +293,7 @@ export default {
                 <option value=bullet>Bullet</option>
             </select>
             <button
-                class='hidden sm:inline-block bg-slate-900 border-slate-800 border-2 rounded-md xl:text-xl text-lg text-white hover:stroke-slate-50 stroke-slate-400 disabled:stroke-gray-500 disabled:opacity-60'
+                class='sm:inline-block mr-1 bg-slate-900 border-slate-800 border-2 rounded-md xl:text-xl text-lg text-white hover:stroke-slate-50 stroke-slate-400 disabled:stroke-gray-500 disabled:opacity-60'
                 @click="this.startUserChainSearch" :disabled="this.loading || !this.username">
                 <KingSvg class="scale-75" />
             </button>

@@ -41,7 +41,6 @@ export default {
             return images[Math.floor(Math.random() * images.length)];
         },
         preloadImages() {
-            console.log("preloading images");
             for (const key in this.images) {
                 for (let i = 0; i < this.images[key].length; i++) {
                     const imageSrc = this.images[key][i];
@@ -70,7 +69,8 @@ export default {
                         <h1 class='modalTitle font-bold'>
                             <slot name="title">Oops...</slot>
                         </h1>
-                        <img v-if="this.showImage" class='modalImage' :src="getRandomImage(this.category)" alt='Hikaru absolutely disgusted' />
+                        <img v-if="this.showImage" class='modalImage' :src="getRandomImage(this.category)"
+                            alt='Hikaru absolutely disgusted' />
                         <p class='modalBody font-Sen p-5'>
                             <slot name="body">Something went wrong :(</slot>
                         </p>
@@ -135,7 +135,7 @@ export default {
 .modalImage {
     margin: auto;
     border-radius: 5px;
-    max-height: 12rem;
+    max-height: 15rem;
     object-fit: cover;
 }
 

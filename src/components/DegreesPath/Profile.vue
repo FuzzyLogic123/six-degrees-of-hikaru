@@ -22,7 +22,7 @@ export default {
 </script>
 
 <template>
-    <div :style="{ transform: `scale(${this.randomisedScale})` }" :class="['w-full relative origin-center', position]">
+    <div :style="{ transform: `scale(${this.randomisedScale})` }" :class="['w-full relative origin-center max-w-[100vw]', position]">
         <div class='px-4 text-center inline-block relative'>
             <img class="rounded-full m-auto border-white border-2 h-28 aspect-square my-2"
                 :src="this.profilePicture || 'https://www.chess.com/bundles/web/images/user-image.007dad08.svg'"

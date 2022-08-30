@@ -36,7 +36,7 @@ export default {
         <div class="w-96 xl:w-[45rem] relative inline-block">
             <div ref="path">
                 <TransitionGroup name="fade">
-                    <div v-for="(profile, i) in this.pathArray" :key="i">
+                    <div v-for="(profile, i) in this.pathArray" :key="i" class="max-w-[100vw]">
                         <Profile :profilePicture="profile.avatar" :position="i % 2 ? 'left' : 'right'"
                             :isHikaru="profile.name === 'Hikaru Nakamura'" :key="i" :username="profile.username">
                             <template #name>
