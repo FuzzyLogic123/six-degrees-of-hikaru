@@ -64,7 +64,6 @@ export default {
             output += `${userChain.at(-1).username} ${userChain.at(-1).rating}\n`;
             output += "\n";
             output += `Come see ${this.username}'s chain at `;
-            console.log(output);
             return {
                 text: output,
                 link: `http://sixdegreesofhikaru.com/#${this.username}/${this.timeControl}`
@@ -96,7 +95,6 @@ export default {
                 const res = await fetch(`https://api.chess.com/pub/player/${this.username}`, {signal: controller.signal});
                 const data = await res.json();
                 if (data.code === 0) {
-                    console.log("false was returned")
                     return false;
                 } else {
                     return true;
@@ -137,9 +135,7 @@ export default {
                     }
                 }
                 if (candidateGames.length > 0) {
-                    // console.log(candidateGames);
                     const highestRatedRecentOpponent = candidateGames.sort((a, b) => b.rating - a.rating)[0];
-                    console.log("highest rated oponent", highestRatedRecentOpponent.username, highestRatedRecentOpponent.rating);
                     return highestRatedRecentOpponent.username;
                 } else {
                     console.log(`${username} has not won any games`);
@@ -160,7 +156,6 @@ export default {
         async extendUserChain() {
             const mostRecentUser = this.userChain.at(-1);
             if (mostRecentUser.name === "Hikaru Nakamura") {
-                console.log(this.userChain);
                 incrementPathsCount(3);
                 writePathToDatabase(this.username, this.userChain.length - 1, this.timeControl);
                 setTimeout(this.showResult, 2000)
@@ -173,8 +168,6 @@ export default {
             const databaseResult = await queryDatabase(mostRecentUser.username, this.timeControl)
             if (databaseResult) {
                 mostRecentUser.next_player = databaseResult.next_player;
-                console.log(databaseResult);
-                console.log('database returned next :  ' + databaseResult.next_player);
             }
 
             // request cloud function get game type from dropdown
@@ -182,9 +175,7 @@ export default {
             if (bestWin && !this.alreadyTriedUsers.includes(bestWin.username)) {
                 this.alreadyTriedUsers.push(bestWin.username);
                 this.userChain.push(bestWin);
-                console.log(bestWin.username);
             } else {
-                bestWin?.username && console.log("this was rejected", bestWin.username);
                 const mostRecentWin = await this.getNextOptionHelper(this.userChain.at(-1).next_player, this.timeControl); //should basically always return someone unless every player in the chain has not won any games of that time control
                 if (!mostRecentWin) {
                     this.showError(`${username} has not played enough games to calculate route :(`);
@@ -207,10 +198,10 @@ export default {
                         })
                     });
                     const response = await res.json();
-                    // console.log(response);
                     return response;
                 } catch (e) {
                     console.log(e);
+                    console.log("request failed", requestAttempts - 1, "requests remaining");
                     await this.fetchBestWin(username, timeControl, requestAttempts - 1);
                 }
             } else {
@@ -232,7 +223,6 @@ export default {
                 this.showError(`${this.username} is not a valid username`);
                 return;
             }
-            console.log(this.$refs.degreesPath);
             const bestWin = await this.fetchBestWin(this.username, this.timeControl, MAX_REQUEST_ATTEMPTS);
             let firstUserData;
             if (bestWin) {

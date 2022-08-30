@@ -1,10 +1,7 @@
 <script>
 import Testimonial from './Testimonial.vue'
-import ChrisRock from '@/assets/images/chris-rock.jpg';
-import ThePope from '@/assets/images/the-pope.png';
-import Jesus from '@/assets/images/jesus.jpg';
 import Magnus from '@/assets/images/magnuscarlsonquoteimage.jpg'
-import Hikaru from '@/assets/images/hikaruquoteimage.png';
+import Hikaru from '@/assets/images/hikaruquoteimage.jpg';
 import Anish from '@/assets/images/anishgiriselfie.jpg';
 export default {
     components: {
@@ -13,7 +10,7 @@ export default {
     data() {
         return {
             quotes:
-                [["I literalliy don't care", 'Jackie Chan', Hikaru],
+                [["I literalliy don't care", 'Hikaru Nakamura', Hikaru],
                 [`Dubov is a cocaine addict. Magnus is an alcoholic who goes to stip clubs every other day. Should I expose more?`, 'Anish Giri', Anish],
                 ['How do knights move?', 'Magnus Carlson', Magnus]]
         }
