@@ -98,7 +98,7 @@ const writePathToDatabase = async (player, count, timeControl) => {
         return false;
     }
     await updateDoc(docRef, {
-            [player]: count
+            [player.toLowerCase()]: count
     });
 }
 
