@@ -19,7 +19,7 @@ export default {
         },
         incrementShareButtonCountHelper(method) {
             // !this.shared[method] && incrementShareButtonCount(method);
-            !this.shared[method] && logEvent(analytics, method);
+            !this.shared[method] && logEvent(analytics, "share_on_" + method);
             this.shared[method] = true;
         }
     },

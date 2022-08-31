@@ -115,7 +115,7 @@ export default {
             }
             else if (!data.archives.length) {
                 console.log('the user has not played any games');
-                logEvent(analytics, "not enough games");
+                logEvent(analytics, "not_enough_games");
                 return false;
             }
             for (let i = data.archives.length - 1; i >= 0; i--) {
@@ -161,7 +161,7 @@ export default {
                 incrementPathsCount(3);
                 writePathToDatabase(this.username, this.userChain.length - 1, this.timeControl);
                 setTimeout(this.showResult, 2000);
-                logEvent(analytics, "path completed");
+                logEvent(analytics, "path_completed");
                 return this.userChain;
             }
             if (!mostRecentUser?.username) {
