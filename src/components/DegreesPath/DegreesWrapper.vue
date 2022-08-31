@@ -59,7 +59,7 @@ export default {
             let output = `I'm ${userChain.length - 1} degree${userChain.length > 2 ? 's' : ''} from Hikaru in ${this.timeControl}!\n`;
             for (let i = 0; i < userChain.length - 1; i++) {
                 const user = userChain[i];
-                output += `${user.username} ${user.rating} --> \n`;
+                output += `${user.username} ${user.rating}\n`;
             }
             output += `${userChain.at(-1).username} ${userChain.at(-1).rating}\n`;
             output += "\n";
