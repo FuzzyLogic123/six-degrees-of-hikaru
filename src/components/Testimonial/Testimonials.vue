@@ -10,7 +10,7 @@ export default {
     data() {
         return {
             quotes:
-                [["I literalliy don't care", 'Hikaru Nakamura', Hikaru],
+                [["I literally don't care", 'Hikaru Nakamura', Hikaru],
                 [`Dubov is a cocaine addict. Magnus is an alcoholic who goes to stip clubs every other day. Should I expose more?`, 'Anish Giri', Anish],
                 ['How do knights move?', 'Magnus Carlson', Magnus]]
         }
