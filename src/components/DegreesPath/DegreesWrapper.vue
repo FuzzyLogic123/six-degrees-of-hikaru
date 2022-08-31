@@ -56,7 +56,7 @@ export default {
             return output;
         },
         generateShareableText(userChain) {
-            let output = `I'm ${userChain.length - 1} degree${userChain.length > 2 ? 's' : ''} from Hikaru in ${this.timeControl}!\n`;
+            let output = `I'm ${userChain.length - 1} win${userChain.length > 2 ? 's' : ''} from Hikaru in ${this.timeControl}!\n\n`;
             for (let i = 0; i < userChain.length - 1; i++) {
                 const user = userChain[i];
                 output += `${user.username} ${user.rating}\n`;
