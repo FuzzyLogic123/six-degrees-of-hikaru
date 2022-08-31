@@ -34,7 +34,7 @@ export default {
     <div class="flex justify-evenly items-center mt-6 mb-3">
         <button @click.stop="incrementShareButtonCountHelper('twitter')"
             class="p-2 bg-[#1DA1F2] rounded-md font-bold aspect-square">
-            <a :href="`https://twitter.com/intent/tweet?text=${encodeURIComponent(this.shareableText.text)}&url=${encodeURIComponent(this.shareableText.link)}&hashtags=${encodeURIComponent('chess,kevinbacon')}`"
+            <a :href="`https://twitter.com/intent/tweet?text=${encodeURIComponent(this.shareableText.text)}&url=${encodeURIComponent(this.shareableText.link)}&hashtags=${encodeURIComponent('chess,kevinbacon,sixdegrees')}`"
                 target="_blank">
                 <Twitter class="fill-white h-8" />
             </a>
