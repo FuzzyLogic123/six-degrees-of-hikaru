@@ -83,17 +83,6 @@ const incrementPathsCount = async (attempts) => {
     }
 }
 
-const incrementShareButtonCount = async (shareMethod) => {
-    if (!checkUserSignedIn()) {
-        return false;
-    }
-    const docRef = doc(firestoreRef, "website-analytics", "shares");
-
-    await updateDoc(docRef, {
-        [shareMethod]: increment(1)
-    });
-}
-
 const writePathToDatabase = async (player, count, timeControl) => {
     const docRef = doc(firestoreRef, "paths", timeControl);
     if (!checkUserSignedIn()) {
@@ -114,6 +103,5 @@ export {
     auth,
     checkUserSignedIn,
     writePathToDatabase,
-    incrementShareButtonCount,
     analytics
 }
