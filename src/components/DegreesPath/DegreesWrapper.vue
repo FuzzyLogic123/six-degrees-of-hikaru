@@ -3,10 +3,11 @@
 import KingSvg from '../svg/King.vue';
 import HeroHeader from '.././HeroHeader.vue';
 import DegreesPath from "./DegreesPath.vue";
-import { queryDatabase, incrementPathsCount } from '@/firebaseConfig';
+import { queryDatabase, incrementPathsCount, analytics } from '@/firebaseConfig';
 import Modal from '../Modal.vue';
 import { computed } from '@vue/reactivity';
 import { writePathToDatabase } from '../../firebaseConfig';
+import { logEvent } from '@firebase/analytics';
 
 const MAX_REQUEST_ATTEMPTS = 3;
 
@@ -114,6 +115,7 @@ export default {
             }
             else if (!data.archives.length) {
                 console.log('the user has not played any games');
+                logEvent(analytics, "not enough games");
                 return false;
             }
             for (let i = data.archives.length - 1; i >= 0; i--) {
@@ -158,7 +160,8 @@ export default {
             if (mostRecentUser.name === "Hikaru Nakamura") {
                 incrementPathsCount(3);
                 writePathToDatabase(this.username, this.userChain.length - 1, this.timeControl);
-                setTimeout(this.showResult, 2000)
+                setTimeout(this.showResult, 2000);
+                logEvent(analytics, "path completed");
                 return this.userChain;
             }
             if (!mostRecentUser?.username) {

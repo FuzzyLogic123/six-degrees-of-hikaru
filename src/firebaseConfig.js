@@ -6,7 +6,8 @@ import { getDatabase, ref, child, get } from "firebase/database";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
-import { doc, getDoc, getFirestore, updateDoc, arrayUnion, increment } from 'firebase/firestore';
+import { doc, getFirestore, updateDoc, increment } from 'firebase/firestore';
+import { getAnalytics } from 'firebase/analytics'
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -27,7 +28,8 @@ import { getAuth, signInAnonymously } from "firebase/auth";
 const app = initializeApp(firebaseConfig);
 const realtimeRef = ref(getDatabase(app));
 const firestoreRef = getFirestore(app);
-const auth = getAuth();
+const analytics = getAnalytics(app);
+const auth = getAuth(app);
 
 
 const authenticateUser = async () => {
@@ -102,29 +104,16 @@ const writePathToDatabase = async (player, count, timeControl) => {
     });
 }
 
-// const getTotalPathsCount = async () => {
-//     const docSnap = await getDoc(docRef);
-
-//     if (docSnap.exists()) {
-//         return docSnap.data().numberOfPathsCalculated;
-
-//     } else {
-//         // doc.data() will be undefined in this case
-//         console.log("No such document!");
-//         return false;
-//     }
-// }
-
 
 export {
     app,
     queryDatabase,
     incrementPathsCount,
-    // getTotalPathsCount,
     docRef,
     authenticateUser,
     auth,
     checkUserSignedIn,
     writePathToDatabase,
-    incrementShareButtonCount
+    incrementShareButtonCount,
+    analytics
 }

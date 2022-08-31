@@ -3,7 +3,8 @@ import Twitter from './svg/Twitter.vue';
 import RedditShareButton from './svg/RedditShareButton.vue';
 import Facebook from './svg/Facebook.vue';
 import Copy from './svg/Copy.vue';
-import { incrementShareButtonCount } from '@/firebaseConfig';
+import { incrementShareButtonCount, analytics } from '@/firebaseConfig';
+import { logEvent } from '@firebase/analytics';
 
 export default {
     components: {
@@ -17,14 +18,20 @@ export default {
             navigator.clipboard.writeText(text);
         },
         incrementShareButtonCountHelper(method) {
-            !this.shared && incrementShareButtonCount(method);
-            this.shared = true;
+            // !this.shared[method] && incrementShareButtonCount(method);
+            !this.shared[method] && logEvent(analytics, method);
+            this.shared[method] = true;
         }
     },
     inject: ['shareableText'],
     data() {
         return {
-            shared: false
+            shared: {
+                twitter: false,
+                facebook: false,
+                copy: false,
+                reddit: false
+            }
         }
     }
 }
