@@ -27,7 +27,7 @@
             <br /><br />
             Inspired by the six degrees of seperation, this website uses a database of 109 427 users, calculating the
             chain
-            to 2 degrees with a greedy breadth first search.
+            to 2 degrees with a greedy depth first search.
             <br /><br />
             If a user is not in the database, the algorithim will then find which user is the most optimal choice as the
             next player, until it finds a user in the database.
