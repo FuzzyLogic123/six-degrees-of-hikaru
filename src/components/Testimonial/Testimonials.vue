@@ -1,7 +1,7 @@
 <script>
 import Testimonial from './Testimonial.vue'
 import Magnus from '@/assets/images/magnuscarlsonquoteimage.jpg'
-import Hikaru from '@/assets/images/hikaruquoteimage.jpg';
+import Hikaru from '@/assets/images/hikaruquoteimage.webp';
 import Anish from '@/assets/images/anishgiriselfie.jpg';
 export default {
     components: {
