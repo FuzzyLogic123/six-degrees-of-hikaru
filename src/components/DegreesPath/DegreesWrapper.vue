@@ -25,6 +25,10 @@ export default {
             timeControl: 'blitz',
             alreadyTriedUsers: [],
             loading: false,
+            firstUserData: {
+                username: this.username,
+                next_player: ""
+            },
             modalConfig: {
                 showModal: false,
                 showImage: true,
@@ -91,13 +95,15 @@ export default {
             try {
                 // timeout the request after 5 seconds
                 const controller = new AbortController();
-                setTimeout(()=> controller.abort(), 5000);
+                setTimeout(() => controller.abort(), 5000);
 
-                const res = await fetch(`https://api.chess.com/pub/player/${this.username}`, {signal: controller.signal});
+                const res = await fetch(`https://api.chess.com/pub/player/${this.username}`, { signal: controller.signal });
                 const data = await res.json();
                 if (data.code === 0) {
                     return false;
                 } else {
+                    this.firstUserData["avatar"] = data.avatar;
+                    this.firstUserData["name"] = data.name;
                     return true;
                 }
             } catch {
@@ -106,7 +112,18 @@ export default {
                 return true;
             }
         },
+        getCapitalisedUsername(playerGames) {
+            if (playerGames.length > 0) {
+                if (playerGames[0].white.username.toLowerCase() === this.username.toLowerCase()) {
+                    return playerGames[0].white.username
+                } else {
+                    return playerGames[0].black.username
+                }
+            }
+            return ""
+        },
         async getMostRecentWin(username, timeControl) {
+            let correctedUsername = false;
             const res = await fetch(`https://api.chess.com/pub/player/${username}/games/archives`);
             const data = await res.json();
             if (data.code === 0) {
@@ -122,6 +139,15 @@ export default {
                 const gameListHttpRequest = await fetch(data.archives[i]);
                 const gameList = await gameListHttpRequest.json();
                 const candidateGames = [];
+
+                if (!correctedUsername && this.userChain.length === 0) {
+                    const username = this.getCapitalisedUsername(gameList.games);
+                    if (username.length > 0) {
+                        this.firstUserData["username"] = username 
+                        correctedUsername = true;
+                    }
+                }
+
                 for (let i = gameList.games.length - 1; i >= 0; i--) {
                     const game = gameList.games[i];
                     if (game.time_class === timeControl && game.white.result === 'win' && game.white.username.toLowerCase() === username.toLowerCase() && !this.alreadyTriedUsers.includes(game.black.username)) {
@@ -194,10 +220,10 @@ export default {
             if (requestAttempts !== 0 && username) {
                 try {
                     const res = await fetch("https://us-central1-six-degrees-of-hikaru-cf099.cloudfunctions.net/scraper", {
-                    // const res = await fetch("http://localhost:5001/six-degrees-of-hikaru-cf099/us-central1/scraper", {
+                        // const res = await fetch("http://localhost:5001/six-degrees-of-hikaru-cf099/us-central1/scraper", {
                         method: 'POST',
                         body: JSON.stringify({
-                            "text": `https://www.chess.com/stats/live/${timeControl}/${username}`
+                            "text": `https://www.chess.com/stats/live/${timeControl}/${username}/0` // /0 queries all time page
                         })
                     });
                     const response = await res.json();
@@ -227,26 +253,20 @@ export default {
                 return;
             }
             const bestWin = await this.fetchBestWin(this.username, this.timeControl, MAX_REQUEST_ATTEMPTS);
-            let firstUserData;
             if (bestWin) {
-                firstUserData = bestWin
-            } else {
-                firstUserData = {
-                    username: this.username,
-                    next_player: ""
-                }
+                this.firstUserData = bestWin
             }
-            if (!firstUserData?.next_player) {
+            if (!this.firstUserData?.next_player) {
                 const mostRecentWin = await this.getMostRecentWin(this.username, this.timeControl);
                 if (mostRecentWin) {
-                    firstUserData.next_player = mostRecentWin;
+                    this.firstUserData.next_player = mostRecentWin;
                 } else {
                     console.error("the player seems to have won no games within this time control");
                     this.showError("Looks like you haven't won any games in this time control");
                     return;
                 }
             }
-            this.userChain.push(firstUserData);
+            this.userChain.push(this.firstUserData);
             this.expandDiv = true;
             this.$refs.degreesPath.scrollIntoView();
             this.extendUserChain();
@@ -283,8 +303,7 @@ export default {
             <form class="basis-2/4 " action="#" @submit.prevent>
                 <input
                     class="w-full inline-block ml-1 text-white p-3 rounded-md border-2 border-slate-800 bg-slate-900 xl:text-xl xs:text-lg"
-                    name=search spellCheck=false autocomplete=off :disabled="
-                    this.loading" ref="degreesPath" type="text" placeholder="chess.com username"
+                    name=search spellCheck=false autocomplete=off :disabled="this.loading" ref="degreesPath" type="text" placeholder="chess.com username"
                     v-model="this.username" @keyup.enter="(event) => {
                         event.target.blur();
                         this.startUserChainSearch();
