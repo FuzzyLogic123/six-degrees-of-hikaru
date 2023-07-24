@@ -1,7 +1,7 @@
 
 <script>
-import KingSvg from '../svg/King.vue';
 import HeroHeader from '.././HeroHeader.vue';
+import UsernameInput from './UsernameInput.vue';
 import DegreesPath from "./DegreesPath.vue";
 import { queryDatabase, incrementPathsCount, analytics } from '@/firebaseConfig';
 import Modal from '../Modal.vue';
@@ -14,9 +14,9 @@ const MAX_REQUEST_ATTEMPTS = 3;
 export default {
     components: {
         HeroHeader,
-        KingSvg,
         DegreesPath,
-        Modal
+        Modal,
+        UsernameInput
     },
     data() {
         return {
@@ -143,7 +143,7 @@ export default {
                 if (!correctedUsername && this.userChain.length === 0) {
                     const username = this.getCapitalisedUsername(gameList.games);
                     if (username.length > 0) {
-                        this.firstUserData["username"] = username 
+                        this.firstUserData["username"] = username
                         correctedUsername = true;
                     }
                 }
@@ -299,27 +299,7 @@ export default {
 
 <template>
     <div>
-        <div class="pt-12 pb-16 flex justify-center gap-5 w-full">
-            <form class="basis-2/4 " action="#" @submit.prevent>
-                <input
-                    class="w-full inline-block ml-1 text-white p-3 rounded-md border-2 border-slate-800 bg-slate-900 xl:text-xl xs:text-lg"
-                    name=search spellCheck=false autocomplete=off :disabled="this.loading" ref="degreesPath" type="text" placeholder="chess.com username"
-                    v-model="this.username" @keyup.enter="(event) => {
-                        event.target.blur();
-                        this.startUserChainSearch();
-                    }" />
-            </form>
-            <select v-model="this.timeControl" name="time-control" :disabled="this.loading"
-                class="text-slate-400 p-3 rounded-md border-2 border-slate-800 bg-slate-900 non-shiny">
-                <option value=blitz>Blitz</option>
-                <option value=bullet>Bullet</option>
-            </select>
-            <button
-                class='sm:inline-block mr-1 bg-slate-900 border-slate-800 border-2 rounded-md xl:text-xl text-lg text-white hover:stroke-slate-50 stroke-slate-400 disabled:stroke-gray-500 disabled:opacity-60'
-                @click="this.startUserChainSearch" :disabled="this.loading || !this.username">
-                <KingSvg class="scale-75" />
-            </button>
-        </div>
+        <UsernameInput v-model:username="this.username" v-model:timeControl="this.timeControl" :loading="this.loading" @startUserChainSearch="this.startUserChainSearch" ref="degreesPath"/>
         <div class="md:mt-10 2xl:mt-20 min-h-[20vh]" :class="{ 'expandHeight': this.expandDiv }">
             <Transition name="fade" mode="out-in">
                 <p class="text-center text-3xl font-thin text-white" v-if="this.loading && this.userChain.length === 0">
