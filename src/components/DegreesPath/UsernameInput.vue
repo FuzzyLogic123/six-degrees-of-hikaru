@@ -26,6 +26,11 @@ export default {
         scrollIntoView() {
             this.$refs.usernameInput.scrollIntoView();
         },
+        handleClickOnDropdown(option) {
+            this.$emit('update:username', option.title);
+            this.showDropdown = false;
+            this.startUserChainSearch();
+        }
     }
 }
 
@@ -35,12 +40,12 @@ export default {
     <div class="pt-12 pb-16 flex justify-center gap-5 w-full">
 
         <form class="basis-2/4 relative" action="#" @submit.prevent>
-            <input ref="usernameInput" :value="this.username" @input="$emit('update:username', $event.target.value);"
+            <input ref="usernameInput" :value="this.username" @input="$emit('update:username', $event.target.value)"
                 @focus="this.showDropdown = true" @blur="this.showDropdown = false"
                 class="w-full inline-block text-white p-3 rounded-md border-2 border-slate-800 bg-slate-900 xl:text-xl xs:text-lg focus:outline-none focus:border-slate-300"
                 name=search spellCheck=false autocomplete=off :disabled="this.loading" type="text"
                 placeholder="chess.com username" @keyup.enter="this.startUserChainSearch" />
-            <AutofillDropdown :username="this.username" :showDropdown="this.showDropdown" class="absolute w-full" />
+            <AutofillDropdown :username="this.username" :showDropdown="this.showDropdown" class="absolute w-full" @select-option="handleClickOnDropdown"/>
         </form>
 
         <select :value="this.timeControl" @input="$emit('update:timeControl', $event.target.value)" name="time-control"

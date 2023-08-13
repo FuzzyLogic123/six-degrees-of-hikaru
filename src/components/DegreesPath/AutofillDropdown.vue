@@ -4,6 +4,7 @@ import { getUsernameAutoComplete } from '@/api/usernameAutoComplete'
 import DropdownItem from './DropdownItem.vue';
 export default {
     props: ['username', 'showDropdown'],
+    emits: ['select-option'],
     data() {
         return {
             getChessAutoCompleteDebounce: null,
@@ -51,7 +52,7 @@ export default {
         v-show="this.loadedImages >= this.autofillOptions.length">
         <ul class="bg-slate-900 border-2 border-slate-800 shadow-md rounded-md">
             <li v-for="autofillItem in this.autofillOptions" :key="autofillItem.title"
-                @click="this.$emit('select-option', autofillItem)"
+                @click="this.$emit('select-option', autofillItem)" @mousedown.prevent
                 class="px-4 py-2 cursor-pointer hover:bg-slate-800 text-white">
                 <DropdownItem :autofillItem="autofillItem" @imageLoaded="this.loadedImages++" />
             </li>

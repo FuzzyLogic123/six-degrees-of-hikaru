@@ -1,5 +1,5 @@
 <script>
-import ChessTitle from './ChessTitle.vue';
+import ChessTitle from './ChessTitle.vue'
 export default {
     props: ['autofillItem'],
     methods: {
@@ -15,13 +15,11 @@ export default {
 </script>
 
 <template>
-    <div class="flex flex-row gap-5 items-center">
-        <div class="flex flex-row">
-            <img :src="this.autofillItem.icon" class="h-8" @load="this.imageLoaded" />
-            <ChessTitle v-if="this.autofillItem.chess_title">
-                {{ this.autofillItem.chess_title }}
-            </ChessTitle>
-        </div>
+    <div class="flex flex-row gap-2 items-center">
+        <img :src="this.autofillItem.icon" class="h-8 mx-1" @load="this.imageLoaded" />
+        <ChessTitle v-if="this.autofillItem.chess_title">
+            {{ this.autofillItem.chess_title }}
+        </ChessTitle>
         <div>
             {{ this.autofillItem.title }}
         </div>
