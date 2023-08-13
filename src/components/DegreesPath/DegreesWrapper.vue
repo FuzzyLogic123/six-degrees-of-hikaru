@@ -358,7 +358,7 @@ export default {
     min-height: 100vh !important;
 }
 
-.non-shiny {
+/* .non-shiny {
     -webkit-appearance: none;
-}
+} */
 </style>
