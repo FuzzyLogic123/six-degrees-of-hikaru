@@ -33,6 +33,9 @@ export default {
     },
     methods: {
         async getAutofillOptions(username) {
+            if (username.length <= 2) { // chess.com username searches only work for 3+
+                return;
+            }
             const res = await fetchUsernameAutoComplete(username);
             if (res && res.member.length > 0) {
                 this.loadedImages = 0;
