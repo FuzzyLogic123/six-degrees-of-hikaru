@@ -190,7 +190,6 @@ export default {
                 logEvent(analytics, "path_completed");
                 return this.userChain;
             }
-            console.log(mostRecentUser);
             if (!mostRecentUser?.username) {
                 console.error("user does not have a username!");
             }
