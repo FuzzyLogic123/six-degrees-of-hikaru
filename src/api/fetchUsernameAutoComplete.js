@@ -14,6 +14,6 @@ export const fetchUsernameAutoComplete = async (username) => {
         return data;
     } catch (error) {
         console.error('Could not fetch autocomplete options:', error);
-        return null;
+        return null; 
     }
 }
