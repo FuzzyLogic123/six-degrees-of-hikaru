@@ -10,7 +10,6 @@ import { writePathToDatabase } from '../../firebaseConfig';
 import { logEvent } from '@firebase/analytics';
 import { fetchBestWin } from '../../api/fetchNextBestWin';
 
-const MAX_REQUEST_ATTEMPTS = 3;
 
 export default {
     components: {
@@ -201,7 +200,7 @@ export default {
             }
 
             // request cloud function get game type from dropdown
-            const bestWin = await fetchBestWin(mostRecentUser.next_player, this.timeControl, MAX_REQUEST_ATTEMPTS);
+            const bestWin = await fetchBestWin(mostRecentUser.next_player, this.timeControl);
             if (bestWin && !this.alreadyTriedUsers.includes(bestWin.username)) {
                 this.alreadyTriedUsers.push(bestWin.username);
                 this.userChain.push(bestWin);
@@ -232,7 +231,7 @@ export default {
                 this.showError(`${this.username} is not a valid username`);
                 return;
             }
-            const bestWin = await fetchBestWin(this.username, this.timeControl, MAX_REQUEST_ATTEMPTS);
+            const bestWin = await fetchBestWin(this.username, this.timeControl);
             if (bestWin) {
                 this.firstUserData = bestWin
             }
