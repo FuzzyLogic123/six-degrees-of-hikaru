@@ -8,6 +8,7 @@ import Modal from '../Modal.vue';
 import { computed } from '@vue/reactivity';
 import { writePathToDatabase } from '../../firebaseConfig';
 import { logEvent } from '@firebase/analytics';
+import { fetchBestWin } from '../../api/fetchNextBestWin';
 
 const MAX_REQUEST_ATTEMPTS = 3;
 
@@ -200,7 +201,7 @@ export default {
             }
 
             // request cloud function get game type from dropdown
-            const bestWin = await this.fetchBestWin(mostRecentUser.next_player, this.timeControl, MAX_REQUEST_ATTEMPTS);
+            const bestWin = await fetchBestWin(mostRecentUser.next_player, this.timeControl, MAX_REQUEST_ATTEMPTS);
             if (bestWin && !this.alreadyTriedUsers.includes(bestWin.username)) {
                 this.alreadyTriedUsers.push(bestWin.username);
                 this.userChain.push(bestWin);
@@ -215,27 +216,6 @@ export default {
                 }
             }
             await this.extendUserChain();
-        },
-        async fetchBestWin(username, timeControl, requestAttempts) {
-            if (requestAttempts !== 0 && username) {
-                try {
-                    const res = await fetch("https://us-central1-six-degrees-of-hikaru-cf099.cloudfunctions.net/scraper", {
-                        // const res = await fetch("http://localhost:5001/six-degrees-of-hikaru-cf099/us-central1/scraper", {
-                        method: 'POST',
-                        body: JSON.stringify({
-                            "text": `https://www.chess.com/stats/live/${timeControl}/${username}/0` // /0 queries all time page
-                        })
-                    });
-                    const response = await res.json();
-                    return response;
-                } catch (e) {
-                    console.log(e);
-                    console.log("request failed", requestAttempts - 1, "requests remaining");
-                    await this.fetchBestWin(username, timeControl, requestAttempts - 1);
-                }
-            } else {
-                return false;
-            }
         },
         async startUserChainSearch() {
             if (!this.username || this.loading) { console.log("one chain at a time please"); return };
@@ -252,7 +232,7 @@ export default {
                 this.showError(`${this.username} is not a valid username`);
                 return;
             }
-            const bestWin = await this.fetchBestWin(this.username, this.timeControl, MAX_REQUEST_ATTEMPTS);
+            const bestWin = await fetchBestWin(this.username, this.timeControl, MAX_REQUEST_ATTEMPTS);
             if (bestWin) {
                 this.firstUserData = bestWin
             }

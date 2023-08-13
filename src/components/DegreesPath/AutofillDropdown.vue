@@ -1,7 +1,9 @@
 <script>
 import { debounce } from '../../utils/debounce.js';
-import { getUsernameAutoComplete } from '@/api/usernameAutoComplete'
+import { fetchUsernameAutoComplete } from '@/api/fetchUsernameAutoComplete'
+
 import DropdownItem from './DropdownItem.vue';
+
 export default {
     props: ['username', 'showDropdown'],
     emits: ['select-option'],
@@ -27,19 +29,14 @@ export default {
             if (!this.showDropdown) {
                 this.loadedImages = 0;
             }
-        },
-        loadedImages() {
-            // console.log("loaded imgae")
-            console.log(this.loadedImages)
-            console.log(this.autofillOptions.length)
         }
     },
     methods: {
         async getAutofillOptions(username) {
-            const res = await getUsernameAutoComplete(username);
+            const res = await fetchUsernameAutoComplete(username);
             if (res) {
                 this.loadedImages = 0;
-                this.autofillOptions = res.member.slice();
+                this.autofillOptions = res.member;
             }
         }
     },
