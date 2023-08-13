@@ -29,7 +29,7 @@ export default {
         handleClickOnDropdown(option) {
             this.$emit('update:username', option.title);
             this.showDropdown = false;
-            this.startUserChainSearch();
+            // this.startUserChainSearch(); // user isn't able to select bullet or blitz
         }
     }
 }
