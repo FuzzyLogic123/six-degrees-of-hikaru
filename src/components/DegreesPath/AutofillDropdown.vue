@@ -15,7 +15,7 @@ export default {
         };
     },
     mounted() {
-        this.getChessAutoCompleteDebounce = debounce(this.getAutofillOptions, 1000);
+        this.getChessAutoCompleteDebounce = debounce(this.getAutofillOptions, 500);
     },
     watch: {
         async username() {
@@ -34,7 +34,7 @@ export default {
     methods: {
         async getAutofillOptions(username) {
             const res = await fetchUsernameAutoComplete(username);
-            if (res) {
+            if (res && res.member.length > 0) {
                 this.loadedImages = 0;
                 this.autofillOptions = res.member;
             }
@@ -45,7 +45,7 @@ export default {
 </script>
 
 <template>
-    <div v-if="this.autofillOptions.length > 0 && this.username.length > 0 && this.showDropdown" class="mt-1"
+    <div v-if="this.autofillOptions.length > 0 && this.username.length > 0 && this.showDropdown" class="mt-1 z-10"
         v-show="this.loadedImages >= this.autofillOptions.length">
         <ul class="bg-slate-900 border-2 border-slate-800 shadow-md rounded-md">
             <li v-for="autofillItem in this.autofillOptions" :key="autofillItem.title"

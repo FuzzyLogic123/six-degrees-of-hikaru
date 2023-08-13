@@ -172,12 +172,12 @@ export default {
             return false;
         },
         async getNextOptionHelper(username, timeControl) {
-            const result = await this.getMostRecentWin(username, timeControl);
+            let result = await this.getMostRecentWin(username, timeControl);
             if (!result) {
                 this.alreadyTriedUsers.push(this.userChain.at(-1).username);
                 this.userChain = [this.userChain[0]];
                 console.log("chain reset");
-                return await this.getNextOptionHelper(this.userChain[0].username, timeControl);
+                result = await this.getMostRecentWin(this.userChain[0].username, timeControl);
             }
             return result
         },
@@ -190,6 +190,7 @@ export default {
                 logEvent(analytics, "path_completed");
                 return this.userChain;
             }
+            console.log(mostRecentUser);
             if (!mostRecentUser?.username) {
                 console.error("user does not have a username!");
             }

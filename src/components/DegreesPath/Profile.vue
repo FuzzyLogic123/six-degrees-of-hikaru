@@ -37,7 +37,7 @@ export default {
                     <slot name="name"></slot>
                 </h1>
 
-                <ChessTitle v-if="$slots.title" class="mx-3">
+                <ChessTitle v-if="$slots.title">
                     <slot name="title"></slot>
                 </ChessTitle>
                 

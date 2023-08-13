@@ -6,9 +6,12 @@ export async function fetchBestWin(username, timeControl) {
                 "text": `https://www.chess.com/stats/live/${timeControl}/${username}/0` // /0 queries all time page
             })
         });
-        const response = await res.json();
-        return response;
+        if (!res.ok) {
+            throw new Error(`Request failed with status: ${res.status}`);
+        }
+        return res.json();
     } catch (e) {
         console.error(e.message);
+        return null;
     }
 }
