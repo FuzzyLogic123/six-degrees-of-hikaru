@@ -195,8 +195,8 @@ export default {
                 console.error("user does not have a username!");
             }
             // check database for user
-            console.log("querying" + mostRecentUser.username, this.timeControl)
-            const databaseResult = await queryDatabase(mostRecentUser.username, this.timeControl)
+            console.log("querying " + mostRecentUser.username.toLowerCase(), this.timeControl)
+            const databaseResult = await queryDatabase(mostRecentUser.username.toLowerCase(), this.timeControl)
             console.log("database: ", databaseResult)
             if (databaseResult) {
                 receivedDatabaseResult = true;
