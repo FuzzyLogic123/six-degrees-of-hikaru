@@ -182,6 +182,7 @@ export default {
             return result
         },
         async extendUserChain() {
+            let receivedDatabaseResult = false;
             const mostRecentUser = this.userChain.at(-1);
             if (mostRecentUser.name === "Hikaru Nakamura") {
                 incrementPathsCount(3);
@@ -196,6 +197,7 @@ export default {
             // check database for user
             const databaseResult = await queryDatabase(mostRecentUser.username, this.timeControl)
             if (databaseResult) {
+                receivedDatabaseResult = true;
                 console.log("database: ", databaseResult)
                 mostRecentUser.next_player = databaseResult;
             }
@@ -203,9 +205,14 @@ export default {
             // request cloud function get game type from dropdown
             const bestWin = await fetchBestWin(mostRecentUser.next_player, this.timeControl);
             console.log(bestWin)
+            
             if (bestWin && !this.alreadyTriedUsers.includes(bestWin.username)) {
                 this.alreadyTriedUsers.push(bestWin.username);
                 this.userChain.push(bestWin);
+            } else if (receivedDatabaseResult && !bestWin) {
+                this.userChain.push({
+                    username: mostRecentUser.next_player,
+                });
             } else {
                 const mostRecentWin = await this.getNextOptionHelper(this.userChain.at(-1).next_player, this.timeControl); //should basically always return someone unless every player in the chain has not won any games of that time control
                 if (!mostRecentWin) {
