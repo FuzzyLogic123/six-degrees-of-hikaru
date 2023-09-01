@@ -201,6 +201,7 @@ export default {
 
             // request cloud function get game type from dropdown
             const bestWin = await fetchBestWin(mostRecentUser.next_player, this.timeControl);
+            console.log(bestWin)
             if (bestWin && !this.alreadyTriedUsers.includes(bestWin.username)) {
                 this.alreadyTriedUsers.push(bestWin.username);
                 this.userChain.push(bestWin);
@@ -232,6 +233,7 @@ export default {
                 return;
             }
             const bestWin = await fetchBestWin(this.username, this.timeControl);
+            console.log(bestWin)
             if (bestWin) {
                 this.firstUserData = bestWin
             }
