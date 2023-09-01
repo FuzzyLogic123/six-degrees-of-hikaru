@@ -196,7 +196,8 @@ export default {
             // check database for user
             const databaseResult = await queryDatabase(mostRecentUser.username, this.timeControl)
             if (databaseResult) {
-                mostRecentUser.next_player = databaseResult.next_player;
+                console.log("database: ", databaseResult)
+                mostRecentUser.next_player = databaseResult;
             }
 
             // request cloud function get game type from dropdown
