@@ -195,9 +195,7 @@ export default {
                 console.error("user does not have a username!");
             }
             // check database for user
-            console.log("querying " + mostRecentUser.username.toLowerCase(), this.timeControl)
             const databaseResult = await queryDatabase(mostRecentUser.username.toLowerCase(), this.timeControl)
-            console.log("database: ", databaseResult)
             if (databaseResult) {
                 receivedDatabaseResult = true;
                 mostRecentUser.next_player = databaseResult;
@@ -205,7 +203,6 @@ export default {
 
             // request cloud function get game type from dropdown
             const bestWin = await fetchBestWin(mostRecentUser.next_player, this.timeControl);
-            console.log(bestWin)
 
             if (bestWin && !this.alreadyTriedUsers.includes(bestWin.username)) {
                 this.alreadyTriedUsers.push(bestWin.username);
@@ -242,7 +239,6 @@ export default {
                 return;
             }
             const bestWin = await fetchBestWin(this.username, this.timeControl);
-            console.log(bestWin)
             if (bestWin) {
                 this.firstUserData = bestWin
             }

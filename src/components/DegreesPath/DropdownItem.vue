@@ -20,8 +20,23 @@ export default {
         <ChessTitle v-if="this.autofillItem.chess_title">
             {{ this.autofillItem.chess_title }}
         </ChessTitle>
-        <div>
+        <div class="dropdown-text">
             {{ this.autofillItem.title }}
         </div>
     </div>
 </template>
+
+<style scoped>
+.dropdown-text {
+    word-wrap: break-word;
+    overflow: hidden;
+}
+
+@media (max-width:400px) {
+    .dropdown-text {
+        font-size: 0.8em;
+    }
+}
+
+
+</style>
