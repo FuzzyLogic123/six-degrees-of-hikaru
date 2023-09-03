@@ -7,7 +7,7 @@ export default {
     props: {
         profilePicture: String,
         position: String,
-        isHikaru: Boolean,
+        showArrow: Boolean,
         username: String
     },
     components: {
@@ -26,7 +26,7 @@ export default {
 <template>
     <div :style="{ transform: `scale(${this.randomisedScale})` }"
         :class="['w-full relative origin-center max-w-[100vw]', position]">
-        <div class='px-4 text-center inline-block relative'>
+        <div class='px-4 text-center inline-block relative w-72'>
             <img class="rounded-full m-auto border-white border-2 h-28 aspect-square my-2"
                 :src="this.profilePicture || 'https://www.chess.com/bundles/web/images/user-image.007dad08.svg'"
                 alt='user profile avatar' />
@@ -41,7 +41,7 @@ export default {
                     <slot name="title"></slot>
                 </ChessTitle>
                 
-                <h2 class='text-white font-Mono text-md lg:text-lg font-thin xl:text-2xl xl:m-2'>
+                <h2 class='text-white font-Mono text-md lg:text-lg font-thin xl:text-2xl h-8'>
                     <slot name="username"></slot>
                 </h2>
             </a>
@@ -50,7 +50,7 @@ export default {
             </h3>
         </div>
     </div>
-    <div v-if="!this.isHikaru" class='relative w-full text-center scale-75'>
+    <div v-if="this.showArrow" class='relative w-full text-center scale-75'>
         <div :class="[{ flipArrow: position === 'left' }, 'inline-block']">
             <LongArrow class='arrow-rotation' />
         </div>

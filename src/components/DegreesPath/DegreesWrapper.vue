@@ -150,12 +150,12 @@ export default {
 
                 for (let i = gameList.games.length - 1; i >= 0; i--) {
                     const game = gameList.games[i];
-                    if (game.time_class === timeControl && game.white.result === 'win' && game.white.username.toLowerCase() === username.toLowerCase() && !this.alreadyTriedUsers.includes(game.black.username)) {
+                    if (game.time_class === timeControl && game.white.result === 'win' && game.white.username.toLowerCase() === username.toLowerCase() && !this.alreadyTriedUsers.includes(game.black.username.toLowerCase())) {
                         candidateGames.push({
                             username: game.black.username,
                             rating: game.black.rating
                         });
-                    } else if (game.time_class === timeControl && game.black.result === 'win' && game.black.username.toLowerCase() === username.toLowerCase() && !this.alreadyTriedUsers.includes(game.white.username)) {
+                    } else if (game.time_class === timeControl && game.black.result === 'win' && game.black.username.toLowerCase() === username.toLowerCase() && !this.alreadyTriedUsers.includes(game.white.username.toLowerCase())) {
                         candidateGames.push({
                             username: game.white.username,
                             rating: game.white.rating
@@ -174,7 +174,7 @@ export default {
         async getNextOptionHelper(username, timeControl) {
             let result = await this.getMostRecentWin(username, timeControl);
             if (!result) {
-                this.alreadyTriedUsers.push(this.userChain.at(-1).username);
+                this.alreadyTriedUsers.push(this.userChain.at(-1).username.toLowerCase());
                 this.userChain = [this.userChain[0]];
                 console.log("chain reset");
                 result = await this.getMostRecentWin(this.userChain[0].username, timeControl);
@@ -184,7 +184,7 @@ export default {
         async extendUserChain() {
             let receivedDatabaseResult = false;
             const mostRecentUser = this.userChain.at(-1);
-            if (mostRecentUser.name === "Hikaru Nakamura") {
+            if (mostRecentUser.username.toLowerCase() === "hikaru") {
                 incrementPathsCount(3);
                 writePathToDatabase(this.username, this.userChain.length - 1, this.timeControl);
                 setTimeout(this.showResult, 2000);
@@ -202,10 +202,10 @@ export default {
             }
 
             // request cloud function get game type from dropdown
-            const bestWin = await fetchBestWin(mostRecentUser.next_player, this.timeControl);
+            const bestWin = await fetchBestWin(mostRecentUser.next_player, this.timeControl, 2);
 
-            if (bestWin && !this.alreadyTriedUsers.includes(bestWin.username)) {
-                this.alreadyTriedUsers.push(bestWin.username);
+            if (bestWin && !this.alreadyTriedUsers.includes(bestWin.username.toLowerCase())) {
+                this.alreadyTriedUsers.push(bestWin.username.toLowerCase());
                 this.userChain.push(bestWin);
             } else if (receivedDatabaseResult && !bestWin) {
                 this.userChain.push({
@@ -230,7 +230,7 @@ export default {
                 return;
             }
             this.userChain = [];
-            this.alreadyTriedUsers = [];
+            this.alreadyTriedUsers = [this.username.toLowerCase()];
             this.loading = true;
 
             //check if the username is valid
@@ -238,7 +238,7 @@ export default {
                 this.showError(`${this.username} is not a valid username`);
                 return;
             }
-            const bestWin = await fetchBestWin(this.username, this.timeControl);
+            const bestWin = await fetchBestWin(this.username, this.timeControl, 3);
             if (bestWin) {
                 this.firstUserData = bestWin
             }
@@ -288,10 +288,7 @@ export default {
         <UsernameInput v-model:username="this.username" v-model:timeControl="this.timeControl" :loading="this.loading" @startUserChainSearch="this.startUserChainSearch" ref="degreesPath"/>
         <div class="md:mt-10 2xl:mt-20 min-h-[20vh]" :class="{ 'expandHeight': this.expandDiv }">
             <Transition name="fade" mode="out-in">
-                <p class="text-center text-3xl font-thin text-white" v-if="this.loading && this.userChain.length === 0">
-                    loading<span class="one">.</span><span class="two">.</span><span class="three">.</span>
-                </p>
-                <DegreesPath :pathArray="this.userChain" v-else />
+                <DegreesPath :pathArray="this.userChain" v-if="this.loading || this.userChain.length > 0" />
             </Transition>
         </div>
     </div>

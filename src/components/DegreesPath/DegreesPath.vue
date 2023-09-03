@@ -2,6 +2,7 @@
 <script>
 import Profile from './Profile.vue';
 import PathBackground from '../Stylistic/PathBackground.vue';
+import { lastNames, firstNames, usernames } from '../../assets/fakeAccounts.js';
 
 export default {
     components: {
@@ -24,8 +25,37 @@ export default {
             flush: 'post'
         },
     },
+    methods: {
+        generateRandomUser() {
+            return {
+                username: usernames[Math.floor(Math.random() * usernames.length)],
+                rating: Math.floor(Math.random() * 1000) + 1000,
+                title: null
+            }
+        }
+    },
     data() {
         return {
+            loadingUser: this.generateRandomUser(),
+            loadingUserInterval: null
+        }
+    },
+    computed: {
+        displayPath() {
+            if (this.pathArray.length === 0 && !this.loadingUserInterval) {
+                this.loadingUserInterval = setInterval(() => {
+                    this.loadingUser = this.generateRandomUser();
+                }, 75)
+            }
+
+            if (this.pathArray.at(-1)?.username.toLowerCase() === "hikaru") {
+                clearInterval(this.loadingUserInterval);
+                this.loadingUserInterval = null;
+                return this.pathArray;
+            }
+            const pathArrayCopy = [...this.pathArray];
+            pathArrayCopy.push(this.loadingUser)
+            return pathArrayCopy;
         }
     }
 }
@@ -36,9 +66,9 @@ export default {
         <div class="w-96 xl:w-[45rem] relative inline-block">
             <div ref="path">
                 <TransitionGroup name="fade">
-                    <div v-for="(profile, i) in this.pathArray" :key="i" class="max-w-[100vw]">
+                    <div v-for="(profile, i) in this.displayPath" :key="i" class="max-w-[100vw]">
                         <Profile :profilePicture="profile.avatar" :position="i % 2 ? 'left' : 'right'"
-                            :isHikaru="profile.name === 'Hikaru Nakamura'" :key="i" :username="profile.username">
+                            :showArrow="i !== displayPath.length - 1" :key="i" :username="profile.username">
                             <template #name>
                                 {{ profile.name }}
                             </template>

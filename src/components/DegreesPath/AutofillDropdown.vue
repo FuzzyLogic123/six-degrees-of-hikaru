@@ -11,7 +11,6 @@ export default {
         return {
             getChessAutoCompleteDebounce: null,
             autofillOptions: [],
-            loadedImages: 0
         };
     },
     mounted() {
@@ -25,11 +24,6 @@ export default {
             this.autofillOptions = []
             this.getChessAutoCompleteDebounce(this.username);
         },
-        showDropdown() {
-            if (!this.showDropdown) {
-                this.loadedImages = 0;
-            }
-        }
     },
     methods: {
         async getAutofillOptions(username) {
@@ -38,7 +32,6 @@ export default {
             }
             const res = await fetchUsernameAutoComplete(username);
             if (res && res.member.length > 0) {
-                this.loadedImages = 0;
                 this.autofillOptions = res.member;
             }
         }
@@ -48,13 +41,12 @@ export default {
 </script>
 
 <template>
-    <div v-if="this.autofillOptions.length > 0 && this.username.length > 0 && this.showDropdown" class="mt-1 z-10"
-        v-show="this.loadedImages >= this.autofillOptions.length">
+    <div v-if="this.autofillOptions.length > 0 && this.username.length > 0 && this.showDropdown" class="mt-1 z-10">
         <ul class="bg-slate-900 border-2 border-slate-800 shadow-md rounded-md">
             <li v-for="autofillItem in this.autofillOptions" :key="autofillItem.title"
                 @click="this.$emit('select-option', autofillItem)" @mousedown.prevent
                 class="px-4 py-2 cursor-pointer hover:bg-slate-800 text-white">
-                <DropdownItem :autofillItem="autofillItem" @imageLoaded="this.loadedImages++" />
+                <DropdownItem :autofillItem="autofillItem" />
             </li>
         </ul>
     </div>
