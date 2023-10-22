@@ -9,6 +9,8 @@ import { computed } from '@vue/reactivity';
 import { writePathToDatabase } from '../../firebaseConfig';
 import { logEvent } from '@firebase/analytics';
 import { fetchBestWin } from '../../api/fetchNextBestWin';
+import { fetchGameArchives } from '../../api/fetchGameArchives';
+import { fetchUsername } from '../../api/fetchUsername';
 
 
 export default {
@@ -92,25 +94,14 @@ export default {
             this.loading = false;
         },
         async isValidChessUsername() {
-            try {
-                // timeout the request after 5 seconds
-                const controller = new AbortController();
-                setTimeout(() => controller.abort(), 5000);
-
-                const res = await fetch(`https://api.chess.com/pub/player/${this.username}`, { signal: controller.signal });
-                const data = await res.json();
-                if (data.code === 0) {
-                    return false;
-                } else {
-                    this.firstUserData["avatar"] = data.avatar;
-                    this.firstUserData["name"] = data.name;
-                    return true;
-                }
-            } catch {
-                console.error("chess.com username verification failed");
-                //even if error check failed, still continue
-                return true;
+            const firstPlayerData = await fetchUsername(this.username);
+            if (!firstPlayerData) {
+                return false;
+            } else if (firstPlayerData.avatar || firstPlayerData.name) {
+                this.firstUserData.avatar = firstPlayerData.avatar;
+                this.firstUserData.name = firstPlayerData.name;
             }
+            return true
         },
         getCapitalisedUsername(playerGames) {
             if (playerGames.length > 0) {
@@ -124,15 +115,8 @@ export default {
         },
         async getMostRecentWin(username, timeControl) {
             let correctedUsername = false;
-            const res = await fetch(`https://api.chess.com/pub/player/${username}/games/archives`);
-            const data = await res.json();
-            if (data.code === 0) {
-                console.log('the username entered does not exist');
-                return false;
-            }
-            else if (!data.archives.length) {
-                console.log('the user has not played any games');
-                logEvent(analytics, "not_enough_games");
+            const data = await fetchGameArchives(username);
+            if (!data) {
                 return false;
             }
             for (let i = data.archives.length - 1; i >= 0; i--) {
@@ -266,9 +250,6 @@ export default {
                 }
             }
         },
-        updateAnalyitics() {
-
-        }
     },
     mounted() {
         const hash = this.getHash();
