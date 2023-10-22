@@ -26,29 +26,30 @@ export default {
 <template>
     <div :style="{ transform: `scale(${this.randomisedScale})` }"
         :class="['w-full relative origin-center max-w-[100vw]', position]">
-        <div class='px-4 text-center inline-block relative w-72'>
-            <img class="rounded-[50%] m-auto border-white border-2 h-28 w-28 my-2 object-cover"
-                :src="this.profilePicture || 'https://www.chess.com/bundles/web/images/user-image.007dad08.svg'"
-                alt='user profile avatar' />
-            <a :href="`https://www.chess.com/stats/live/${this.timeControl}/${this.username}`" target="_blank"
-                class="hover:underline">
+        <a :href="`https://www.chess.com/stats/live/${this.timeControl}/${this.username}`" target="_blank"
+            class="hover:underline">
+            <div class='px-4 text-center inline-block relative w-72 underline-inherit'>
+                <img class="rounded-[50%] m-auto border-white border-2 h-28 w-28 my-2 object-cover"
+                    :src="this.profilePicture || 'https://www.chess.com/bundles/web/images/user-image.007dad08.svg'"
+                    alt='user profile avatar' />
                 <h1
                     class='font-Outfit text-white tracking-wider text-lg lg:text-xl xl:text-2xl inline-block my-1 underline-inherit'>
-                    <slot name="name"></slot>
+                    <slot name="username"></slot>
                 </h1>
+                
+                <h2 v-if="$slots.name" class='text-white font-Mono text-md lg:text-md font-thin xl:text-xl h-8'>
+                    <slot name="name"></slot>
+                </h2>
 
                 <ChessTitle v-if="$slots.title">
                     <slot name="title"></slot>
                 </ChessTitle>
-                
-                <h2 class='text-white font-Mono text-md lg:text-lg font-thin xl:text-2xl h-8'>
-                    <slot name="username"></slot>
-                </h2>
-            </a>
-            <h3 class='text-white font-Mono font-thin text-sm lg:text-md xl:text-lg'>
-                <slot name="rating"></slot>
-            </h3>
-        </div>
+
+                <h3 class='text-white font-Mono font-thin text-sm lg:text-md xl:text-lg'>
+                    <slot name="rating"></slot>
+                </h3>
+            </div>
+        </a>
     </div>
     <div v-if="this.showArrow" class='relative w-full text-center scale-75'>
         <div :class="[{ flipArrow: position === 'left' }, 'inline-block']">
