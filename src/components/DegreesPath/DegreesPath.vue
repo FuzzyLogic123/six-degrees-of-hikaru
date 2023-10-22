@@ -3,6 +3,7 @@
 import Profile from './Profile.vue';
 import PathBackground from '../Stylistic/PathBackground.vue';
 import { lastNames, firstNames, usernames } from '../../assets/fakeAccounts.js';
+import rotatingProfiles from '@/assets/images/rotatingProfiles.gif';
 
 export default {
     components: {
@@ -30,7 +31,8 @@ export default {
             return {
                 username: usernames[Math.floor(Math.random() * usernames.length)],
                 rating: Math.floor(Math.random() * 1000) + 1000,
-                title: null
+                title: null,
+                avatar: rotatingProfiles,
             }
         }
     },
@@ -45,7 +47,7 @@ export default {
             if (this.pathArray.length === 0 && !this.loadingUserInterval) {
                 this.loadingUserInterval = setInterval(() => {
                     this.loadingUser = this.generateRandomUser();
-                }, 75)
+                }, 100)
             }
 
             if (this.pathArray.at(-1)?.username.toLowerCase() === "hikaru") {

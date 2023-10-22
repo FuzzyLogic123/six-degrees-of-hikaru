@@ -27,7 +27,7 @@ export default {
     <div :style="{ transform: `scale(${this.randomisedScale})` }"
         :class="['w-full relative origin-center max-w-[100vw]', position]">
         <div class='px-4 text-center inline-block relative w-72'>
-            <img class="rounded-full m-auto border-white border-2 h-28 aspect-square my-2"
+            <img class="rounded-[50%] m-auto border-white border-2 h-28 w-28 my-2 object-cover"
                 :src="this.profilePicture || 'https://www.chess.com/bundles/web/images/user-image.007dad08.svg'"
                 alt='user profile avatar' />
             <a :href="`https://www.chess.com/stats/live/${this.timeControl}/${this.username}`" target="_blank"
