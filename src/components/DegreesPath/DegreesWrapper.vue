@@ -224,6 +224,7 @@ export default {
             await this.extendUserChain();
         },
         async startUserChainSearch() {
+            this.username = this.username.trim();
             if (!this.username || this.loading) { console.log("one chain at a time please"); return };
             if (this.username.toLowerCase() === "hikaru") {
                 this.showError("Can we get you a nobel prize for outside the box thinking?");
