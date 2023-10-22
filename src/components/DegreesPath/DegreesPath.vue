@@ -2,7 +2,7 @@
 <script>
 import Profile from './Profile.vue';
 import PathBackground from '../Stylistic/PathBackground.vue';
-import { lastNames, firstNames, usernames } from '../../assets/fakeAccounts.js';
+import { usernames } from '../../assets/fakeAccounts.js';
 import rotatingProfiles from '@/assets/images/rotatingProfiles.gif';
 
 export default {
@@ -33,6 +33,7 @@ export default {
                 rating: Math.floor(Math.random() * 1000) + 1000,
                 title: null,
                 avatar: rotatingProfiles,
+                name: null
             }
         }
     },
@@ -71,7 +72,7 @@ export default {
                     <div v-for="(profile, i) in this.displayPath" :key="i" class="max-w-[100vw]">
                         <Profile :profilePicture="profile.avatar" :position="i % 2 ? 'left' : 'right'"
                             :showArrow="i !== displayPath.length - 1" :key="i" :username="profile.username">
-                            <template #name>
+                            <template v-if="profile.name" #name>
                                 {{ profile.name }}
                             </template>
                             <template v-if="profile.title" #title>
