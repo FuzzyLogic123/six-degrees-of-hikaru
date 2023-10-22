@@ -136,6 +136,7 @@ export default {
     margin: auto;
     border-radius: 5px;
     max-height: 15rem;
+    min-height: 100px;
     object-fit: cover;
 }
 
